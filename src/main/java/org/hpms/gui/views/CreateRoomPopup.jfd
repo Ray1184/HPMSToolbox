@@ -1,0 +1,48 @@
+JFDML JFormDesigner: "7.0.0.5.251" Java: "11.0.3" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :p:25:p, par l {comp genSecGrChk:::p::p, seq l {par l {seq t {comp roomNameLabel:::p::p, space s:::p}, seq t {comp sMapLabel:::p::p, space :p:18:p}}, par l {comp roomNameTxt:::p:299:p, seq {comp sMapTxt:::p:299:p, space :::p, comp sMapLoadBtn:::p:37:p}}}, seq l {space :p:135:p, comp okBtn:::p:80:p, space :12:12:p, comp cancBtn:::p:80:p}}, space ::23:x}}"
+			"$verticalGroup": "par l {seq l {space :p:19:p, par b {comp roomNameLabel::b:p::p, comp roomNameTxt::b:p::p}, space u:::p, par b {comp sMapLabel::b:p::p, comp sMapTxt::b:p::p, comp sMapLoadBtn::b:p::p}, space u:::p, comp genSecGrChk:::p::p, space s:::p, par l {comp okBtn:::p::p, comp cancBtn:::p::p}, space ::19:x}}"
+		} ) {
+			name: "this"
+			"title": "Create New Room"
+			"resizable": false
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "roomNameLabel"
+				"text": "Room Name:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "roomNameTxt"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "sMapTxt"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "sMapLabel"
+				"text": "Sectors Map:"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "sMapLoadBtn"
+				"text": "..."
+			} )
+			add( new FormComponent( "javax.swing.JCheckBox" ) {
+				name: "genSecGrChk"
+				"text": "Generate sector groups? (available only for .dae format)"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "okBtn"
+				"text": "OK"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "cancBtn"
+				"text": "Cancel"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 480, 220 )
+		} )
+	}
+}

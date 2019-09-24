@@ -1,0 +1,154 @@
+JFDML JFormDesigner: "7.0.0.5.251" Java: "11.0.3" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "mainFrame"
+			"background": new java.awt.Color( 102, 102, 102, 255 )
+			"title": "HPMS GUI"
+			"minimumSize": new java.awt.Dimension( 800, 450 )
+			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
+				name: "hSplitter"
+				add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
+					name: "vSplitter"
+					"orientation": 0
+					add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+						name: "roomsTabs"
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "roomsTab"
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "roomsList"
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"title": "Rooms"
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "left"
+					} )
+					add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+						name: "toolsTab"
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "sgTab"
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "sgList"
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"title": "Sector Groups"
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "eventsTab"
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "eventsList"
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"title": "Events"
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "right"
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "left"
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "workArea"
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "right"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "mainMenu"
+				"foreground": new java.awt.Color( 60, 63, 65, 255 )
+				"opaque": false
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "projectBtn"
+					"text": "Project"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "newProjectBtn"
+						"text": "New..."
+						"actionCommand": "NEW_PROJECT"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "loadProjectBtn"
+						"text": "Load..."
+						"actionCommand": "LOAD_PROJECT"
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator2"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "settingsProjectBtn"
+						"text": "Preferences..."
+						"actionCommand": "PREFERENCES"
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator3"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "exitProjectBtn"
+						"text": "Exit"
+						"actionCommand": "EXIT_PROJECT"
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "toolsBtn"
+					"text": "Tools"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "newRoomToolsBtn"
+						"text": "Create Room..."
+						"actionCommand": "CREATE_ROOM"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "newSecGrToolsBtn"
+						"text": "Create Sector Group..."
+						"actionCommand": "CREATE_SECTOR_GROUP"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "newEventTolsBtn"
+						"text": "Create Event..."
+						"actionCommand": "CREATE_EVENT"
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "buildBtn"
+					"text": "Build"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "runtimeBuildBtn"
+						"text": "Build Runtime"
+						"actionCommand": "BUILD_RUNTIME"
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator1"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "settingsBuildBtn"
+						"text": "Build Settings..."
+						"actionCommand": "BUILD_SETTINGS"
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "helpBtn"
+					"text": "Help"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "tutorialsHelpBtn"
+						"text": "Tutorials"
+						"actionCommand": "TUTORIALS"
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator4"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "aboutHelpsBtn"
+						"text": "About"
+						"actionCommand": "ABOUT"
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 30, 30 )
+			"size": new java.awt.Dimension( 520, 330 )
+		} )
+	}
+}
