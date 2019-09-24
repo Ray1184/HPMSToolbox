@@ -2,6 +2,7 @@ package org.hpms.gui.data;
 
 import org.hpms.gui.luagen.LuaStatement;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 public class ProjectModel implements Serializable {
+
+    public static final String DATA_DIR = "data";
+    public static final String RESOURCES_DIR = DATA_DIR + File.separator + "resources";
+    public static final String MODELS_DIR = RESOURCES_DIR + File.separator + "models";
+    public static final String IMAGES_DIR = RESOURCES_DIR + File.separator + "textures";
+    public static final String SHADERS_DIR = DATA_DIR + File.separator + "shaders";
+    public static final String SCRIPTS_DIR = DATA_DIR + File.separator + "scripts";
 
     public static class UserSettings implements Serializable {
 
@@ -61,6 +69,10 @@ public class ProjectModel implements Serializable {
 
         private boolean debug;
 
+        private boolean cacheImages;
+
+        private boolean cacheModels;
+
         public boolean isExplodeBuild() {
             return explodeBuild;
         }
@@ -76,7 +88,24 @@ public class ProjectModel implements Serializable {
         public void setDebug(boolean debug) {
             this.debug = debug;
         }
+
+        public boolean isCacheImages() {
+            return cacheImages;
+        }
+
+        public void setCacheImages(boolean cacheImages) {
+            this.cacheImages = cacheImages;
+        }
+
+        public boolean isCacheModels() {
+            return cacheModels;
+        }
+
+        public void setCacheModels(boolean cacheModels) {
+            this.cacheModels = cacheModels;
+        }
     }
+
 
     public static class RoomModel implements Serializable {
 
@@ -381,6 +410,8 @@ public class ProjectModel implements Serializable {
 
     private List<RoomModel> rooms;
 
+    private String firstRoom;
+
     public ProjectModel() {
         rooms = new ArrayList<>();
         userSettings = new UserSettings();
@@ -418,5 +449,13 @@ public class ProjectModel implements Serializable {
 
     public void setRooms(List<RoomModel> rooms) {
         this.rooms = rooms;
+    }
+
+    public String getFirstRoom() {
+        return firstRoom;
+    }
+
+    public void setFirstRoom(String firstRoom) {
+        this.firstRoom = firstRoom;
     }
 }

@@ -25,14 +25,10 @@ public class TemplateGenerator {
         configChunk.put("config", new LuaScript(new LinkedHashMap<>()));
 
         // Models buffer.
-        Map<String, LuaStatement> modelChunk = new LinkedHashMap<>();
-        modelChunk.put("dummy", new LuaExpression("Dummy.hmdat"));
-        ((LuaScript) configChunk.get("config")).getChunks().put("models_buffer", new LuaScript(modelChunk, true));
+        ((LuaScript) configChunk.get("config")).getChunks().put("models_buffer", new LuaScript(new LinkedHashMap<>(), true));
 
         // Images buffer.
-        Map<String, LuaStatement> imagesChunk = new LinkedHashMap<>();
-        imagesChunk.put("dummy", new LuaExpression("Dummy.png"));
-        ((LuaScript) configChunk.get("config")).getChunks().put("images_buffer", new LuaScript(imagesChunk, true));
+        ((LuaScript) configChunk.get("config")).getChunks().put("images_buffer", new LuaScript(new LinkedHashMap<>(), true));
 
         // First script.
         ((LuaScript) configChunk.get("config")).getChunks().put("first_script", new LuaExpression("ROOM_ID_PLACEHOLDER"));

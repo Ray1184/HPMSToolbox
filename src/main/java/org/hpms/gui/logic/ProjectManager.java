@@ -29,6 +29,8 @@ public class ProjectManager {
         projectModel.getUserSettings().setLastZoomFactor(1.0f);
         projectModel.getSettings().setDebug(false);
         projectModel.getSettings().setExplodeBuild(false);
+        projectModel.getSettings().setCacheImages(true);
+        projectModel.getSettings().setCacheModels(true);
     }
 
     public void buildFromFile(String projectPath) throws FileNotFoundException {

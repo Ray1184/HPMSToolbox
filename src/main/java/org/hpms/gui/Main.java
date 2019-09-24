@@ -19,7 +19,7 @@ public class Main {
        // javax.swing.SwingUtilities.invokeLater(Main::createAndShowGUI);
 
         TemplateGenerator gen = new TemplateGenerator();
-        System.out.println(gen.getSceneScriptTemplate().getCode());
+        System.out.println(gen.getConfigScriptTemplate().getCode());
     }
 
     private static void createAndShowGUI() {

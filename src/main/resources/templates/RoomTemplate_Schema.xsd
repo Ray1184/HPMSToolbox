@@ -14,7 +14,7 @@
             </jaxb:globalBindings>
         </appinfo>
     </annotation>
-     <element name="roomXMLData">
+    <element name="roomXMLData">
         <complexType>
             <sequence>
                 <element name="sectorGroups">
@@ -67,83 +67,6 @@
                                         </element>
                                     </sequence>
                                     <attribute name="id" type="string"/>
-                                </complexType>
-                            </element>
-                        </sequence>
-                        <attribute name="size" type="int"/>
-                    </complexType>
-                </element>
-                <element name="triggers">
-                    <complexType>
-                        <sequence>
-                            <element name="trigger">
-                                <complexType>
-                                    <sequence>
-                                        <element name="conditions">
-                                            <complexType>
-                                                <sequence>
-                                                    <element name="call">
-                                                        <complexType>
-                                                            <sequence>
-                                                                <element name="params">
-                                                                    <complexType>
-                                                                        <sequence>
-                                                                            <element name="param"
-                                                                                     maxOccurs="unbounded">
-                                                                                <complexType>
-                                                                                    <attribute name="sVal"
-                                                                                               type="string"/>
-                                                                                    <attribute name="type"
-                                                                                               type="int"/>
-                                                                                </complexType>
-                                                                            </element>
-                                                                        </sequence>
-                                                                        <attribute name="size"
-                                                                                   type="int"/>
-                                                                    </complexType>
-                                                                </element>
-                                                            </sequence>
-                                                            <attribute name="functionName"
-                                                                       type="string"/>
-                                                        </complexType>
-                                                    </element>
-                                                </sequence>
-                                                <attribute name="size" type="int"/>
-                                            </complexType>
-                                        </element>
-                                        <element name="actions">
-                                            <complexType>
-                                                <sequence>
-                                                    <element name="call">
-                                                        <complexType>
-                                                            <sequence>
-                                                                <element name="params">
-                                                                    <complexType>
-                                                                        <sequence>
-                                                                            <element name="param"
-                                                                                     maxOccurs="unbounded">
-                                                                                <complexType>
-                                                                                    <attribute name="sVal"
-                                                                                               type="string"/>
-                                                                                    <attribute name="type"
-                                                                                               type="int"/>
-                                                                                </complexType>
-                                                                            </element>
-                                                                        </sequence>
-                                                                        <attribute name="size"
-                                                                                   type="int"/>
-                                                                    </complexType>
-                                                                </element>
-                                                            </sequence>
-                                                            <attribute name="functionName"
-                                                                       type="string"/>
-                                                        </complexType>
-                                                    </element>
-                                                </sequence>
-                                                <attribute name="size" type="int"/>
-                                            </complexType>
-                                        </element>
-                                    </sequence>
                                 </complexType>
                             </element>
                         </sequence>
