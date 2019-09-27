@@ -28,7 +28,12 @@ public class LuaScript implements LuaStatement {
         int index = 0;
         for (Map.Entry<String, LuaStatement> entry : chunks.entrySet()) {
             sb.append(parentIndent);
-            if (!rawArray) {
+            boolean externalFunction = false;
+
+            if (entry.getValue() instanceof LuaFunctionDeclare) {
+                externalFunction = ((LuaFunctionDeclare) entry.getValue()).isExternal();
+            }
+            if (!rawArray && !externalFunction) {
                 sb.append(entry.getKey())
                         .append(" = ");
             }
@@ -36,8 +41,8 @@ public class LuaScript implements LuaStatement {
             if (statement instanceof LuaExpression) {
                 statement.setParentIndent("");
                 sb.append("'")
-                .append(statement.getCode())
-                .append("'");
+                        .append(statement.getCode())
+                        .append("'");
                 if (index < chunks.size() - 1) {
                     sb.append(",")
                             .append("\n");
@@ -48,8 +53,8 @@ public class LuaScript implements LuaStatement {
                 sb.append(" {\n")
                         .append(statement.getCode())
                         .append("\n")
-                .append(parentIndent)
-                .append("}");
+                        .append(parentIndent)
+                        .append("}");
 
                 if (index < chunks.size() - 1) {
                     sb.append(",")
@@ -60,8 +65,10 @@ public class LuaScript implements LuaStatement {
                 statement.setParentIndent(parentIndent + INDENTATION);
                 sb.append(statement.getCode());
                 if (index < chunks.size() - 1) {
-                    sb.append(",")
-                            .append("\n");
+                    if (!externalFunction) {
+                        sb.append(",");
+                    }
+                    sb.append("\n");
                 }
             }
 

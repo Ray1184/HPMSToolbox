@@ -1,13 +1,11 @@
 package org.hpms.gui.data;
 
 import org.hpms.gui.luagen.LuaStatement;
+import org.hpms.gui.luagen.components.LuaIfStatement;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProjectModel implements Serializable {
 
@@ -118,24 +116,34 @@ public class ProjectModel implements Serializable {
         public static class Event implements Serializable {
 
             public enum TriggerType {
-                INIT,
-                LOOP,
-                CLOSING
+                INIT("setup"),
+                LOOP("update"),
+                CLOSING("cleanup"),
+                EXTERNAL_FUNCTION("");
+
+                private String scriptPart;
+
+                TriggerType(String scriptPart) {
+                    this.scriptPart = scriptPart;
+                }
+
+                public String getScriptPart() {
+                    return scriptPart;
+                }
             }
 
-            public static class Condition implements Serializable {
-                public Condition() {
-                    statementList = new ArrayList<>();
+            public static class ConditionAction implements Serializable {
+                public ConditionAction() {
                 }
 
-                private List<LuaStatement> statementList;
+                private LuaIfStatement ifStatement;
 
-                public List<LuaStatement> getStatementList() {
-                    return statementList;
+                public LuaIfStatement getIfStatement() {
+                    return ifStatement;
                 }
 
-                public void setStatementList(List<LuaStatement> statementList) {
-                    this.statementList = statementList;
+                public void setIfStatement(LuaIfStatement ifStatement) {
+                    this.ifStatement = ifStatement;
                 }
             }
 
@@ -159,19 +167,18 @@ public class ProjectModel implements Serializable {
 
             private String name;
 
-            private PipelineType pipelineType;
 
-            private List<Condition> conditions;
 
-            private List<Action> actions;
+            private ConditionAction conditionAction;
+
+            private Action action;
 
             private TriggerType triggerType;
 
             private int priority;
 
             public Event() {
-                conditions = new ArrayList<>();
-                actions = new ArrayList<>();
+                action = new Action();
                 triggerType = TriggerType.INIT;
                 priority = 0;
             }
@@ -184,20 +191,20 @@ public class ProjectModel implements Serializable {
                 this.name = name;
             }
 
-            public List<Condition> getConditions() {
-                return conditions;
+            public ConditionAction getConditionAction() {
+                return conditionAction;
             }
 
-            public void setConditions(List<Condition> conditions) {
-                this.conditions = conditions;
+            public void setConditionAction(ConditionAction conditionAction) {
+                this.conditionAction = conditionAction;
             }
 
-            public List<Action> getActions() {
-                return actions;
+            public Action getAction() {
+                return action;
             }
 
-            public void setActions(List<Action> actions) {
-                this.actions = actions;
+            public void setAction(Action action) {
+                this.action = action;
             }
 
             public TriggerType getTriggerType() {
@@ -216,13 +223,6 @@ public class ProjectModel implements Serializable {
                 this.priority = priority;
             }
 
-            public PipelineType getPipelineType() {
-                return pipelineType;
-            }
-
-            public void setPipelineType(PipelineType pipelineType) {
-                this.pipelineType = pipelineType;
-            }
         }
 
         public static class SectorGroup implements Serializable {
@@ -371,10 +371,12 @@ public class ProjectModel implements Serializable {
 
         private Map<String, Event> eventsById;
 
+        private PipelineType pipelineType;
+
 
         public RoomModel() {
-            eventsById = new HashMap<>();
-            sectorGroupById = new HashMap<>();
+            eventsById = new LinkedHashMap<>();
+            sectorGroupById = new LinkedHashMap<>();
         }
 
         public String getName() {
@@ -399,6 +401,14 @@ public class ProjectModel implements Serializable {
 
         public void setEventsById(Map<String, Event> eventsById) {
             this.eventsById = eventsById;
+        }
+
+        public PipelineType getPipelineType() {
+            return pipelineType;
+        }
+
+        public void setPipelineType(PipelineType pipelineType) {
+            this.pipelineType = pipelineType;
         }
     }
 

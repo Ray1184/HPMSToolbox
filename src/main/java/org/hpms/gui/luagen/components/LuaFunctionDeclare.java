@@ -35,14 +35,30 @@ public class LuaFunctionDeclare extends LuaFunctionCall {
         this.external = external;
     }
 
+    public List<LuaStatement> getBody() {
+        return body;
+    }
+
+    public void setBody(List<LuaStatement> body) {
+        this.body = body;
+    }
+
+    public boolean isExternal() {
+        return external;
+    }
+
+    public void setExternal(boolean external) {
+        this.external = external;
+    }
+
     @Override
     public String getCode() {
         StringBuilder sb = new StringBuilder();
 
         if (external) {
-            sb.append("function")
+            sb.append("function ")
                     .append(name)
-                    .append(" (");
+                    .append("(");
         } else {
             sb.append("function")
                     .append("(");
@@ -60,22 +76,16 @@ public class LuaFunctionDeclare extends LuaFunctionCall {
         sb.append(")\n");
         if (body.isEmpty()) {
             LuaExpression empty = new LuaExpression("-- TODO");
-            if (!external) {
-                empty.setParentIndent(parentIndent);
-            } else {
-                empty.setParentIndent(parentIndent + INDENTATION);
-            }
-            sb.append(empty.getCode());
+            empty.setParentIndent(parentIndent);
+            sb.append(empty.getCode())
+            .append("\n");
         }
         for (LuaStatement stat : body) {
-            if (!external) {
-                stat.setParentIndent(parentIndent);
-            } else {
-                stat.setParentIndent(parentIndent + INDENTATION);
-            }
-            sb.append(stat.getCode());
+            stat.setParentIndent(parentIndent);
+            sb.append(stat.getCode())
+            .append("\n");
         }
-        sb.append("\n");
+
         if (!external) {
             // Remove one indent to align end with declaration
             sb.append(parentIndent.replaceFirst(INDENTATION, ""));

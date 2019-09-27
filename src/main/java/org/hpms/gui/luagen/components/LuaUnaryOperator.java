@@ -8,7 +8,7 @@ import java.util.List;
 
 public enum LuaUnaryOperator implements LuaStatement {
 
-    NOT("!") {
+    NOT("not") {
         @Override
         public List<Type> allowedTypeOnRight() {
             return Collections.singletonList(Type.BOOLEAN);

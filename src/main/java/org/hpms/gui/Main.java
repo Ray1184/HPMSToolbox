@@ -2,24 +2,92 @@ package org.hpms.gui;
 
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
-import org.hpms.gui.logic.TemplateGenerator;
+import org.hpms.gui.logic.ScriptBuilder;
+import org.hpms.gui.luagen.LuaStatement;
+import org.hpms.gui.luagen.components.LuaExpression;
+import org.hpms.gui.luagen.components.LuaFunctionDeclare;
+import org.hpms.gui.luagen.components.LuaIfStatement;
+import org.hpms.gui.luagen.components.LuaInstance;
 import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.FileNotFoundException;
+import java.util.*;
+
+import static org.hpms.gui.AppInfo.EMAIL;
+import static org.hpms.gui.AppInfo.VERSION;
 
 public class Main {
 
-    public static final String VERSION = "0.1a";
-    private static final String EMAIL = "toolbox.hpms@gmail.com";
+
 
     public static void main(String[] args) {
        // javax.swing.SwingUtilities.invokeLater(Main::createAndShowGUI);
 
-        TemplateGenerator gen = new TemplateGenerator();
-        System.out.println(gen.getConfigScriptTemplate().getCode());
+        ProjectManager pm = ProjectManager.getInstance();
+        pm.buildEmptyProject();
+        ProjectModel project = pm.getProjectModel();
+        project.setFirstRoom("Debug_Room");
+        ProjectModel.RoomModel room = new ProjectModel.RoomModel();
+        room.setName("Debug_Room");
+        room.setPipelineType(ProjectModel.RoomModel.PipelineType.R25D);
+        Map<String, ProjectModel.RoomModel.Event> evtsById = new LinkedHashMap<>();
+
+        ProjectModel.RoomModel.Event evt = new ProjectModel.RoomModel.Event();
+        evt.setName("CREATE_DUMMY_ENTITY");
+        evt.setTriggerType(ProjectModel.RoomModel.Event.TriggerType.LOOP);
+        ProjectModel.RoomModel.Event.ConditionAction condAct = new ProjectModel.RoomModel.Event.ConditionAction();
+
+        LuaIfStatement.LuaCondition.LuaSingleCondition singCond = new LuaIfStatement.LuaCondition.LuaSingleCondition(new LuaExpression("!created"));
+
+        LuaIfStatement.LuaCondition condition = new LuaIfStatement.LuaCondition(singCond);
+
+        List<LuaStatement> actions = new ArrayList<>();
+        actions.add(new LuaExpression("e = hpms.create_entity('TestModel.hmdat')"));
+        actions.add(new LuaExpression("e.rotate(2, 1, 1)"));
+        actions.add(new LuaExpression("created = true"));
+        LuaIfStatement ifSt = new LuaIfStatement(condition, actions);
+        condAct.setIfStatement(ifSt);
+        evt.setConditionAction(condAct);
+
+        evtsById.put("CREATE_DUMMY_ENTITY", evt);
+
+        ProjectModel.RoomModel.Event evt2 = new ProjectModel.RoomModel.Event();
+        evt2.setName("CHECK_SECTOR");
+        evt2.setTriggerType(ProjectModel.RoomModel.Event.TriggerType.EXTERNAL_FUNCTION);
+        ProjectModel.RoomModel.Event.Action act = new ProjectModel.RoomModel.Event.Action();
+
+        LuaInstance ret = new LuaInstance("ret_type", LuaInstance.Type.BOOLEAN);
+        LuaInstance param = new LuaInstance("player", LuaInstance.Type.OBJECT);
+        LuaInstance param2 = new LuaInstance("sector", LuaInstance.Type.OBJECT);
+        LuaExpression body = new LuaExpression("return true");
+
+        // ----
+        ProjectModel.RoomModel.Event.ConditionAction condAct2 = new ProjectModel.RoomModel.Event.ConditionAction();
+
+        LuaIfStatement.LuaCondition.LuaSingleCondition singCond2 = new LuaIfStatement.LuaCondition.LuaSingleCondition(new LuaExpression("hpms.point_in_sector(player.x, player.y, sector)"));
+
+        LuaIfStatement.LuaCondition condition2 = new LuaIfStatement.LuaCondition(singCond2);
+
+        List<LuaStatement> actions2 = new ArrayList<>();
+        actions2.add(new LuaExpression("return true"));
+        LuaIfStatement ifSt2 = new LuaIfStatement(condition2, actions2);
+        // ----
+        List<LuaInstance> params = new ArrayList<>();
+        params.add(param);
+        params.add(param2);
+        LuaFunctionDeclare fn = new LuaFunctionDeclare(ret, "check_sector", params, Collections.singletonList(ifSt2), true);
+        evt2.getAction().setStatementList(Collections.singletonList(fn));
+        evtsById.put("CHECK_SECTOR", evt2);
+
+        room.setEventsById(evtsById);
+        project.getRooms().add(room);
+        ScriptBuilder sb = new ScriptBuilder(project);
+        try {
+            sb.createScripts("C:\\HPMSTest");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void createAndShowGUI() {
@@ -44,7 +112,7 @@ public class Main {
 
     }
 
-    private static Component createReadOnlyJTextField(Exception e) {
+    private static Object createReadOnlyJTextField(Exception e) {
         StringBuilder sb = new StringBuilder();
         sb.append("HPMS ToolBox version ")
                 .append(VERSION)
@@ -79,7 +147,7 @@ public class Main {
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.Event.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.Event.Action.class);
-        ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.Event.Condition.class);
+        ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.Event.ConditionAction.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.Event.TriggerType.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.SectorGroup.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.SectorGroup.Sector.class);
