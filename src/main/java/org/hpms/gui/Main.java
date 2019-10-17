@@ -1,6 +1,7 @@
 package org.hpms.gui;
 
 import org.hpms.gui.data.ProjectModel;
+import org.hpms.gui.logic.GameDataBuilder;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.logic.ScriptBuilder;
 import org.hpms.gui.luagen.LuaStatement;
@@ -11,7 +12,9 @@ import org.hpms.gui.luagen.components.LuaInstance;
 import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 import static org.hpms.gui.AppInfo.EMAIL;
@@ -20,10 +23,25 @@ import static org.hpms.gui.AppInfo.VERSION;
 public class Main {
 
 
-
     public static void main(String[] args) {
-       // javax.swing.SwingUtilities.invokeLater(Main::createAndShowGUI);
+        javax.swing.SwingUtilities.invokeLater(Main::createAndShowGUI);
 
+
+    }
+
+    private static void testRuntimeGen() {
+        ProjectManager pm = ProjectManager.getInstance();
+        pm.buildEmptyProject();
+        ProjectModel project = pm.getProjectModel();
+        GameDataBuilder builder = new GameDataBuilder(project);
+        try {
+            builder.build("C:\\HPMSTest", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void testScriptGen() {
         ProjectManager pm = ProjectManager.getInstance();
         pm.buildEmptyProject();
         ProjectModel project = pm.getProjectModel();
@@ -52,9 +70,7 @@ public class Main {
 
         evtsById.put("CREATE_DUMMY_ENTITY", evt);
 
-        ProjectModel.RoomModel.Event evt2 = new ProjectModel.RoomModel.Event();
-        evt2.setName("CHECK_SECTOR");
-        evt2.setTriggerType(ProjectModel.RoomModel.Event.TriggerType.EXTERNAL_FUNCTION);
+
         ProjectModel.RoomModel.Event.Action act = new ProjectModel.RoomModel.Event.Action();
 
         LuaInstance ret = new LuaInstance("ret_type", LuaInstance.Type.BOOLEAN);
@@ -77,8 +93,13 @@ public class Main {
         params.add(param);
         params.add(param2);
         LuaFunctionDeclare fn = new LuaFunctionDeclare(ret, "check_sector", params, Collections.singletonList(ifSt2), true);
-        evt2.getAction().setStatementList(Collections.singletonList(fn));
-        evtsById.put("CHECK_SECTOR", evt2);
+        LuaFunctionDeclare fn2 = new LuaFunctionDeclare(ret, "check_sector_0", params, Collections.singletonList(ifSt2), true);
+
+
+        List<LuaFunctionDeclare> funList = new ArrayList<>();
+        funList.add(fn);
+        funList.add(fn2);
+        project.setCommonFunctions(funList);
 
         room.setEventsById(evtsById);
         project.getRooms().add(room);

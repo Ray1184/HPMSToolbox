@@ -1,6 +1,7 @@
 package org.hpms.gui.data;
 
 import org.hpms.gui.luagen.LuaStatement;
+import org.hpms.gui.luagen.components.LuaFunctionDeclare;
 import org.hpms.gui.luagen.components.LuaIfStatement;
 
 import java.io.File;
@@ -15,6 +16,22 @@ public class ProjectModel implements Serializable {
     public static final String IMAGES_DIR = RESOURCES_DIR + File.separator + "textures";
     public static final String SHADERS_DIR = DATA_DIR + File.separator + "shaders";
     public static final String SCRIPTS_DIR = DATA_DIR + File.separator + "scripts";
+
+    public String getProjectPath() {
+        return projectPath;
+    }
+
+    public void setProjectPath(String projectPath) {
+        this.projectPath = projectPath;
+    }
+
+    public String getRuntimeName() {
+        return runtimeName;
+    }
+
+    public void setRuntimeName(String runtimeName) {
+        this.runtimeName = runtimeName;
+    }
 
     public static class UserSettings implements Serializable {
 
@@ -118,8 +135,7 @@ public class ProjectModel implements Serializable {
             public enum TriggerType {
                 INIT("setup"),
                 LOOP("update"),
-                CLOSING("cleanup"),
-                EXTERNAL_FUNCTION("");
+                CLOSING("cleanup");
 
                 private String scriptPart;
 
@@ -403,6 +419,8 @@ public class ProjectModel implements Serializable {
             this.eventsById = eventsById;
         }
 
+
+
         public PipelineType getPipelineType() {
             return pipelineType;
         }
@@ -420,13 +438,20 @@ public class ProjectModel implements Serializable {
 
     private List<RoomModel> rooms;
 
+    private List<LuaFunctionDeclare> commonFunctions;
+
     private String firstRoom;
+
+    private String projectPath;
+
+    private String runtimeName;
 
     public ProjectModel() {
         rooms = new ArrayList<>();
         userSettings = new UserSettings();
         preferences = new ProjectPreferences();
         settings = new BuildSettings();
+        commonFunctions = new ArrayList<>();
     }
 
     public UserSettings getUserSettings() {
@@ -467,5 +492,13 @@ public class ProjectModel implements Serializable {
 
     public void setFirstRoom(String firstRoom) {
         this.firstRoom = firstRoom;
+    }
+
+    public List<LuaFunctionDeclare> getCommonFunctions() {
+        return commonFunctions;
+    }
+
+    public void setCommonFunctions(List<LuaFunctionDeclare> commonFunctions) {
+        this.commonFunctions = commonFunctions;
     }
 }

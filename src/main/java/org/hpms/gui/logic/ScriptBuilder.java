@@ -13,10 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ScriptBuilder {
 
@@ -27,19 +24,31 @@ public class ScriptBuilder {
         this.projectModel = projectModel;
     }
 
-    public void createScripts(String rootPath) throws FileNotFoundException {
+    public void createScripts(String dataPath) throws FileNotFoundException {
         // Create config script.
         TemplateGenerator generator = new TemplateGenerator();
         LuaScript config = generator.getConfigScriptTemplate();
-        fillConfigScript(config, rootPath);
+        fillConfigScript(config, dataPath);
 
         StringBuilder configScriptContent = new StringBuilder(createHeaderComment("Config"));
         configScriptContent.append("\n\n")
                 .append(config.getCode());
 
-        try (PrintWriter out = new PrintWriter(rootPath + File.separator + ProjectModel.SCRIPTS_DIR + File.separator + "Config.lua")) {
+        try (PrintWriter out = new PrintWriter(dataPath + File.separator + ProjectModel.SCRIPTS_DIR + File.separator + "Config.lua")) {
             out.println(configScriptContent.toString());
         }
+
+        // Create common functions script
+        LuaScript common = new LuaScript(new HashMap<>());
+        fillCommonScript(common);
+        StringBuilder commonScriptContent = new StringBuilder(createHeaderComment("Common"));
+        commonScriptContent.append("\n\n")
+                .append(common.getCode());
+
+        try (PrintWriter out = new PrintWriter(dataPath + File.separator + ProjectModel.SCRIPTS_DIR + File.separator + "Common.lua")) {
+            out.println(commonScriptContent.toString());
+        }
+
 
         // Foreach room, create a scene script
         for (ProjectModel.RoomModel room : projectModel.getRooms()) {
@@ -67,12 +76,19 @@ public class ScriptBuilder {
             sceneScriptContent.append("\n\n")
                     .append(sortedScript.getCode());
 
-            try (PrintWriter out = new PrintWriter(rootPath + File.separator + ProjectModel.SCRIPTS_DIR + File.separator + room.getName() + ".lua")) {
+            try (PrintWriter out = new PrintWriter(dataPath + File.separator + ProjectModel.SCRIPTS_DIR + File.separator + room.getName() + ".lua")) {
                 out.println(sceneScriptContent.toString());
             }
 
         }
+    }
 
+    private void fillCommonScript(LuaScript common) {
+        common.setParentIndent("");
+        int functionIndex = 0;
+        for (LuaFunctionDeclare fun : projectModel.getCommonFunctions()) {
+            common.getChunks().put("F_" + functionIndex++, fun);
+        }
 
     }
 
@@ -86,29 +102,23 @@ public class ScriptBuilder {
         for (Map.Entry<String, ProjectModel.RoomModel.Event> entry : room.getEventsById().entrySet()) {
             ProjectModel.RoomModel.Event event = entry.getValue();
 
-            if (event.getTriggerType() == ProjectModel.RoomModel.Event.TriggerType.EXTERNAL_FUNCTION) {
-                LuaFunctionDeclare fun = (LuaFunctionDeclare) event.getAction().getStatementList().get(0);
-                scene.getChunks().put("F_" + functionIndex++, fun);
+
+            if (event.getConditionAction() != null) {
+                // Build if condition
+                LuaIfStatement ifStatement = event.getConditionAction().getIfStatement();
+                LuaFunctionDeclare statFun = (LuaFunctionDeclare) ((LuaScript) scene.getChunks().get("scene")).getChunks().get(event.getTriggerType().getScriptPart());
+                statFun.getBody().add(new LuaExpression("-- Begin Event " + event.getName()));
+                statFun.getBody().add(ifStatement);
+                statFun.getBody().add(new LuaExpression("-- End Event " + event.getName()));
             } else {
-                if (event.getConditionAction() != null) {
-                    // Build if condition
-                    LuaIfStatement ifStatement = event.getConditionAction().getIfStatement();
-                    LuaFunctionDeclare statFun = (LuaFunctionDeclare) ((LuaScript) scene.getChunks().get("scene")).getChunks().get(event.getTriggerType().getScriptPart());
-                    statFun.getBody().add(new LuaExpression("-- Begin Event " + event.getName()));
-                    statFun.getBody().add(ifStatement);
-                    statFun.getBody().add(new LuaExpression("-- End Event " + event.getName()));
-                } else {
-                    LuaFunctionDeclare statFun = (LuaFunctionDeclare) ((LuaScript) scene.getChunks().get("scene")).getChunks().get(event.getTriggerType().getScriptPart());
-                    statFun.getBody().add(new LuaExpression("-- Begin Event " + event.getName()));
-                    for (LuaStatement action : event.getAction().getStatementList()) {
-                        statFun.getBody().add(action);
-                    }
-                    statFun.getBody().add(new LuaExpression("-- End Event " + event.getName()));
+                LuaFunctionDeclare statFun = (LuaFunctionDeclare) ((LuaScript) scene.getChunks().get("scene")).getChunks().get(event.getTriggerType().getScriptPart());
+                statFun.getBody().add(new LuaExpression("-- Begin Event " + event.getName()));
+                for (LuaStatement action : event.getAction().getStatementList()) {
+                    statFun.getBody().add(action);
                 }
+                statFun.getBody().add(new LuaExpression("-- End Event " + event.getName()));
             }
         }
-
-
     }
 
 

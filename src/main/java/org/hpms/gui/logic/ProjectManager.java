@@ -18,6 +18,7 @@ public class ProjectManager {
 
     public static final Kryo KRYO_SERIALIZER = new Kryo();
 
+
     private ProjectModel projectModel;
 
     public static ProjectManager getInstance() {
