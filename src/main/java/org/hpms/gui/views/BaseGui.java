@@ -12,13 +12,19 @@ import java.awt.*;
  */
 public class BaseGui {
 
-    public BaseGui() {
+    private static final BaseGui INSTANCE = new BaseGui();
+
+    public static BaseGui getInstance() {
+        return INSTANCE;
+    }
+
+    private BaseGui() {
         initComponents();
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Ray1184
+        // Generated using JFormDesigner Evaluation license - N
         mainFrame = new JFrame();
         mainMenu = new JMenuBar();
         projectBtn = new JMenu();
@@ -192,7 +198,7 @@ public class BaseGui {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Ray1184
+    // Generated using JFormDesigner Evaluation license - N
     private JFrame mainFrame;
     private JMenuBar mainMenu;
     private JMenu projectBtn;
@@ -258,5 +264,104 @@ public class BaseGui {
 
     public JFrame getMainFrame() {
         return mainFrame;
+    }
+
+    /**
+     * Getter for property 'newProjectBtn'.
+     *
+     * @return Value for property 'newProjectBtn'.
+     */
+    public JMenuItem getNewProjectBtn() {
+        return newProjectBtn;
+    }
+
+    /**
+     * Getter for property 'loadProjectBtn'.
+     *
+     * @return Value for property 'loadProjectBtn'.
+     */
+    public JMenuItem getLoadProjectBtn() {
+        return loadProjectBtn;
+    }
+
+    /**
+     * Getter for property 'settingsProjectBtn'.
+     *
+     * @return Value for property 'settingsProjectBtn'.
+     */
+    public JMenuItem getSettingsProjectBtn() {
+        return settingsProjectBtn;
+    }
+
+    /**
+     * Getter for property 'exitProjectBtn'.
+     *
+     * @return Value for property 'exitProjectBtn'.
+     */
+    public JMenuItem getExitProjectBtn() {
+        return exitProjectBtn;
+    }
+
+    /**
+     * Getter for property 'newRoomToolsBtn'.
+     *
+     * @return Value for property 'newRoomToolsBtn'.
+     */
+    public JMenuItem getNewRoomToolsBtn() {
+        return newRoomToolsBtn;
+    }
+
+    /**
+     * Getter for property 'newSecGrToolsBtn'.
+     *
+     * @return Value for property 'newSecGrToolsBtn'.
+     */
+    public JMenuItem getNewSecGrToolsBtn() {
+        return newSecGrToolsBtn;
+    }
+
+    /**
+     * Getter for property 'newEventTolsBtn'.
+     *
+     * @return Value for property 'newEventTolsBtn'.
+     */
+    public JMenuItem getNewEventTolsBtn() {
+        return newEventTolsBtn;
+    }
+
+    /**
+     * Getter for property 'runtimeBuildBtn'.
+     *
+     * @return Value for property 'runtimeBuildBtn'.
+     */
+    public JMenuItem getRuntimeBuildBtn() {
+        return runtimeBuildBtn;
+    }
+
+    /**
+     * Getter for property 'settingsBuildBtn'.
+     *
+     * @return Value for property 'settingsBuildBtn'.
+     */
+    public JMenuItem getSettingsBuildBtn() {
+        return settingsBuildBtn;
+    }
+
+    /**
+     * Getter for property 'tutorialsHelpBtn'.
+     *
+     * @return Value for property 'tutorialsHelpBtn'.
+     */
+    public JMenuItem getTutorialsHelpBtn() {
+        return tutorialsHelpBtn;
+    }
+
+    /**
+     * Getter for property 'aboutHelpsBtn'.
+     *
+     * @return Value for property 'aboutHelpsBtn'.
+     */
+    public JMenuItem getAboutHelpsBtn() {
+        return aboutHelpsBtn;
     }
 }

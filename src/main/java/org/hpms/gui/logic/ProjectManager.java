@@ -4,13 +4,10 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import org.hpms.gui.data.ProjectModel;
-import org.hpms.gui.export.room.RoomXMLData;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.Map;
 
 public class ProjectManager {
 
@@ -34,6 +31,10 @@ public class ProjectManager {
         projectModel.getSettings().setCacheModels(true);
     }
 
+    public boolean noProject() {
+        return projectModel == null;
+    }
+
     public void buildFromFile(String projectPath) throws FileNotFoundException {
         Input input = new Input(new FileInputStream(projectPath));
         projectModel = KRYO_SERIALIZER.readObject(input, ProjectModel.class);
@@ -55,8 +56,6 @@ public class ProjectManager {
 
     public void generateGameData(String path) {
     }
-
-
 
 
 }

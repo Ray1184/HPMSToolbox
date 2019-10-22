@@ -269,6 +269,10 @@ public class ProjectModel implements Serializable {
 
                 private float x1, x2, x3, y1, y2, y3, z1, z2, z3;
 
+                private String id;
+
+                private String groupId;
+
                 private List<PerimetralSide> sides;
 
                 public Sector() {
@@ -353,6 +357,42 @@ public class ProjectModel implements Serializable {
 
                 public void setZ3(float z3) {
                     this.z3 = z3;
+                }
+
+                /**
+                 * Getter for property 'id'.
+                 *
+                 * @return Value for property 'id'.
+                 */
+                public String getId() {
+                    return id;
+                }
+
+                /**
+                 * Setter for property 'id'.
+                 *
+                 * @param id Value to set for property 'id'.
+                 */
+                public void setId(String id) {
+                    this.id = id;
+                }
+
+                /**
+                 * Getter for property 'groupId'.
+                 *
+                 * @return Value for property 'groupId'.
+                 */
+                public String getGroupId() {
+                    return groupId;
+                }
+
+                /**
+                 * Setter for property 'groupId'.
+                 *
+                 * @param groupId Value to set for property 'groupId'.
+                 */
+                public void setGroupId(String groupId) {
+                    this.groupId = groupId;
                 }
             }
 

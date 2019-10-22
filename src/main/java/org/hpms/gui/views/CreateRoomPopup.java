@@ -18,7 +18,7 @@ public class CreateRoomPopup extends JDialog {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Ray1184
+        // Generated using JFormDesigner Evaluation license - Ray
         roomNameLabel = new JLabel();
         roomNameTxt = new JTextField();
         sMapTxt = new JTextField();
@@ -106,7 +106,7 @@ public class CreateRoomPopup extends JDialog {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Ray1184
+    // Generated using JFormDesigner Evaluation license - Ray
     private JLabel roomNameLabel;
     private JTextField roomNameTxt;
     private JTextField sMapTxt;

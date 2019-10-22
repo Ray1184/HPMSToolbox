@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.*;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -129,11 +130,49 @@ public class GameDataBuilder {
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.FALSE);
         StringWriter sw = new StringWriter();
         jaxbMarshaller.marshal(xmlData, sw);
-        FileUtils.write(dest, sw.toString());
+        FileUtils.write(dest, sw.toString(), "UTF-8");
     }
 
     private static RoomXMLData fromModelToXML(ProjectModel.RoomModel roomModel) {
         RoomXMLData xmlData = new RoomXMLData();
+        xmlData.setId(roomModel.getName());
+        RoomXMLData.SectorGroups sgsXml = new RoomXMLData.SectorGroups();
+        for (Map.Entry<String, ProjectModel.RoomModel.SectorGroup> sgEntry : roomModel.getSectorGroupById().entrySet()) {
+            ProjectModel.RoomModel.SectorGroup sg = sgEntry.getValue();
+            RoomXMLData.SectorGroups.SectorGroup.Sectors sectorsXml = new RoomXMLData.SectorGroups.SectorGroup.Sectors();
+            for (ProjectModel.RoomModel.SectorGroup.Sector s : sg.getSectors()) {
+                RoomXMLData.SectorGroups.SectorGroup.Sectors.Sector sXml = new RoomXMLData.SectorGroups.SectorGroup.Sectors.Sector();
+                sXml.setX1(s.getX1());
+                sXml.setX2(s.getX2());
+                sXml.setX3(s.getX3());
+                sXml.setY1(s.getY1());
+                sXml.setY2(s.getY2());
+                sXml.setY3(s.getY3());
+                sXml.setZ1(s.getZ1());
+                sXml.setZ2(s.getZ2());
+                sXml.setZ3(s.getZ3());
+
+                RoomXMLData.SectorGroups.SectorGroup.Sectors.Sector.PerimetralSides perimetralSidesXml = new RoomXMLData.SectorGroups.SectorGroup.Sectors.Sector.PerimetralSides();
+                for (ProjectModel.RoomModel.SectorGroup.Sector.PerimetralSide p : s.getSides()) {
+                    RoomXMLData.SectorGroups.SectorGroup.Sectors.Sector.PerimetralSides.PerimetralSide pXml = new RoomXMLData.SectorGroups.SectorGroup.Sectors.Sector.PerimetralSides.PerimetralSide();
+                    pXml.setIdx1(p.getIdx1());
+                    pXml.setIdx2(p.getIdx2());
+                    perimetralSidesXml.getPerimetralSide().add(pXml);
+                }
+
+                sXml.setPerimetralSides(perimetralSidesXml);
+                sXml.setId(s.getId());
+                sXml.setGroupId(s.getGroupId());
+                sectorsXml.getSector().add(sXml);
+            }
+            RoomXMLData.SectorGroups.SectorGroup sgXml = new RoomXMLData.SectorGroups.SectorGroup();
+            sgXml.setId(sg.getId());
+            sgXml.setSectors(sectorsXml);
+            sgsXml.getSectorGroup().add(sgXml);
+
+        }
+
+        xmlData.setSectorGroups(sgsXml);
         return xmlData;
     }
 }
