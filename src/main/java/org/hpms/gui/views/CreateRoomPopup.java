@@ -27,6 +27,8 @@ public class CreateRoomPopup extends JDialog {
         genSecGrChk = new JCheckBox();
         okBtn = new JButton();
         cancBtn = new JButton();
+        sMapLabel2 = new JLabel();
+        comboBox1 = new JComboBox();
 
         //======== this ========
         setTitle("Create New Room");
@@ -51,33 +53,46 @@ public class CreateRoomPopup extends JDialog {
         //---- cancBtn ----
         cancBtn.setText("Cancel");
 
+        //---- sMapLabel2 ----
+        sMapLabel2.setText("Pipeline Type:");
+
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup()
+                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                    .addContainerGap(160, Short.MAX_VALUE)
+                    .addComponent(okBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                    .addGap(12, 12, 12)
+                    .addComponent(cancBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                    .addGap(146, 146, 146))
                 .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addGap(25, 25, 25)
                     .addGroup(contentPaneLayout.createParallelGroup()
-                        .addComponent(genSecGrChk)
                         .addGroup(contentPaneLayout.createSequentialGroup()
+                            .addGap(25, 25, 25)
                             .addGroup(contentPaneLayout.createParallelGroup()
-                                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-                                    .addComponent(roomNameLabel)
-                                    .addGap(18, 18, 18))
-                                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-                                    .addComponent(sMapLabel)
-                                    .addGap(18, 18, 18)))
-                            .addGroup(contentPaneLayout.createParallelGroup()
-                                .addComponent(roomNameTxt, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
                                 .addGroup(contentPaneLayout.createSequentialGroup()
-                                    .addComponent(sMapTxt, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(sMapLoadBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(contentPaneLayout.createParallelGroup()
+                                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                                            .addComponent(roomNameLabel)
+                                            .addGap(18, 18, 18))
+                                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                                            .addComponent(sMapLabel)
+                                            .addGap(18, 18, 18)))
+                                    .addGroup(contentPaneLayout.createParallelGroup()
+                                        .addComponent(roomNameTxt, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                            .addComponent(sMapTxt, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(sMapLoadBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(contentPaneLayout.createSequentialGroup()
+                                    .addGap(2, 2, 2)
+                                    .addComponent(genSecGrChk))))
                         .addGroup(contentPaneLayout.createSequentialGroup()
-                            .addGap(135, 135, 135)
-                            .addComponent(okBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-                            .addGap(12, 12, 12)
-                            .addComponent(cancBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)))
+                            .addGap(22, 22, 22)
+                            .addComponent(sMapLabel2, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(comboBox1, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap(23, Short.MAX_VALUE))
         );
         contentPaneLayout.setVerticalGroup(
@@ -93,12 +108,16 @@ public class CreateRoomPopup extends JDialog {
                         .addComponent(sMapTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(sMapLoadBtn))
                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(sMapLabel2)
+                        .addComponent(comboBox1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                     .addComponent(genSecGrChk)
                     .addGap(18, 18, 18)
                     .addGroup(contentPaneLayout.createParallelGroup()
                         .addComponent(okBtn)
                         .addComponent(cancBtn))
-                    .addContainerGap(19, Short.MAX_VALUE))
+                    .addGap(15, 15, 15))
         );
         pack();
         setLocationRelativeTo(getOwner());
@@ -115,5 +134,7 @@ public class CreateRoomPopup extends JDialog {
     private JCheckBox genSecGrChk;
     private JButton okBtn;
     private JButton cancBtn;
+    private JLabel sMapLabel2;
+    private JComboBox comboBox1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

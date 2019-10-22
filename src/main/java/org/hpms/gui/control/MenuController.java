@@ -1,19 +1,28 @@
 package org.hpms.gui.control;
 
+import org.hpms.gui.AppInfo;
 import org.hpms.gui.logic.ProjectManager;
+import org.hpms.gui.utils.EasyDocumentListener;
 import org.hpms.gui.views.BaseGui;
+import org.hpms.gui.views.CreateNewProject;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuController implements ActionListener {
-    private final List<JMenuItem> items;
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
-    public MenuController() {
+public class MenuController implements Controller, ActionListener {
 
+    private List<JMenuItem> items;
+
+    @Override
+    public void init() {
         BaseGui gui = BaseGui.getInstance();
         items = new ArrayList<>();
 
@@ -79,6 +88,33 @@ public class MenuController implements ActionListener {
     }
 
     private void newProject() {
+        CreateNewProject newProject = new CreateNewProject(BaseGui.getInstance().getMainFrame());
+        newProject.getOkBtn().setEnabled(false);
+        newProject.getCancBtn().addActionListener(e -> {
+            newProject.dispose();
+        });
+        newProject.getNewProjNameTxt().getDocument().addDocumentListener((EasyDocumentListener) e -> {
+            if (newProject.getNewProjNameTxt().getText() != null && newProject.getNewProjNameTxt().getText().length() > 0) {
+                newProject.getOkBtn().setEnabled(true);
+            } else {
+                newProject.getOkBtn().setEnabled(false);
+            }
+        });
+        newProject.getOkBtn().addActionListener(e -> {
+            String projectName = newProject.getNewProjNameTxt().getText();
+            ProjectManager.getInstance().buildEmptyProject();
+            ProjectManager.getInstance().getProjectModel().setRuntimeName(projectName);
+            ProjectManager.getInstance().getProjectModel().setProjectPath(AppInfo.getCurrentWorkspace());
+            try {
+                ProjectManager.getInstance().persistToFile(AppInfo.getCurrentWorkspace() + File.separator + projectName + ".hproj");
+                Controllers.updateAll();
+                newProject.dispose();
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                newProject.dispose();
+                BaseGui.getInstance().getMainFrame().dispose();
+            }
+        });
 
     }
 
@@ -122,6 +158,7 @@ public class MenuController implements ActionListener {
 
     }
 
+    @Override
     public void update() {
         for (JMenuItem item : items) {
             if (item.getActionCommand().equals("CREATE_ROOM") || item.getActionCommand().equals("CREATE_SECTOR_GROUP") || item.getActionCommand().equals("CREATE_EVENT") || item.getActionCommand().equals("BUILD_RUNTIME")) {

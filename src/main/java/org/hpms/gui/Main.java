@@ -1,7 +1,7 @@
 package org.hpms.gui;
 
 import org.apache.commons.io.FileUtils;
-import org.hpms.gui.control.MainController;
+import org.hpms.gui.control.Controllers;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.GameDataBuilder;
 import org.hpms.gui.logic.ProjectManager;
@@ -11,10 +11,13 @@ import org.hpms.gui.luagen.components.LuaExpression;
 import org.hpms.gui.luagen.components.LuaFunctionDeclare;
 import org.hpms.gui.luagen.components.LuaIfStatement;
 import org.hpms.gui.luagen.components.LuaInstance;
+import org.hpms.gui.utils.EasyDocumentListener;
 import org.hpms.gui.views.BaseGui;
 import org.hpms.gui.views.WorkspaceChooser;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,6 +27,7 @@ import java.util.*;
 
 import static org.hpms.gui.AppInfo.EMAIL;
 import static org.hpms.gui.AppInfo.VERSION;
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
 public class Main {
 
@@ -43,6 +47,8 @@ public class Main {
             frame.pack();
             frame.setVisible(true);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.getConfirmWorkspaceBtn().setEnabled(false);
+            frame.getInvalidLocationLbl().setVisible(false);
             frame.getWorkspaceLoadBtn().addActionListener(e -> {
                 JFileChooser f = new JFileChooser();
                 f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -52,6 +58,18 @@ public class Main {
                 f.setDialogTitle("Select Workspace Folder");
                 frame.getWorkspaceTxt().setText(f.getSelectedFile().getAbsolutePath());
             });
+            frame.getWorkspaceTxt().getDocument().addDocumentListener((EasyDocumentListener) e -> {
+                File test = new File(frame.getWorkspaceTxt().getText());
+                if (test.isDirectory()) {
+                    frame.getConfirmWorkspaceBtn().setEnabled(true);
+                    frame.getInvalidLocationLbl().setVisible(false);
+                } else {
+                    frame.getConfirmWorkspaceBtn().setEnabled(false);
+                    frame.getInvalidLocationLbl().setVisible(true);
+                }
+
+            });
+
             frame.getConfirmWorkspaceBtn().addActionListener(e -> {
                 String path = frame.getWorkspaceTxt().getText();
                 try {
@@ -60,7 +78,9 @@ public class Main {
                     if (!new File(path).exists()) {
                         new File(path).mkdirs();
                     }
-                    new File(path + File.separator + ".workspace").mkdirs();
+                    if (!new File(path + File.separator + "data").exists()) {
+                        new File(path + File.separator + "data").mkdirs();
+                    }
                     AppInfo.setCurrentWorkspace(path);
                     startGui();
                 } catch (IOException ex) {
@@ -70,7 +90,7 @@ public class Main {
             });
 
         } else {
-           startGui();
+            startGui();
         }
     }
 
@@ -80,10 +100,9 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        MainController m = new MainController();
-        m.update();
+        Controllers.initAll();
+        Controllers.updateAll();
     }
-
 
 
     private static void createAndShowGUI() {
@@ -106,32 +125,6 @@ public class Main {
 
     }
 
-    private static Object createReadOnlyJTextField(Exception e) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("HPMS ToolBox version ")
-                .append(VERSION)
-                .append("\n\nError Message: ")
-                .append(e.toString())
-                .append("\n\nError Stack Trace:\n");
-        for (StackTraceElement st : e.getStackTrace()) {
-            sb.append(st.toString())
-                    .append("\n");
-        }
-        JTextArea textArea = new JTextArea(sb.toString());
-        textArea.setColumns(80);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setEditable(false);
-        JScrollPane inner = new JScrollPane(textArea);
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        JLabel label = new JLabel("An error occurred while using HPMS ToolBox. Please copy and send following error details to: " + EMAIL);
-        panel.add(label);
-        panel.add(new JLabel(" "));
-        panel.add(inner);
-        return panel;
-
-    }
 
     private static void registerSerializables() {
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.class);
@@ -149,8 +142,6 @@ public class Main {
         ProjectManager.KRYO_SERIALIZER.register(ArrayList.class);
         ProjectManager.KRYO_SERIALIZER.register(HashMap.class);
     }
-
-
 
 
     /// TEST ONLY

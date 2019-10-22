@@ -20,7 +20,7 @@
                 <element name="sectorGroups">
                     <complexType>
                         <sequence>
-                            <element name="sectorGroup">
+                            <element name="sectorGroup" maxOccurs="unbounded">
                                 <complexType>
                                     <sequence>
                                         <element name="sectors">

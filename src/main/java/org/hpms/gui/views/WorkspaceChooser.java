@@ -22,6 +22,7 @@ public class WorkspaceChooser extends JFrame {
         workspaceTxt = new JTextField();
         workspaceLoadBtn = new JButton();
         confirmWorkspaceBtn = new JButton();
+        invalidLocationLbl = new JLabel();
 
         //======== this ========
         setTitle("Select Workspace Location");
@@ -38,23 +39,27 @@ public class WorkspaceChooser extends JFrame {
         //---- confirmWorkspaceBtn ----
         confirmWorkspaceBtn.setText("Confirm Location");
 
+        //---- invalidLocationLbl ----
+        invalidLocationLbl.setText("Invalid location!");
+        invalidLocationLbl.setForeground(Color.red);
+
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addGap(27, 27, 27)
                     .addGroup(contentPaneLayout.createParallelGroup()
+                        .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(invalidLocationLbl, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(GroupLayout.Alignment.LEADING, contentPaneLayout.createSequentialGroup()
+                                .addGap(99, 99, 99)
+                                .addComponent(confirmWorkspaceBtn, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(chooseWorkspaceLbl, GroupLayout.PREFERRED_SIZE, 345, GroupLayout.PREFERRED_SIZE)
                         .addGroup(contentPaneLayout.createSequentialGroup()
-                            .addGap(126, 126, 126)
-                            .addComponent(confirmWorkspaceBtn, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                            .addGap(27, 27, 27)
-                            .addGroup(contentPaneLayout.createParallelGroup()
-                                .addComponent(chooseWorkspaceLbl, GroupLayout.PREFERRED_SIZE, 345, GroupLayout.PREFERRED_SIZE)
-                                .addGroup(contentPaneLayout.createSequentialGroup()
-                                    .addComponent(workspaceTxt, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(workspaceLoadBtn, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(workspaceTxt, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(workspaceLoadBtn, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap(26, Short.MAX_VALUE))
         );
         contentPaneLayout.setVerticalGroup(
@@ -65,9 +70,11 @@ public class WorkspaceChooser extends JFrame {
                     .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(workspaceTxt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(workspaceLoadBtn))
-                    .addGap(18, 18, 18)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(invalidLocationLbl)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                     .addComponent(confirmWorkspaceBtn)
-                    .addContainerGap(21, Short.MAX_VALUE))
+                    .addGap(19, 19, 19))
         );
         pack();
         setLocationRelativeTo(null);
@@ -80,6 +87,7 @@ public class WorkspaceChooser extends JFrame {
     private JTextField workspaceTxt;
     private JButton workspaceLoadBtn;
     private JButton confirmWorkspaceBtn;
+    private JLabel invalidLocationLbl;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 
@@ -109,5 +117,9 @@ public class WorkspaceChooser extends JFrame {
      */
     public JButton getWorkspaceLoadBtn() {
         return workspaceLoadBtn;
+    }
+
+    public JLabel getInvalidLocationLbl() {
+        return invalidLocationLbl;
     }
 }
