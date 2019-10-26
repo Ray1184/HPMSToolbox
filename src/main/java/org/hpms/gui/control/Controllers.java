@@ -1,5 +1,7 @@
 package org.hpms.gui.control;
 
+import org.hpms.gui.control.wizard.EventWizardDelegate;
+
 public enum Controllers {
 
     MENU_CONTROLLER(new MenuController()),

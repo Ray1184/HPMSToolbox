@@ -50,6 +50,9 @@ public class WorkAreaController implements Controller {
                 break;
             }
         }
+        if (room == null) {
+            return;
+        }
         for (Map.Entry<String, ProjectModel.RoomModel.SectorGroup> sectorGroup : room.getSectorGroupById().entrySet()) {
             if (sectorGroup.getKey().equals(DEFAULT_SG_NAME)) {
                 ((Graphics2D) g).setStroke(new BasicStroke(1));

@@ -72,4 +72,9 @@ public class CreateNewEventWizard extends JDialog {
     private JLabel label1;
     private JPanel subContainerWizard;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+
+    public JPanel getSubContainerWizard() {
+        return subContainerWizard;
+    }
 }

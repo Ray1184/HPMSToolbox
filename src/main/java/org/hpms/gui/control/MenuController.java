@@ -1,9 +1,11 @@
 package org.hpms.gui.control;
 
 import org.hpms.gui.AppInfo;
+import org.hpms.gui.control.wizard.EventWizardDelegate;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.utils.EasyDocumentListener;
 import org.hpms.gui.views.BaseGui;
+import org.hpms.gui.views.CreateNewEventWizard;
 import org.hpms.gui.views.CreateNewProject;
 
 import javax.swing.*;
@@ -141,6 +143,8 @@ public class MenuController implements Controller, ActionListener {
     }
 
     private void createEvent() {
+        EventWizardDelegate wizard = new EventWizardDelegate();
+        wizard.build();
 
     }
 

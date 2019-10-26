@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.0.5.251" Java: "1.8.0_121" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.0.6.255" Java: "11.0.4" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -23,7 +23,7 @@ new FormModel {
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
 				"vgap": 20
 			} ) {
-				name: "subContainer5"
+				name: "subContainer2"
 				add( new FormComponent( "javax.swing.JCheckBox" ) {
 					name: "checkBox1"
 					"text": " Room instance event (common static function if unchecked)"
@@ -32,7 +32,7 @@ new FormModel {
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
 				"vgap": 20
 			} ) {
-				name: "subContainer6"
+				name: "subContainer3"
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "newProjLabel4"
 					"text": "Event Lifecycle invocation:"
@@ -47,14 +47,14 @@ new FormModel {
 				"hgap": 10
 				"alignOnBaseline": true
 			} ) {
-				name: "subContainer2"
+				name: "subContainer4"
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "okBtn"
-					"text": "Next"
+					"text": "Cancel"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "cancBtn"
-					"text": "Cancel"
+					"text": "Next"
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
