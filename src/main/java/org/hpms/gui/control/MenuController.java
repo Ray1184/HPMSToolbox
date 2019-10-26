@@ -89,7 +89,9 @@ public class MenuController implements Controller, ActionListener {
 
     private void newProject() {
         CreateNewProject newProject = new CreateNewProject(BaseGui.getInstance().getMainFrame());
+        newProject.pack();
         newProject.getOkBtn().setEnabled(false);
+        newProject.setVisible(true);
         newProject.getCancBtn().addActionListener(e -> {
             newProject.dispose();
         });

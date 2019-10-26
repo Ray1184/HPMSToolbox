@@ -1,17 +1,17 @@
 /*
- * Created by JFormDesigner on Tue Oct 22 23:19:39 CEST 2019
+ * Created by JFormDesigner on Thu Oct 24 12:23:54 CEST 2019
  */
 
 package org.hpms.gui.views;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 /**
- * @author Ray
+ * @author N
  */
-public class CreateNewProject extends JDialog {
-    public CreateNewProject(Window owner) {
+public class CreateNewSectorGroup extends JDialog {
+    public CreateNewSectorGroup(Window owner) {
         super(owner);
         initComponents();
     }
@@ -21,39 +21,39 @@ public class CreateNewProject extends JDialog {
         // Generated using JFormDesigner Evaluation license - N
         container = new JPanel();
         subContainer = new JPanel();
-        newProjLabel = new JLabel();
-        newProjNameTxt = new JTextField();
+        newSgLabel = new JLabel();
+        newSgNameTxt = new JTextField();
         subContainer2 = new JPanel();
         okBtn = new JButton();
         cancBtn = new JButton();
 
         //======== this ========
-        setTitle("Create New Project");
+        setTitle("Create New Sector Group");
         setResizable(false);
         Container contentPane = getContentPane();
         contentPane.setLayout(new CardLayout(10, 10));
 
         //======== container ========
         {
-            container.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border
-            .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER ,javax
-            . swing. border .TitledBorder . BOTTOM, new Font ( "D\u0069alog", Font. BOLD ,
-            12 ) , Color .red ) ,container. getBorder () ) ); container. addPropertyChangeListener(new java. beans
-            .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order" .equals ( e.
-            getPropertyName () ) )throw new RuntimeException( ) ;} } );
+            container.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border
+            . EmptyBorder( 0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e", javax. swing. border. TitledBorder. CENTER, javax
+            . swing. border. TitledBorder. BOTTOM, new Font ("D\u0069al\u006fg" , Font .BOLD ,
+            12 ), Color. red) ,container. getBorder( )) ); container. addPropertyChangeListener (new java. beans
+            . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062or\u0064er" .equals (e .
+            getPropertyName () )) throw new RuntimeException( ); }} );
             container.setLayout(new GridLayout(2, 0, 10, 0));
 
             //======== subContainer ========
             {
                 subContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
-                //---- newProjLabel ----
-                newProjLabel.setText("Project Name:");
-                subContainer.add(newProjLabel);
+                //---- newSgLabel ----
+                newSgLabel.setText("Sector Group:");
+                subContainer.add(newSgLabel);
 
-                //---- newProjNameTxt ----
-                newProjNameTxt.setPreferredSize(new Dimension(400, 30));
-                subContainer.add(newProjNameTxt);
+                //---- newSgNameTxt ----
+                newSgNameTxt.setPreferredSize(new Dimension(400, 30));
+                subContainer.add(newSgNameTxt);
             }
             container.add(subContainer);
 
@@ -82,23 +82,38 @@ public class CreateNewProject extends JDialog {
     // Generated using JFormDesigner Evaluation license - N
     private JPanel container;
     private JPanel subContainer;
-    private JLabel newProjLabel;
-    private JTextField newProjNameTxt;
+    private JLabel newSgLabel;
+    private JTextField newSgNameTxt;
     private JPanel subContainer2;
     private JButton okBtn;
     private JButton cancBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 
-    public JTextField getNewProjNameTxt() {
-        return newProjNameTxt;
+    /**
+     * Getter for property 'newSgNameTxt'.
+     *
+     * @return Value for property 'newSgNameTxt'.
+     */
+    public JTextField getNewSgNameTxt() {
+        return newSgNameTxt;
     }
 
-    public JButton getCancBtn() {
-        return cancBtn;
-    }
-
+    /**
+     * Getter for property 'okBtn'.
+     *
+     * @return Value for property 'okBtn'.
+     */
     public JButton getOkBtn() {
         return okBtn;
+    }
+
+    /**
+     * Getter for property 'cancBtn'.
+     *
+     * @return Value for property 'cancBtn'.
+     */
+    public JButton getCancBtn() {
+        return cancBtn;
     }
 }

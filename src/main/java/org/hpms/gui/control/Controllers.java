@@ -2,10 +2,11 @@ package org.hpms.gui.control;
 
 public enum Controllers {
 
-    MENU_CONTROLLER(new MenuController());
+    MENU_CONTROLLER(new MenuController()),
+    WORK_AREA_CONTROLLER(new WorkAreaController());
 
 
-    private Controller controller;
+    private final Controller controller;
 
     Controllers(Controller controller) {
         this.controller = controller;
@@ -17,6 +18,15 @@ public enum Controllers {
 
     public void update() {
         controller.update();
+    }
+
+    /**
+     * Getter for property 'controller'.
+     *
+     * @return Value for property 'controller'.
+     */
+    public Controller getController() {
+        return controller;
     }
 
     public static void initAll() {

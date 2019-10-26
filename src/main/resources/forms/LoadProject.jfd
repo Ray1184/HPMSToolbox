@@ -1,0 +1,53 @@
+JFDML JFormDesigner: "7.0.0.5.251" Java: "1.8.0_121" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.CardLayout ) {
+			"hgap": 10
+			"vgap": 10
+		} ) {
+			name: "this"
+			"title": "Select Your Project"
+			"defaultCloseOperation": 0
+			"$locationPolicy": 1
+			"resizable": false
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"rows": 3
+			} ) {
+				name: "container"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "chooseProjectLbl"
+					"text": "Select your project."
+					"border": new javax.swing.border.EmptyBorder( 10, 10, 20, 20 )
+					"horizontalAlignment": 0
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+					name: "subContainer"
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "projectTxt"
+						"minimumSize": new java.awt.Dimension( 300, 46 )
+						"preferredSize": new java.awt.Dimension( 400, 30 )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "projectLoadBtn"
+						"text": "..."
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+					name: "subContainer2"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "confirmProjectBtn"
+						"text": "Load Project"
+						"preferredSize": new java.awt.Dimension( 200, 46 )
+					} )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "card1"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 235 )
+		} )
+	}
+}

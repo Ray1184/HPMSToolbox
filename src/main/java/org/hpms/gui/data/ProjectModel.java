@@ -16,6 +16,7 @@ public class ProjectModel implements Serializable {
     public static final String IMAGES_DIR = RESOURCES_DIR + File.separator + "textures";
     public static final String SHADERS_DIR = DATA_DIR + File.separator + "shaders";
     public static final String SCRIPTS_DIR = DATA_DIR + File.separator + "scripts";
+    public static final String DEFAULT_SG_NAME = "____default____";
 
     public String getProjectPath() {
         return projectPath;

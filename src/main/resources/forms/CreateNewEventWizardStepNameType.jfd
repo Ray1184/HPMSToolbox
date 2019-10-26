@@ -1,0 +1,65 @@
+JFDML JFormDesigner: "7.0.0.5.251" Java: "1.8.0_121" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+			"rows": 4
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"vgap": 20
+			} ) {
+				name: "subContainer"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "newProjLabel"
+					"text": "Event Name:"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "newProjNameTxt"
+					"preferredSize": new java.awt.Dimension( 400, 30 )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"vgap": 20
+			} ) {
+				name: "subContainer5"
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "checkBox1"
+					"text": " Room instance event (common static function if unchecked)"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"vgap": 20
+			} ) {
+				name: "subContainer6"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "newProjLabel4"
+					"text": "Event Lifecycle invocation:"
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "comboBox2"
+					"preferredSize": new java.awt.Dimension( 300, 30 )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"vgap": 10
+				"hgap": 10
+				"alignOnBaseline": true
+			} ) {
+				name: "subContainer2"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "okBtn"
+					"text": "Next"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "cancBtn"
+					"text": "Cancel"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 410, 155 )
+			"location": new java.awt.Point( 15, 45 )
+		} )
+	}
+}

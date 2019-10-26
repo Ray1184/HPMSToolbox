@@ -1,0 +1,54 @@
+JFDML JFormDesigner: "7.0.0.5.251" Java: "1.8.0_121" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.CardLayout ) {
+			"hgap": 10
+			"vgap": 10
+		} ) {
+			name: "this"
+			"title": "Create New Sector Group"
+			"resizable": false
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"rows": 2
+				"hgap": 10
+			} ) {
+				name: "container"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+					"vgap": 20
+				} ) {
+					name: "subContainer"
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "newSgLabel"
+						"text": "Sector Group:"
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "newSgNameTxt"
+						"preferredSize": new java.awt.Dimension( 400, 30 )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+					"vgap": 10
+					"hgap": 10
+					"alignOnBaseline": true
+				} ) {
+					name: "subContainer2"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "okBtn"
+						"text": "OK"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "cancBtn"
+						"text": "Cancel"
+					} )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "card5"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 410, 155 )
+			"location": new java.awt.Point( 15, 45 )
+		} )
+	}
+}

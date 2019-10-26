@@ -52,7 +52,7 @@ public class BaseGui {
         sgList = new JList();
         eventsTab = new JScrollPane();
         eventsList = new JList();
-        workArea = new DrawableScrollPane();
+        workArea = new JScrollPane();
 
         //======== mainFrame ========
         {

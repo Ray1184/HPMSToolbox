@@ -1,0 +1,11 @@
+<functions>
+    <function description="Is Entity in sector by id">
+        <name>is_entity_in_sector</name>
+        <return>BOOLEAN</return>
+        <declare name="is_entity_in_sector" return="BOOLEAN"/>
+        <params>
+            <param name="sector_id" type="STRING"/>
+            <param name="entity_id" type="STRING"/>
+        </params>
+    </function>
+</functions>
