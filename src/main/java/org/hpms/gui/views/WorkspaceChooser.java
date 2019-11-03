@@ -36,11 +36,7 @@ public class WorkspaceChooser extends JFrame {
 
         //======== container ========
         {
-            container.setBorder(new CompoundBorder(new TitledBorder(new EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", TitledBorder.CENTER, TitledBorder.BOTTOM,new Font("Dia\u006cog"
-            , Font.BOLD,12), Color.red),container. getBorder
-            ()));container. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
-            .beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException
-            ();}});
+            container.setBorder(new EmptyBorder(0, 0, 0, 0));
             container.setLayout(new GridLayout(3, 0));
 
             //---- chooseWorkspaceLbl ----

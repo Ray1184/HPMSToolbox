@@ -85,13 +85,13 @@ public class TestRuntime {
         LuaFunctionDeclare fn2 = new LuaFunctionDeclare(ret, "check_sector_0", params, Collections.singletonList(ifSt2), true);
 
 
-        List<LuaFunctionDeclare> funList = new ArrayList<>();
-        funList.add(fn);
-        funList.add(fn2);
+        Map<String, LuaFunctionDeclare> funList = new HashMap<>();
+        funList.put("CHK_Sector", fn);
+        funList.put("CHK_Sector_0", fn2);
         project.setCommonFunctions(funList);
 
         room.setEventsById(evtsById);
-        project.getRooms().add(room);
+        project.getRooms().put(room.getName(), room);
         ScriptBuilder sb = new ScriptBuilder(project);
         try {
             sb.createScripts("C:\\HPMSTest");

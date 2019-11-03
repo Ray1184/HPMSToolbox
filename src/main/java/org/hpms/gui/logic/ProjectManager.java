@@ -35,13 +35,13 @@ public class ProjectManager {
         return projectModel == null;
     }
 
-    public void buildFromFile(String projectPath) throws FileNotFoundException {
+    public void buildFromFile(String projectPath) throws Exception {
         Input input = new Input(new FileInputStream(projectPath));
         projectModel = KRYO_SERIALIZER.readObject(input, ProjectModel.class);
         input.close();
     }
 
-    public void persistToFile(String projectPath) throws FileNotFoundException {
+    public void persistToFile(String projectPath) throws Exception {
         Output output = new Output(new FileOutputStream(projectPath));
         if (projectModel == null) {
             buildEmptyProject();

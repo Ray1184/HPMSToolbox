@@ -5,6 +5,7 @@
 package org.hpms.gui.views;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
@@ -30,17 +31,13 @@ public class CreateNewProject extends JDialog {
         //======== this ========
         setTitle("Create New Project");
         setResizable(false);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         Container contentPane = getContentPane();
         contentPane.setLayout(new CardLayout(10, 10));
 
         //======== container ========
         {
-            container.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border
-            .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER ,javax
-            . swing. border .TitledBorder . BOTTOM, new Font ( "D\u0069alog", Font. BOLD ,
-            12 ) , Color .red ) ,container. getBorder () ) ); container. addPropertyChangeListener(new java. beans
-            .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order" .equals ( e.
-            getPropertyName () ) )throw new RuntimeException( ) ;} } );
+            container.setBorder(new EmptyBorder(0, 0, 0, 0));
             container.setLayout(new GridLayout(2, 0, 10, 0));
 
             //======== subContainer ========

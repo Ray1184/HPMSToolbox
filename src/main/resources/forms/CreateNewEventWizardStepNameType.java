@@ -17,39 +17,39 @@ public class CreateNewEventWizardStepNameType extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Ray
+        // Generated using JFormDesigner Evaluation license - N
         subContainer = new JPanel();
-        newProjLabel = new JLabel();
-        newProjNameTxt = new JTextField();
+        newEvtLabel = new JLabel();
+        newEvtTxt = new JTextField();
         subContainer2 = new JPanel();
-        checkBox1 = new JCheckBox();
+        eventTypeChkbx = new JCheckBox();
         subContainer3 = new JPanel();
-        newProjLabel4 = new JLabel();
-        comboBox2 = new JComboBox();
+        eventLcLbl = new JLabel();
+        eventLclCombo = new JComboBox();
         subContainer4 = new JPanel();
-        okBtn = new JButton();
         cancBtn = new JButton();
+        nextBtn = new JButton();
 
         //======== this ========
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing.
-        border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing .border . TitledBorder. CENTER
-        ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font
-        . BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener(
-        new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062ord\u0065r"
-        .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder
+        ( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER, javax. swing. border
+        . TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt
+        . Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void
+        propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
+        ; }} );
         setLayout(new GridLayout(4, 0));
 
         //======== subContainer ========
         {
             subContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
-            //---- newProjLabel ----
-            newProjLabel.setText("Event Name:");
-            subContainer.add(newProjLabel);
+            //---- newEvtLabel ----
+            newEvtLabel.setText("Event Name:");
+            subContainer.add(newEvtLabel);
 
-            //---- newProjNameTxt ----
-            newProjNameTxt.setPreferredSize(new Dimension(400, 30));
-            subContainer.add(newProjNameTxt);
+            //---- newEvtTxt ----
+            newEvtTxt.setPreferredSize(new Dimension(400, 30));
+            subContainer.add(newEvtTxt);
         }
         add(subContainer);
 
@@ -57,9 +57,9 @@ public class CreateNewEventWizardStepNameType extends JPanel {
         {
             subContainer2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
-            //---- checkBox1 ----
-            checkBox1.setText(" Room instance event (common static function if unchecked)");
-            subContainer2.add(checkBox1);
+            //---- eventTypeChkbx ----
+            eventTypeChkbx.setText(" Room instance event (common static function if unchecked)");
+            subContainer2.add(eventTypeChkbx);
         }
         add(subContainer2);
 
@@ -67,13 +67,13 @@ public class CreateNewEventWizardStepNameType extends JPanel {
         {
             subContainer3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
-            //---- newProjLabel4 ----
-            newProjLabel4.setText("Event Lifecycle invocation:");
-            subContainer3.add(newProjLabel4);
+            //---- eventLcLbl ----
+            eventLcLbl.setText("Event Lifecycle Invocation:");
+            subContainer3.add(eventLcLbl);
 
-            //---- comboBox2 ----
-            comboBox2.setPreferredSize(new Dimension(300, 30));
-            subContainer3.add(comboBox2);
+            //---- eventLclCombo ----
+            eventLclCombo.setPreferredSize(new Dimension(300, 30));
+            subContainer3.add(eventLclCombo);
         }
         add(subContainer3);
 
@@ -82,30 +82,76 @@ public class CreateNewEventWizardStepNameType extends JPanel {
             subContainer4.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
             ((FlowLayout)subContainer4.getLayout()).setAlignOnBaseline(true);
 
-            //---- okBtn ----
-            okBtn.setText("Cancel");
-            subContainer4.add(okBtn);
-
             //---- cancBtn ----
-            cancBtn.setText("Next");
+            cancBtn.setText("Cancel");
             subContainer4.add(cancBtn);
+
+            //---- nextBtn ----
+            nextBtn.setText("Next");
+            subContainer4.add(nextBtn);
         }
         add(subContainer4);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Ray
+    // Generated using JFormDesigner Evaluation license - N
     private JPanel subContainer;
-    private JLabel newProjLabel;
-    private JTextField newProjNameTxt;
+    private JLabel newEvtLabel;
+    private JTextField newEvtTxt;
     private JPanel subContainer2;
-    private JCheckBox checkBox1;
+    private JCheckBox eventTypeChkbx;
     private JPanel subContainer3;
-    private JLabel newProjLabel4;
-    private JComboBox comboBox2;
+    private JLabel eventLcLbl;
+    private JComboBox eventLclCombo;
     private JPanel subContainer4;
-    private JButton okBtn;
     private JButton cancBtn;
+    private JButton nextBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+
+    /**
+     * Getter for property 'newProjNameTxt'.
+     *
+     * @return Value for property 'newProjNameTxt'.
+     */
+    public JTextField getNewProjNameTxt() {
+        return newProjNameTxt;
+    }
+
+    /**
+     * Getter for property 'eventTypeChkbx'.
+     *
+     * @return Value for property 'eventTypeChkbx'.
+     */
+    public JCheckBox getEventTypeChkbx() {
+        return eventTypeChkbx;
+    }
+
+    /**
+     * Getter for property 'eventLclCombo'.
+     *
+     * @return Value for property 'eventLclCombo'.
+     */
+    public JComboBox getEventLclCombo() {
+        return eventLclCombo;
+    }
+
+    /**
+     * Getter for property 'cancBtn'.
+     *
+     * @return Value for property 'cancBtn'.
+     */
+    public JButton getCancBtn() {
+        return cancBtn;
+    }
+
+    /**
+     * Getter for property 'nextBtn'.
+     *
+     * @return Value for property 'nextBtn'.
+     */
+    public JButton getNextBtn() {
+        return nextBtn;
+    }
 }

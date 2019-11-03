@@ -10,6 +10,7 @@ new FormModel {
 			name: "this"
 			"title": "Create New Project"
 			"resizable": false
+			"defaultCloseOperation": 2
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
 				"rows": 2
 				"hgap": 10

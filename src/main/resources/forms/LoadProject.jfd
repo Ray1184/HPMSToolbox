@@ -9,7 +9,7 @@ new FormModel {
 		} ) {
 			name: "this"
 			"title": "Select Your Project"
-			"defaultCloseOperation": 0
+			"defaultCloseOperation": 2
 			"$locationPolicy": 1
 			"resizable": false
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {

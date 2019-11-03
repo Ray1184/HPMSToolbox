@@ -10,28 +10,11 @@ new FormModel {
 			name: "this"
 			"title": "Create New Event"
 			"resizable": false
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
-				"hgap": 10
-				"columns": 1
-				"rows": 2
-			} ) {
-				name: "container"
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
-					name: "subContainerLabel"
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "label1"
-						"text": "STEP 1"
-						"font": new java.awt.Font( "Segoe UI", 1, 20 )
-						"horizontalAlignment": 0
-					}, new FormLayoutConstraints( class java.lang.String ) {
-						"value": "card1"
-					} )
-				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
-					name: "subContainerWizard"
-				} )
+			"defaultCloseOperation": 2
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
+				name: "wizardManager"
 			}, new FormLayoutConstraints( class java.lang.String ) {
-				"value": "card5"
+				"value": "card1"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 410, 155 )

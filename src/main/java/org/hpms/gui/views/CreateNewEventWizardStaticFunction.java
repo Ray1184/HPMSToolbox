@@ -6,6 +6,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 /*
  * Created by JFormDesigner on Sat Oct 26 17:44:38 CEST 2019
  */
@@ -22,24 +23,20 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Ray
-        newProjLabel = new JLabel();
+        writeFuncLabel = new JLabel();
         subContainer = new JPanel();
         subContainer2 = new JPanel();
-        okBtn = new JButton();
         cancBtn = new JButton();
+        okBtn = new JButton();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-        javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax
-        . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new Font ("Dialo\u0067" , Font .BOLD ,12 ), Color. red) , getBorder( )) );  addPropertyChangeListener (new java. beans.
-        PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .
-        equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
-        setLayout(new GridLayout(3, 0));
+        setBorder(new EmptyBorder(0, 0, 0, 0));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        //---- newProjLabel ----
-        newProjLabel.setText("Write function declaration and code:");
-        newProjLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(newProjLabel);
+        //---- writeFuncLabel ----
+        writeFuncLabel.setText("Write function declaration and code:");
+        writeFuncLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(writeFuncLabel);
 
         //======== subContainer ========
         {
@@ -52,32 +49,50 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
             subContainer2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
             ((FlowLayout)subContainer2.getLayout()).setAlignOnBaseline(true);
 
-            //---- okBtn ----
-            okBtn.setText("Back");
-            subContainer2.add(okBtn);
-
             //---- cancBtn ----
-            cancBtn.setText("Confirm");
+            cancBtn.setText("Back");
             subContainer2.add(cancBtn);
+
+            //---- okBtn ----
+            okBtn.setText("Confirm");
+            subContainer2.add(okBtn);
         }
         add(subContainer2);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
         codeArea = new RSyntaxTextArea();
         codeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_LUA);
         codeArea.setCodeFoldingEnabled(true);
-        codeArea.setText("function my_function(args)");
+        codeArea.setText("function my_function(args)\t\t\t\t\t\n\n\n\n\n\n\n\n\n\n\n\n");
         RTextScrollPane sp = new RTextScrollPane(codeArea);
+
         subContainer.add(sp);
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Ray
-    private JLabel newProjLabel;
+    private JLabel writeFuncLabel;
     private JPanel subContainer;
     private JPanel subContainer2;
-    private JButton okBtn;
     private JButton cancBtn;
+    private JButton okBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     private RSyntaxTextArea codeArea;
+
+    /**
+     * Getter for property 'codeArea'.
+     *
+     * @return Value for property 'codeArea'.
+     */
+    public RSyntaxTextArea getCodeArea() {
+        return codeArea;
+    }
+
+    public JButton getOkBtn() {
+        return okBtn;
+    }
+
+    public JButton getCancBtn() {
+        return cancBtn;
+    }
 }

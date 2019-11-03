@@ -58,7 +58,7 @@ public class GameDataBuilder {
 
         // Copy and convert all hrdat
         ExternalRoutineExecutor.Routine xmlToBinary = ExternalRoutineExecutor.Routine.XML_TO_BINARY;
-        for (ProjectModel.RoomModel room : projectModel.getRooms()) {
+        for (ProjectModel.RoomModel room : projectModel.getRooms().values()) {
             RoomXMLData xmlData = fromModelToXML(room);
             File xmlFile = File.createTempFile(room.getName(), "");
             marshalRoom(xmlData, xmlFile);

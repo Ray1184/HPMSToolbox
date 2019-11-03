@@ -45,7 +45,7 @@ public class TestDraw {
         Map<String, ProjectModel.RoomModel.SectorGroup> sgMap = new HashMap<>();
         sgMap.put(DEFAULT_SG_NAME, sg);
         roomModel.setSectorGroupById(sgMap);
-        prj.setRooms(Collections.singletonList(roomModel));
+        prj.setRooms(Collections.singletonMap(roomModel.getName(), roomModel));
 
         JPanel draw = new JPanel() {
             @Override
@@ -80,7 +80,7 @@ public class TestDraw {
         BaseGui gui = BaseGui.getInstance();
         String roomId = "TEST_ROOM";
         ProjectModel.RoomModel room = null;
-        for (ProjectModel.RoomModel r : project.getRooms()) {
+        for (ProjectModel.RoomModel r : project.getRooms().values()) {
             if (r.getName().equals(roomId)) {
                 room = r;
                 break;

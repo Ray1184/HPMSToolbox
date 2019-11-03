@@ -51,7 +51,7 @@ public class ScriptBuilder {
 
 
         // Foreach room, create a scene script
-        for (ProjectModel.RoomModel room : projectModel.getRooms()) {
+        for (ProjectModel.RoomModel room : projectModel.getRooms().values()) {
             generator = new TemplateGenerator();
             LuaScript scene = generator.getSceneScriptTemplate();
             fillSceneScript(scene, room);
@@ -86,7 +86,7 @@ public class ScriptBuilder {
     private void fillCommonScript(LuaScript common) {
         common.setParentIndent("");
         int functionIndex = 0;
-        for (LuaFunctionDeclare fun : projectModel.getCommonFunctions()) {
+        for (LuaFunctionDeclare fun : projectModel.getCommonFunctions().values()) {
             common.getChunks().put("F_" + functionIndex++, fun);
         }
 

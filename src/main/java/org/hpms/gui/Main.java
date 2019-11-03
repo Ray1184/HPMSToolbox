@@ -57,7 +57,6 @@ public class Main {
         frame.getWorkspaceLoadBtn().addActionListener(e -> {
             JFileChooser f = new JFileChooser();
             f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            f.setCurrentDirectory(new java.io.File("."));
             f.showSaveDialog(null);
             f.setAcceptAllFileFilterUsed(false);
             f.setDialogTitle("Select Workspace Folder");

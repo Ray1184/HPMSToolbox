@@ -43,13 +43,10 @@ public class WorkAreaController implements Controller {
         float zoom = project.getUserSettings().getLastZoomFactor();
         BaseGui gui = BaseGui.getInstance();
         String roomId = (String) gui.getRoomsList().getSelectedValue();
-        ProjectModel.RoomModel room = null;
-        for (ProjectModel.RoomModel r : project.getRooms()) {
-            if (r.getName().equals(roomId)) {
-                room = r;
-                break;
-            }
+        if (roomId == null) {
+            return;
         }
+        ProjectModel.RoomModel room = project.getRooms().get(roomId);
         if (room == null) {
             return;
         }

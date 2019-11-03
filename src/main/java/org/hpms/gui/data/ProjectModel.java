@@ -136,7 +136,7 @@ public class ProjectModel implements Serializable {
             public enum TriggerType {
                 INIT("setup"),
                 LOOP("update"),
-                CLOSING("cleanup");
+                CLEANUP("cleanup");
 
                 private String scriptPart;
 
@@ -477,9 +477,9 @@ public class ProjectModel implements Serializable {
 
     private BuildSettings settings;
 
-    private List<RoomModel> rooms;
+    private Map<String, RoomModel> rooms;
 
-    private List<LuaFunctionDeclare> commonFunctions;
+    private Map<String, LuaFunctionDeclare> commonFunctions;
 
     private String firstRoom;
 
@@ -488,11 +488,11 @@ public class ProjectModel implements Serializable {
     private String runtimeName;
 
     public ProjectModel() {
-        rooms = new ArrayList<>();
+        rooms = new HashMap<>();
         userSettings = new UserSettings();
         preferences = new ProjectPreferences();
         settings = new BuildSettings();
-        commonFunctions = new ArrayList<>();
+        commonFunctions = new HashMap<>();
     }
 
     public UserSettings getUserSettings() {
@@ -519,11 +519,11 @@ public class ProjectModel implements Serializable {
         this.settings = settings;
     }
 
-    public List<RoomModel> getRooms() {
+    public Map<String, RoomModel> getRooms() {
         return rooms;
     }
 
-    public void setRooms(List<RoomModel> rooms) {
+    public void setRooms(Map<String, RoomModel> rooms) {
         this.rooms = rooms;
     }
 
@@ -535,11 +535,11 @@ public class ProjectModel implements Serializable {
         this.firstRoom = firstRoom;
     }
 
-    public List<LuaFunctionDeclare> getCommonFunctions() {
+    public Map<String, LuaFunctionDeclare> getCommonFunctions() {
         return commonFunctions;
     }
 
-    public void setCommonFunctions(List<LuaFunctionDeclare> commonFunctions) {
+    public void setCommonFunctions(Map<String, LuaFunctionDeclare> commonFunctions) {
         this.commonFunctions = commonFunctions;
     }
 }

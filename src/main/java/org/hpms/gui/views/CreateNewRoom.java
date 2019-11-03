@@ -6,6 +6,7 @@ package org.hpms.gui.views;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * @author N
@@ -44,12 +45,7 @@ public class CreateNewRoom extends JDialog {
 
         //======== container ========
         {
-            container.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
-            . border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder
-            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new Font ("Dia\u006cog" , Font .BOLD ,12 ), Color. red) ,container. getBorder( )) )
-            ; container. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
-            ;
+            container.setBorder(new EmptyBorder(0, 0, 0, 0));
             container.setLayout(new GridLayout(5, 0, 10, 0));
 
             //======== subContainer ========
