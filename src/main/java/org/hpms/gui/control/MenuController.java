@@ -117,8 +117,9 @@ public class MenuController implements Controller, ActionListener {
                 .append(AppInfo.VERSION);
         ProjectModel project = ProjectManager.getInstance().getProjectModel();
         if (project != null) {
-            info.append("          ")
-                    .append(project.getProjectPath() + File.separator + project.getProjectName());
+            info.append(" - [")
+                    .append(project.getProjectPath()).append(File.separator).append(project.getProjectName())
+                    .append(".hproj]");
         }
         BaseGui gui = BaseGui.getInstance();
         gui.getInfoLabel().setText(info.toString());

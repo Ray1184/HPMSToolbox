@@ -59,7 +59,6 @@ public class CreateEventDelegate {
         newEvent.getEventLclCombo().addItem(new Labels.TriggerTypeItem("Cleanup Phase (triggered 1 time on room leaving)", ProjectModel.RoomModel.Event.TriggerType.CLEANUP));
         newEvent.getNextBtn().setEnabled(false);
         newEvent.getNewEvtTxt().setText("");
-
         newEvent.getEventLclCombo().setEnabled(false);
 
 
@@ -156,7 +155,7 @@ public class CreateEventDelegate {
                 if (Character.isDigit(functionName.charAt(0))) {
                     functionName = "f_" + functionName;
                 }
-
+                staticFunction.getArgsTxt().setText("");
                 staticFunction.getCodeArea().setText("-- Event " + newEvent.getNewEvtTxt().getText().trim()
                         + "\n\n-- Write function body here.");
                 originalCode = staticFunction.getCodeArea().getText();

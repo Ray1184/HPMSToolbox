@@ -141,7 +141,7 @@ public class LuaFunctionParser {
         boolean first = true;
         for (LuaInstance arg : functionDeclare.getParameters()) {
             if (!first) {
-                argsBuilder.append("\n");
+                argsBuilder.append(",");
             }
             argsBuilder.append(arg.getCode());
             first = false;
