@@ -11,6 +11,8 @@ public class LuaFunctionDeclare extends LuaFunctionCall {
 
     private boolean external;
 
+    public LuaFunctionDeclare() {}
+
     public LuaFunctionDeclare(LuaInstance returnInstance, String name, List<LuaInstance> parameters, List<LuaStatement> body, boolean external) {
         super(returnInstance, name, parameters);
         this.body = body;

@@ -5,6 +5,8 @@ import org.apache.commons.io.FileUtils;
 import org.hpms.gui.control.Controllers;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
+import org.hpms.gui.luagen.LuaStatement;
+import org.hpms.gui.luagen.components.*;
 import org.hpms.gui.utils.EasyDocumentListener;
 import org.hpms.gui.views.BaseGui;
 import org.hpms.gui.views.WorkspaceChooser;
@@ -16,6 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
@@ -138,8 +141,20 @@ public class Main {
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.SectorGroup.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.SectorGroup.Sector.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.SectorGroup.Sector.PerimetralSide.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaStatement.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaBinaryOperator.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaExpression.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaFunctionCall.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaFunctionDeclare.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaIfStatement.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaInstance.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaInstance.Type.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaScript.class);
+        ProjectManager.KRYO_SERIALIZER.register(LuaUnaryOperator.class);
         ProjectManager.KRYO_SERIALIZER.register(ArrayList.class);
         ProjectManager.KRYO_SERIALIZER.register(HashMap.class);
+        ProjectManager.KRYO_SERIALIZER.register(LinkedHashMap.class);
+
     }
 
 

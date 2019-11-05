@@ -2,6 +2,7 @@ package org.hpms.gui.luagen.components;
 
 import org.hpms.gui.luagen.LuaStatement;
 import org.hpms.gui.luagen.components.LuaInstance.Type;
+import org.hpms.gui.utils.Utils;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,14 +12,14 @@ public enum LuaUnaryOperator implements LuaStatement {
     NOT("not") {
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.BOOLEAN);
+            return Utils.singletonList(Type.BOOLEAN);
         }
     },
 
     LENGTH("#") {
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.STRING);
+            return Utils.singletonList(Type.STRING);
         }
     };
 

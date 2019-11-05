@@ -487,12 +487,14 @@ public class ProjectModel implements Serializable {
 
     private String runtimeName;
 
+    private String projectName;
+
     public ProjectModel() {
-        rooms = new HashMap<>();
+        rooms = new LinkedHashMap<>();
         userSettings = new UserSettings();
         preferences = new ProjectPreferences();
         settings = new BuildSettings();
-        commonFunctions = new HashMap<>();
+        commonFunctions = new LinkedHashMap<>();
     }
 
     public UserSettings getUserSettings() {
@@ -541,5 +543,13 @@ public class ProjectModel implements Serializable {
 
     public void setCommonFunctions(Map<String, LuaFunctionDeclare> commonFunctions) {
         this.commonFunctions = commonFunctions;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

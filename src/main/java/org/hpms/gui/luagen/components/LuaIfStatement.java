@@ -1,6 +1,7 @@
 package org.hpms.gui.luagen.components;
 
 import org.hpms.gui.luagen.LuaStatement;
+import org.hpms.gui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,7 @@ public class LuaIfStatement implements LuaStatement {
             private List<LuaExpression> expressions;
 
             private List<LuaBinaryOperator> binaryConnectors;
+
 
             public LuaSingleCondition(LuaExpression condition) {
                 expressions = new ArrayList<>();
@@ -64,7 +66,7 @@ public class LuaIfStatement implements LuaStatement {
             @Override
             public ValidationResult validate() {
                 if (expressions.size() - 1 != binaryConnectors.size()) {
-                    return new ValidationResult(false, Collections.singletonList("Number of binary connectors must be one less then single conditions branches."));
+                    return new ValidationResult(false, Utils.singletonList("Number of binary connectors must be one less then single conditions branches."));
                 } else {
                     return new ValidationResult(true);
                 }
@@ -73,9 +75,11 @@ public class LuaIfStatement implements LuaStatement {
 
         private String parentIndent;
 
-        private final List<LuaSingleCondition> singleConditions;
+        private List<LuaSingleCondition> singleConditions;
 
-        private final List<LuaBinaryOperator> binaryConnectors;
+        private List<LuaBinaryOperator> binaryConnectors;
+
+        public LuaCondition() {}
 
         public LuaCondition(LuaSingleCondition condition) {
             singleConditions = new ArrayList<>();
@@ -140,7 +144,7 @@ public class LuaIfStatement implements LuaStatement {
                     reasons.add("Number of binary connectors must be one less then single conditions branches.");
                     result = new ValidationResult(false, reasons);
                 } else {
-                    result = new ValidationResult(false, Collections.singletonList("Number of binary connectors must be one less then single conditions branches."));
+                    result = new ValidationResult(false, Utils.singletonList("Number of binary connectors must be one less then single conditions branches."));
                 }
             }
             return result;
@@ -156,6 +160,8 @@ public class LuaIfStatement implements LuaStatement {
     private List<LuaStatement> elseActions;
 
     private String parentIndent;
+
+    public LuaIfStatement() {}
 
     public LuaIfStatement(LuaCondition condition, List<LuaStatement> actions, LuaCondition elseCondition, List<LuaStatement> elseActions) {
         this.condition = condition;

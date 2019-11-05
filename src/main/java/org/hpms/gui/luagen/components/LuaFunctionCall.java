@@ -14,6 +14,8 @@ public class LuaFunctionCall implements LuaStatement {
 
     protected String parentIndent;
 
+    public LuaFunctionCall() {}
+
     public LuaFunctionCall(LuaInstance returnInstance, String name, List<LuaInstance> parameters) {
         this.returnInstance = returnInstance;
         this.name = name;

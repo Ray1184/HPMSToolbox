@@ -1,14 +1,18 @@
 package org.hpms.gui.control;
 
+import org.hpms.gui.AppInfo;
 import org.hpms.gui.control.delegate.CreateEventDelegate;
 import org.hpms.gui.control.delegate.LoadProjectDelegate;
 import org.hpms.gui.control.delegate.NewProjectDelegate;
+import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
+import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +30,7 @@ public class MenuController implements Controller, ActionListener {
 
         items.add(gui.getNewProjectBtn());
         items.add(gui.getLoadProjectBtn());
+        items.add(gui.getSaveProjectBtn());
         items.add(gui.getSettingsProjectBtn());
         items.add(gui.getExitProjectBtn());
         items.add(gui.getNewRoomToolsBtn());
@@ -54,6 +59,17 @@ public class MenuController implements Controller, ActionListener {
                 break;
             case "LOAD_PROJECT":
                 loadProjectDelegate.loadProject();
+                break;
+            case "SAVE":
+                try {
+                    if (ProjectManager.getInstance().noProject()) {
+                        return;
+                    }
+                    ProjectManager.getInstance().persistToFile(ProjectManager.getInstance().getProjectModel().getProjectPath() +
+                            File.separator + ProjectManager.getInstance().getProjectModel().getProjectName() + ".hproj");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                }
                 break;
             case "PREFERENCES":
 
@@ -86,13 +102,10 @@ public class MenuController implements Controller, ActionListener {
     }
 
 
-
-
-
     @Override
     public void update() {
         for (JMenuItem item : items) {
-            if (item.getActionCommand().equals("CREATE_ROOM") || item.getActionCommand().equals("CREATE_SECTOR_GROUP") || item.getActionCommand().equals("CREATE_EVENT") || item.getActionCommand().equals("BUILD_RUNTIME")) {
+            if (item.getActionCommand().equals("SAVE") || item.getActionCommand().equals("CREATE_ROOM") || item.getActionCommand().equals("CREATE_SECTOR_GROUP") || item.getActionCommand().equals("CREATE_EVENT") || item.getActionCommand().equals("BUILD_RUNTIME")) {
                 if (ProjectManager.getInstance().noProject()) {
                     item.setEnabled(false);
                 } else {
@@ -100,6 +113,16 @@ public class MenuController implements Controller, ActionListener {
                 }
             }
         }
+        StringBuilder info = new StringBuilder(" HPMS Toolbox ")
+                .append(AppInfo.VERSION);
+        ProjectModel project = ProjectManager.getInstance().getProjectModel();
+        if (project != null) {
+            info.append("          ")
+                    .append(project.getProjectPath() + File.separator + project.getProjectName());
+        }
+        BaseGui gui = BaseGui.getInstance();
+        gui.getInfoLabel().setText(info.toString());
+
     }
 
 

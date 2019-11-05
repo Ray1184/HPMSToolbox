@@ -24,12 +24,13 @@ public class BaseGui {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - N
+        // Generated using JFormDesigner Evaluation license - Ray
         mainFrame = new JFrame();
         mainMenu = new JMenuBar();
         projectBtn = new JMenu();
         newProjectBtn = new JMenuItem();
         loadProjectBtn = new JMenuItem();
+        saveProjectBtn = new JMenuItem();
         settingsProjectBtn = new JMenuItem();
         exitProjectBtn = new JMenuItem();
         toolsBtn = new JMenu();
@@ -53,6 +54,7 @@ public class BaseGui {
         eventsTab = new JScrollPane();
         eventsList = new JList();
         workArea = new JScrollPane();
+        infoLabel = new JLabel();
 
         //======== mainFrame ========
         {
@@ -80,6 +82,11 @@ public class BaseGui {
                     loadProjectBtn.setText("Load...");
                     loadProjectBtn.setActionCommand("LOAD_PROJECT");
                     projectBtn.add(loadProjectBtn);
+
+                    //---- saveProjectBtn ----
+                    saveProjectBtn.setText("Save");
+                    saveProjectBtn.setActionCommand("SAVE");
+                    projectBtn.add(saveProjectBtn);
                     projectBtn.addSeparator();
 
                     //---- settingsProjectBtn ----
@@ -191,6 +198,10 @@ public class BaseGui {
                 hSplitter.setRightComponent(workArea);
             }
             mainFrameContentPane.add(hSplitter, BorderLayout.CENTER);
+
+            //---- infoLabel ----
+            infoLabel.setText("  HPMS ToolBox");
+            mainFrameContentPane.add(infoLabel, BorderLayout.SOUTH);
             mainFrame.pack();
             mainFrame.setLocationRelativeTo(mainFrame.getOwner());
         }
@@ -198,12 +209,13 @@ public class BaseGui {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
+    // Generated using JFormDesigner Evaluation license - Ray
     private JFrame mainFrame;
     private JMenuBar mainMenu;
     private JMenu projectBtn;
     private JMenuItem newProjectBtn;
     private JMenuItem loadProjectBtn;
+    private JMenuItem saveProjectBtn;
     private JMenuItem settingsProjectBtn;
     private JMenuItem exitProjectBtn;
     private JMenu toolsBtn;
@@ -227,6 +239,7 @@ public class BaseGui {
     private JScrollPane eventsTab;
     private JList eventsList;
     private JScrollPane workArea;
+    private JLabel infoLabel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 
@@ -363,5 +376,13 @@ public class BaseGui {
      */
     public JMenuItem getAboutHelpsBtn() {
         return aboutHelpsBtn;
+    }
+
+    public JMenuItem getSaveProjectBtn() {
+        return saveProjectBtn;
+    }
+
+    public JLabel getInfoLabel() {
+        return infoLabel;
     }
 }

@@ -24,6 +24,8 @@ public class LuaInstance implements LuaStatement {
 
     public static final LuaInstance NIL = new LuaInstance("nil", Type.NIL);
 
+    public LuaInstance() {}
+
     public LuaInstance(String name, Type type) {
         this(name, type, null);
     }

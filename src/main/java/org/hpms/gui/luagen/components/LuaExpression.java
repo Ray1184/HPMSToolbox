@@ -8,6 +8,8 @@ public class LuaExpression implements LuaStatement {
 
     private String expression;
 
+    public LuaExpression() {}
+
     public LuaExpression(String expression) {
         this.expression = expression;
     }

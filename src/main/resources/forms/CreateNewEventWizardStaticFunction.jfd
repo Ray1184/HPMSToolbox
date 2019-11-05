@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.0.6.255" Java: "11.0.4" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.0.5.251" Java: "1.8.0_121" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -7,10 +7,18 @@ new FormModel {
 			"axis": 1
 		} ) {
 			name: "this"
-			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "writeFuncLabel"
-				"text": "Write function declaration and code:"
-				"horizontalAlignment": 0
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"vgap": 20
+			} ) {
+				name: "subContainer3"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "argsLabel"
+					"text": "Args (comma separated): "
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "argsTxt"
+					"preferredSize": new java.awt.Dimension( 400, 30 )
+				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
 				"vgap": 20

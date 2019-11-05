@@ -11,11 +11,10 @@ import org.hpms.gui.views.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class CreateEventDelegate {
     public static final String NEW_EVENT = "NEW_EVENT";
@@ -29,11 +28,13 @@ public class CreateEventDelegate {
     // Context data
     private String functionName;
     private String eventName;
+    private String originalCode;
 
     public CreateEventDelegate() {
         mainPanel = new CreateNewEventWizard(BaseGui.getInstance().getMainFrame());
         newEvent = new CreateNewEventWizardStepNameType();
         staticFunction = new CreateNewEventWizardStaticFunction();
+        initListeners();
     }
 
     public void createEvent() {
@@ -46,8 +47,8 @@ public class CreateEventDelegate {
         JPanel wizardManager = mainPanel.getWizardManager();
         buildNewEventPanel();
         wizardManager.add(newEvent, NEW_EVENT);
-        buildStaticFunctionPanel();
         wizardManager.add(staticFunction, STATIC_FUNCTION);
+        initListeners();
     }
 
 
@@ -57,10 +58,40 @@ public class CreateEventDelegate {
         newEvent.getEventLclCombo().addItem(new Labels.TriggerTypeItem("Loop Phase (triggered each update)", ProjectModel.RoomModel.Event.TriggerType.LOOP));
         newEvent.getEventLclCombo().addItem(new Labels.TriggerTypeItem("Cleanup Phase (triggered 1 time on room leaving)", ProjectModel.RoomModel.Event.TriggerType.CLEANUP));
         newEvent.getNextBtn().setEnabled(false);
+        newEvent.getNewEvtTxt().setText("");
+
+        newEvent.getEventLclCombo().setEnabled(false);
+
+
+    }
+
+
+    private boolean codeChanged() {
+        return !originalCode.equals(staticFunction.getCodeArea().getText());
+    }
+
+    private void collapse() {
+        staticFunction.getCodeArea().setRows(0);
+        staticFunction.getCodeArea().setColumns(0);
+        mainPanel.pack();
+    }
+
+    private void expand() {
+        staticFunction.getCodeArea().setRows(30);
+        staticFunction.getCodeArea().setColumns(80);
+        mainPanel.pack();
+    }
+
+    private void initListeners() {
+        mainPanel.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                collapse();
+            }
+        });
 
         newEvent.getNewEvtTxt().addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
-                if (newEvent.getNewEvtTxt().getText().length() >= 15)
+                if (newEvent.getNewEvtTxt().getText().length() >= 20)
                     e.consume();
             }
         });
@@ -71,7 +102,37 @@ public class CreateEventDelegate {
                 newEvent.getNextBtn().setEnabled(true);
             }
         });
-        newEvent.getEventLclCombo().setEnabled(false);
+
+
+        staticFunction.getCancBtn().addActionListener(e -> {
+            if (!codeChanged()) {
+                CardLayout ly = (CardLayout) mainPanel.getWizardManager().getLayout();
+                ly.show(mainPanel.getWizardManager(), NEW_EVENT);
+                collapse();
+            } else {
+                JFrame frame = new JFrame();
+                int dialogResult = JOptionPane.showConfirmDialog(frame, "You will loose your change, do you want to proceed?", "Warning", JOptionPane.YES_NO_OPTION);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    CardLayout ly = (CardLayout) mainPanel.getWizardManager().getLayout();
+                    ly.show(mainPanel.getWizardManager(), NEW_EVENT);
+                    collapse();
+                }
+            }
+        });
+
+        staticFunction.getOkBtn().addActionListener(e -> {
+            String codeTxt = staticFunction.getCodeArea().getText();
+            String params = staticFunction.getArgsTxt().getText();
+            try {
+                LuaFunctionDeclare function = LuaFunctionParser.parse(functionName, params, codeTxt);
+                ProjectManager.getInstance().getProjectModel().getCommonFunctions().put("(STATIC) " + eventName, function);
+                Controllers.updateAll();
+                mainPanel.dispose();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+            }
+        });
+
         newEvent.getEventTypeChkbx().addChangeListener(e -> {
             if (newEvent.getEventTypeChkbx().isSelected()) {
                 newEvent.getEventLclCombo().setEnabled(true);
@@ -87,7 +148,6 @@ public class CreateEventDelegate {
                 CardLayout ly = (CardLayout) mainPanel.getWizardManager().getLayout();
                 ly.show(mainPanel.getWizardManager(), ROOM_EVENT);
             } else {
-
                 functionName = newEvent.getNewEvtTxt().getText().trim();
                 eventName = functionName;
                 functionName = functionName.replaceAll(" ", "_");
@@ -98,38 +158,16 @@ public class CreateEventDelegate {
                 }
 
                 staticFunction.getCodeArea().setText("-- Event " + newEvent.getNewEvtTxt().getText().trim()
-                        + "\nfunction " + functionName + "(args)\t\t\t\t\t\t\n  -- TODO\n\n\n\n\n\n\n\n\n\nend");
-
+                        + "\n\n-- Write function body here.");
+                originalCode = staticFunction.getCodeArea().getText();
+                expand();
                 CardLayout ly = (CardLayout) mainPanel.getWizardManager().getLayout();
                 ly.show(mainPanel.getWizardManager(), STATIC_FUNCTION);
+
             }
 
 
         });
-
-    }
-
-    private void buildStaticFunctionPanel() {
-        staticFunction.getCancBtn().addActionListener(e -> {
-            CardLayout ly = (CardLayout) mainPanel.getWizardManager().getLayout();
-            ly.show(mainPanel.getWizardManager(), NEW_EVENT);
-        });
-
-        staticFunction.getOkBtn().addActionListener(e -> {
-            String codeTxt = staticFunction.getCodeArea().getText();
-            try {
-                LuaFunctionDeclare function = LuaFunctionParser.parse(codeTxt);
-                ProjectManager.getInstance().getProjectModel().getCommonFunctions().put(eventName, function);
-                Controllers.updateAll();
-                mainPanel.dispose();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
-            }
-        });
-    }
-
-    private void buildRoomEventPanel() {
-
     }
 
 }

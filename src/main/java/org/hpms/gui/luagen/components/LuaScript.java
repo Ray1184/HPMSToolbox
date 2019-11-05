@@ -7,9 +7,11 @@ import java.util.Map;
 public class LuaScript implements LuaStatement {
 
 
-    private final Map<String, LuaStatement> chunks;
+    private Map<String, LuaStatement> chunks;
 
-    private final boolean rawArray;
+    private boolean rawArray;
+
+    public LuaScript() {}
 
     public LuaScript(Map<String, LuaStatement> chunks, boolean rawArray) {
         this.chunks = chunks;

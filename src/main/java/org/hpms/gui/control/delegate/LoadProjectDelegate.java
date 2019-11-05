@@ -20,6 +20,9 @@ public class LoadProjectDelegate {
         f.setAcceptAllFileFilterUsed(false);
         f.setDialogTitle("Select Project to load");
         try {
+            if (f.getSelectedFile() == null) {
+                return;
+            }
             ProjectManager.getInstance().buildFromFile(f.getSelectedFile().getAbsolutePath());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);

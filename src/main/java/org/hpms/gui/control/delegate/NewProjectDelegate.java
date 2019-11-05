@@ -12,15 +12,14 @@ import javax.swing.*;
 import java.io.File;
 
 public class NewProjectDelegate {
+    private final CreateNewProject newProject;
+
     public NewProjectDelegate() {
+        newProject = new CreateNewProject(BaseGui.getInstance().getMainFrame());
+        initListeners();
     }
 
-    public void newProject() {
-        CreateNewProject newProject = new CreateNewProject(BaseGui.getInstance().getMainFrame());
-        newProject.pack();
-        newProject.getOkBtn().setEnabled(false);
-        newProject.setVisible(true);
-        newProject.getCancBtn().addActionListener(e -> newProject.dispose());
+    private void initListeners() {
         newProject.getNewProjNameTxt().getDocument().addDocumentListener((EasyDocumentListener) e -> {
             if (newProject.getNewProjNameTxt().getText() != null && newProject.getNewProjNameTxt().getText().length() > 0) {
                 newProject.getOkBtn().setEnabled(true);
@@ -33,6 +32,7 @@ public class NewProjectDelegate {
             ProjectManager.getInstance().buildEmptyProject();
             ProjectManager.getInstance().getProjectModel().setRuntimeName(projectName);
             ProjectManager.getInstance().getProjectModel().setProjectPath(AppInfo.getCurrentWorkspace());
+            ProjectManager.getInstance().getProjectModel().setProjectName(projectName);
             try {
                 ProjectManager.getInstance().persistToFile(AppInfo.getCurrentWorkspace() + File.separator + projectName + ".hproj");
                 Controllers.updateAll();
@@ -43,6 +43,15 @@ public class NewProjectDelegate {
                 BaseGui.getInstance().getMainFrame().dispose();
             }
         });
+    }
+
+    public void newProject() {
+
+        newProject.pack();
+        newProject.getOkBtn().setEnabled(false);
+        newProject.setVisible(true);
+        newProject.getCancBtn().addActionListener(e -> newProject.dispose());
+
 
     }
 }

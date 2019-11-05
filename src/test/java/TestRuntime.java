@@ -7,6 +7,7 @@ import org.hpms.gui.luagen.components.LuaExpression;
 import org.hpms.gui.luagen.components.LuaFunctionDeclare;
 import org.hpms.gui.luagen.components.LuaIfStatement;
 import org.hpms.gui.luagen.components.LuaInstance;
+import org.hpms.gui.utils.Utils;
 
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -81,8 +82,8 @@ public class TestRuntime {
         List<LuaInstance> params = new ArrayList<>();
         params.add(param);
         params.add(param2);
-        LuaFunctionDeclare fn = new LuaFunctionDeclare(ret, "check_sector", params, Collections.singletonList(ifSt2), true);
-        LuaFunctionDeclare fn2 = new LuaFunctionDeclare(ret, "check_sector_0", params, Collections.singletonList(ifSt2), true);
+        LuaFunctionDeclare fn = new LuaFunctionDeclare(ret, "check_sector", params, Utils.singletonList(ifSt2), true);
+        LuaFunctionDeclare fn2 = new LuaFunctionDeclare(ret, "check_sector_0", params, Utils.singletonList(ifSt2), true);
 
 
         Map<String, LuaFunctionDeclare> funList = new HashMap<>();

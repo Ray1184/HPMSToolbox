@@ -4,6 +4,7 @@ import org.hpms.gui.luagen.LuaStatement;
 import org.hpms.gui.luagen.components.LuaExpression;
 import org.hpms.gui.luagen.components.LuaFunctionDeclare;
 import org.hpms.gui.luagen.components.LuaInstance;
+import org.hpms.gui.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +17,21 @@ public class LuaFunctionParser {
             throw new Exception("Null function not allowed.");
         }
         code = code.trim();
+        StringBuilder codeWithoutFunctionComment = new StringBuilder();
+        boolean inFunction = false;
+        for (String s : code.split("\n")) {
+            if (s.trim().startsWith("function ")) {
+                inFunction = true;
+            }
+            if (s.trim().equals("end") || s.trim().startsWith("end ") || s.trim().startsWith("end--")) {
+                inFunction = false;
+            }
+            if (!s.trim().startsWith("--") || inFunction) {
+                codeWithoutFunctionComment.append(s).append("\n");
+            }
+
+        }
+        code = codeWithoutFunctionComment.toString();
         int startDeclareIndex = code.indexOf("function") + "function".length();
         int startArgsIndex = code.indexOf("(");
         int endArgsIndex = code.indexOf(")");
@@ -49,7 +65,7 @@ public class LuaFunctionParser {
         LuaExpression body = new LuaExpression(bodyCode);
         LuaInstance dummyReturn = new LuaInstance("", LuaInstance.Type.OBJECT);
         LuaFunctionDeclare f = new LuaFunctionDeclare(dummyReturn, declare, paramsList,
-                Collections.singletonList(body), true);
+                Utils.singletonList(body), true);
         LuaStatement.ValidationResult v = f.validate();
         if (!v.isValid()) {
             StringBuilder sb = new StringBuilder();
@@ -67,5 +83,69 @@ public class LuaFunctionParser {
 
         return f;
 
+    }
+
+    public static LuaFunctionDeclare parse(String name, String argsString, String bodyCode) throws Exception {
+        List<LuaInstance> paramsList = new ArrayList<>();
+        String[] args = argsString.trim().split(",");
+        for (String p : args) {
+            LuaInstance param = new LuaInstance(p.trim(), LuaInstance.Type.OBJECT);
+            paramsList.add(param);
+        }
+
+
+        LuaExpression body = new LuaExpression(bodyCode);
+        body.setParentIndent("");
+        LuaInstance dummyReturn = new LuaInstance("", LuaInstance.Type.OBJECT);
+        LuaFunctionDeclare f = new LuaFunctionDeclare(dummyReturn, name, paramsList,
+                Utils.singletonList(body), true);
+        LuaStatement.ValidationResult v = f.validate();
+        if (!v.isValid()) {
+            StringBuilder sb = new StringBuilder();
+            if (v.getReasons() != null && !v.getReasons().isEmpty()) {
+                sb.append("Invalid function. Reasons:");
+            } else {
+                sb.append("Invalid function.");
+            }
+            for (String reason : v.getReasons()) {
+                sb.append("- ")
+                        .append(reason);
+            }
+            throw new Exception(sb.toString());
+        }
+
+        return f;
+    }
+
+    public static String getBody(LuaFunctionDeclare functionDeclare) {
+        if (functionDeclare == null) {
+            return "";
+        }
+        StringBuilder bodyBuilder = new StringBuilder();
+        boolean first = true;
+        for (LuaStatement stat : functionDeclare.getBody()) {
+            if (!first) {
+                bodyBuilder.append("\n");
+            }
+            bodyBuilder.append(stat.getCode());
+            first = false;
+        }
+        return bodyBuilder.toString();
+    }
+
+    public static String getParams(LuaFunctionDeclare functionDeclare) {
+        if (functionDeclare == null) {
+            return "";
+        }
+        StringBuilder argsBuilder = new StringBuilder();
+        boolean first = true;
+        for (LuaInstance arg : functionDeclare.getParameters()) {
+            if (!first) {
+                argsBuilder.append("\n");
+            }
+            argsBuilder.append(arg.getCode());
+            first = false;
+        }
+        return argsBuilder.toString();
     }
 }

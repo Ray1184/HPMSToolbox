@@ -2,6 +2,7 @@ package org.hpms.gui.luagen.components;
 
 import org.hpms.gui.luagen.LuaStatement;
 import org.hpms.gui.luagen.components.LuaInstance.Type;
+import org.hpms.gui.utils.Utils;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,56 +12,56 @@ public enum LuaBinaryOperator implements LuaStatement {
     PLUS("+") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
     },
     MINUS("-") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
     },
     STAR("*") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
     },
     DIV("/") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
     },
     MOD("&") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
     },
     ASSIGNMENT("=") {
@@ -77,23 +78,23 @@ public enum LuaBinaryOperator implements LuaStatement {
     AND("and") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.BOOLEAN);
+            return Utils.singletonList(Type.BOOLEAN);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.BOOLEAN);
+            return Utils.singletonList(Type.BOOLEAN);
         }
     },
     OR("or") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.BOOLEAN);
+            return Utils.singletonList(Type.BOOLEAN);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.BOOLEAN);
+            return Utils.singletonList(Type.BOOLEAN);
         }
     },
     EQ("==") {
@@ -121,56 +122,56 @@ public enum LuaBinaryOperator implements LuaStatement {
     GREATER(">") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
     },
     LESS("<") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
     },
     GREATER_EQ(">=") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
     },
     LESS_EQ("<=") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.NUMBER);
+            return Utils.singletonList(Type.NUMBER);
         }
     },
     CONCAT("..") {
         @Override
         public List<Type> allowedTypeOnLeft() {
-            return Collections.singletonList(Type.STRING);
+            return Utils.singletonList(Type.STRING);
         }
 
         @Override
         public List<Type> allowedTypeOnRight() {
-            return Collections.singletonList(Type.STRING);
+            return Utils.singletonList(Type.STRING);
         }
     };
 

@@ -22,21 +22,32 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Ray
-        writeFuncLabel = new JLabel();
+        // Generated using JFormDesigner Evaluation license - N
+        subContainer3 = new JPanel();
+        argsLabel = new JLabel();
+        argsTxt = new JTextField();
         subContainer = new JPanel();
         subContainer2 = new JPanel();
         cancBtn = new JButton();
         okBtn = new JButton();
 
         //======== this ========
-        setBorder(new EmptyBorder(0, 0, 0, 0));
+        setBorder(new EmptyBorder(0, 0, 0 ,0));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        //---- writeFuncLabel ----
-        writeFuncLabel.setText("Write function declaration and code:");
-        writeFuncLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(writeFuncLabel);
+        //======== subContainer3 ========
+        {
+            subContainer3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
+
+            //---- argsLabel ----
+            argsLabel.setText("Args (comma separated): ");
+            subContainer3.add(argsLabel);
+
+            //---- argsTxt ----
+            argsTxt.setPreferredSize(new Dimension(400, 30));
+            subContainer3.add(argsTxt);
+        }
+        add(subContainer3);
 
         //======== subContainer ========
         {
@@ -62,15 +73,16 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
         codeArea = new RSyntaxTextArea();
         codeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_LUA);
         codeArea.setCodeFoldingEnabled(true);
-        codeArea.setText("function my_function(args)\t\t\t\t\t\n\n\n\n\n\n\n\n\n\n\n\n");
         RTextScrollPane sp = new RTextScrollPane(codeArea);
 
         subContainer.add(sp);
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Ray
-    private JLabel writeFuncLabel;
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel subContainer3;
+    private JLabel argsLabel;
+    private JTextField argsTxt;
     private JPanel subContainer;
     private JPanel subContainer2;
     private JButton cancBtn;
@@ -94,5 +106,14 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
 
     public JButton getCancBtn() {
         return cancBtn;
+    }
+
+    /**
+     * Getter for property 'argsTxt'.
+     *
+     * @return Value for property 'argsTxt'.
+     */
+    public JTextField getArgsTxt() {
+        return argsTxt;
     }
 }

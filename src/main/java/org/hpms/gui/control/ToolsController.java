@@ -7,6 +7,8 @@ import org.hpms.gui.utils.EasyMouseListener;
 import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ToolsController implements Controller {
 
@@ -17,26 +19,42 @@ public class ToolsController implements Controller {
     private String selectedEvent;
     private String selectedSg;
 
+    public static final int ROOM = 0;
+    public static final int SG = 1;
+    public static final int EVENT = 2;
+
     @Override
     public void init() {
 
         JList roomsList = BaseGui.getInstance().getRoomsList();
-        roomsList.addListSelectionListener(e -> {
-            selectedRoom = (String) roomsList.getSelectedValue();
-        });
+        roomsList.addListSelectionListener(e -> selectedRoom = (String) roomsList.getSelectedValue());
+
         JList eventList = BaseGui.getInstance().getEventsList();
-        eventList.addListSelectionListener(e -> {
-            selectedEvent = (String) eventList.getSelectedValue();
-        });
+        eventList.addListSelectionListener(e -> selectedEvent = (String) eventList.getSelectedValue());
         eventList.addMouseListener((EasyMouseListener) e -> {
             if (e.getClickCount() >= 2) {
+                editEventDelegate.editEvent();
             }
         });
-        JList sgList = BaseGui.getInstance().getSgList();
-        sgList.addListSelectionListener(e -> {
-            selectedSg = (String) sgList.getSelectedValue();
+        eventList.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (KeyEvent.VK_CANCEL == e.getKeyCode()) {
+                    JFrame frame = new JFrame();
+                    int dialogResult = JOptionPane.showConfirmDialog(frame, "Are you sure to delete event " + selectedEvent + "?", "Warning", JOptionPane.YES_NO_OPTION);
+                    if (dialogResult == JOptionPane.YES_OPTION) {
+                        deleteItem(EVENT);
+                        frame.dispose();
+
+                    }
+                }
+            }
         });
+
+        JList sgList = BaseGui.getInstance().getSgList();
+        sgList.addListSelectionListener(e -> selectedSg = (String) sgList.getSelectedValue());
     }
+
 
     @Override
     public void update() {
@@ -83,6 +101,34 @@ public class ToolsController implements Controller {
         }
 
 
+    }
+
+    private void deleteItem(int item) {
+        ProjectModel project = ProjectManager.getInstance().getProjectModel();
+        if (project == null) {
+            return;
+        }
+        switch (item) {
+            case ROOM:
+                if (selectedRoom != null) {
+                    project.getRooms().remove(selectedRoom);
+                }
+                break;
+            case SG:
+                if (selectedSg != null && selectedRoom != null && project.getRooms().get(selectedRoom) != null) {
+                    project.getRooms().get(selectedRoom).getSectorGroupById().remove(selectedSg);
+                }
+                break;
+            case EVENT:
+                if (selectedEvent != null) {
+                    project.getCommonFunctions().remove(selectedEvent);
+                    if (selectedRoom != null && project.getRooms().get(selectedRoom) != null) {
+                        project.getRooms().get(selectedRoom).getEventsById().remove(selectedEvent);
+                    }
+                }
+                break;
+        }
+        Controllers.updateAll();
     }
 
 

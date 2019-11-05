@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.0.5.251" Java: "11.0.3" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.0.6.255" Java: "11.0.4" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -58,6 +58,12 @@ new FormModel {
 			}, new FormLayoutConstraints( class java.lang.String ) {
 				"value": "Center"
 			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "infoLabel"
+				"text": "  HPMS ToolBox"
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "South"
+			} )
 			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
 				name: "mainMenu"
 				"foreground": new java.awt.Color( 60, 63, 65, 255 )
@@ -74,6 +80,11 @@ new FormModel {
 						name: "loadProjectBtn"
 						"text": "Load..."
 						"actionCommand": "LOAD_PROJECT"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "saveProjectBtn"
+						"text": "Save"
+						"actionCommand": "SAVE"
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
 						name: "separator2"

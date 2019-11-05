@@ -1,6 +1,7 @@
 import com.bulenkov.darcula.DarculaLaf;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
+import org.hpms.gui.utils.Utils;
 import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
@@ -41,11 +42,11 @@ public class TestDraw {
         s.setZ1(5);
         s.setZ2(10);
         s.setZ3(10);
-        sg.setSectors(Collections.singletonList(s));
+        sg.setSectors(Utils.singletonList(s));
         Map<String, ProjectModel.RoomModel.SectorGroup> sgMap = new HashMap<>();
         sgMap.put(DEFAULT_SG_NAME, sg);
         roomModel.setSectorGroupById(sgMap);
-        prj.setRooms(Collections.singletonMap(roomModel.getName(), roomModel));
+        prj.setRooms(Utils.singletonMap(roomModel.getName(), roomModel));
 
         JPanel draw = new JPanel() {
             @Override

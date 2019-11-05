@@ -19,25 +19,38 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Ray
-        writeFuncLabel = new JLabel();
+        // Generated using JFormDesigner Evaluation license - N
+        subContainer3 = new JPanel();
+        argsLabel = new JLabel();
+        argsTxt = new JTextField();
         subContainer = new JPanel();
         subContainer2 = new JPanel();
         cancBtn = new JButton();
         okBtn = new JButton();
 
         //======== this ========
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(
-        0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder.CENTER,javax.swing.border.TitledBorder
-        .BOTTOM,new java.awt.Font("D\u0069alog",java.awt.Font.BOLD,12),java.awt.Color.
-        red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.
-        beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException();}});
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
+        . border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder
+        . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
+        awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder( )) )
+        ;  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+        ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
+        ;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        //---- writeFuncLabel ----
-        writeFuncLabel.setText("Write function declaration and code:");
-        writeFuncLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(writeFuncLabel);
+        //======== subContainer3 ========
+        {
+            subContainer3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
+
+            //---- argsLabel ----
+            argsLabel.setText("Args (comma separated): ");
+            subContainer3.add(argsLabel);
+
+            //---- argsTxt ----
+            argsTxt.setPreferredSize(new Dimension(400, 30));
+            subContainer3.add(argsTxt);
+        }
+        add(subContainer3);
 
         //======== subContainer ========
         {
@@ -63,15 +76,16 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
         codeArea = new RSyntaxTextArea();
         codeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_LUA);
         codeArea.setCodeFoldingEnabled(true);
-        codeArea.setText("function my_function(args)\t\t\t\t\t\n\n\n\n\n\n\n\n\n\n\n\n");
         RTextScrollPane sp = new RTextScrollPane(codeArea);
 
         subContainer.add(sp);
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Ray
-    private JLabel writeFuncLabel;
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel subContainer3;
+    private JLabel argsLabel;
+    private JTextField argsTxt;
     private JPanel subContainer;
     private JPanel subContainer2;
     private JButton cancBtn;
@@ -95,5 +109,14 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
 
     public JButton getCancBtn() {
         return cancBtn;
+    }
+
+    /**
+     * Getter for property 'argsTxt'.
+     *
+     * @return Value for property 'argsTxt'.
+     */
+    public JTextField getArgsTxt() {
+        return argsTxt;
     }
 }
