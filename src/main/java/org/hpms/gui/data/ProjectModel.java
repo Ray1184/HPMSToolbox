@@ -6,7 +6,10 @@ import org.hpms.gui.luagen.components.LuaIfStatement;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProjectModel implements Serializable {
 
@@ -185,7 +188,6 @@ public class ProjectModel implements Serializable {
             private String name;
 
 
-
             private ConditionAction conditionAction;
 
             private Action action;
@@ -251,19 +253,19 @@ public class ProjectModel implements Serializable {
                     public PerimetralSide() {
                     }
 
-                    public int getIdx1() {
+                    public synchronized int getIdx1() {
                         return idx1;
                     }
 
-                    public void setIdx1(int idx1) {
+                    public synchronized void setIdx1(int idx1) {
                         this.idx1 = idx1;
                     }
 
-                    public int getIdx2() {
+                    public synchronized int getIdx2() {
                         return idx2;
                     }
 
-                    public void setIdx2(int idx2) {
+                    public synchronized void setIdx2(int idx2) {
                         this.idx2 = idx2;
                     }
                 }
@@ -280,83 +282,83 @@ public class ProjectModel implements Serializable {
                     sides = new ArrayList<>();
                 }
 
-                public List<PerimetralSide> getSides() {
+                public synchronized List<PerimetralSide> getSides() {
                     return sides;
                 }
 
-                public void setSides(List<PerimetralSide> sides) {
+                public synchronized void setSides(List<PerimetralSide> sides) {
                     this.sides = sides;
                 }
 
-                public float getX1() {
+                public synchronized float getX1() {
                     return x1;
                 }
 
-                public void setX1(float x1) {
+                public synchronized void setX1(float x1) {
                     this.x1 = x1;
                 }
 
-                public float getX2() {
+                public synchronized float getX2() {
                     return x2;
                 }
 
-                public void setX2(float x2) {
+                public synchronized void setX2(float x2) {
                     this.x2 = x2;
                 }
 
-                public float getX3() {
+                public synchronized float getX3() {
                     return x3;
                 }
 
-                public void setX3(float x3) {
+                public synchronized void setX3(float x3) {
                     this.x3 = x3;
                 }
 
-                public float getY1() {
+                public synchronized float getY1() {
                     return y1;
                 }
 
-                public void setY1(float y1) {
+                public synchronized void setY1(float y1) {
                     this.y1 = y1;
                 }
 
-                public float getY2() {
+                public synchronized float getY2() {
                     return y2;
                 }
 
-                public void setY2(float y2) {
+                public synchronized void setY2(float y2) {
                     this.y2 = y2;
                 }
 
-                public float getY3() {
+                public synchronized float getY3() {
                     return y3;
                 }
 
-                public void setY3(float y3) {
+                public synchronized void setY3(float y3) {
                     this.y3 = y3;
                 }
 
-                public float getZ1() {
+                public synchronized float getZ1() {
                     return z1;
                 }
 
-                public void setZ1(float z1) {
+                public synchronized void setZ1(float z1) {
                     this.z1 = z1;
                 }
 
-                public float getZ2() {
+                public synchronized float getZ2() {
                     return z2;
                 }
 
-                public void setZ2(float z2) {
+                public synchronized void setZ2(float z2) {
                     this.z2 = z2;
                 }
 
-                public float getZ3() {
+                public synchronized float getZ3() {
                     return z3;
                 }
 
-                public void setZ3(float z3) {
+                public synchronized void setZ3(float z3) {
                     this.z3 = z3;
                 }
 
@@ -365,7 +367,7 @@ public class ProjectModel implements Serializable {
                  *
                  * @return Value for property 'id'.
                  */
-                public String getId() {
+                public synchronized String getId() {
                     return id;
                 }
 
@@ -374,7 +376,7 @@ public class ProjectModel implements Serializable {
                  *
                  * @param id Value to set for property 'id'.
                  */
-                public void setId(String id) {
+                public synchronized void setId(String id) {
                     this.id = id;
                 }
 
@@ -383,7 +385,7 @@ public class ProjectModel implements Serializable {
                  *
                  * @return Value for property 'groupId'.
                  */
-                public String getGroupId() {
+                public synchronized String getGroupId() {
                     return groupId;
                 }
 
@@ -392,7 +394,7 @@ public class ProjectModel implements Serializable {
                  *
                  * @param groupId Value to set for property 'groupId'.
                  */
-                public void setGroupId(String groupId) {
+                public synchronized void setGroupId(String groupId) {
                     this.groupId = groupId;
                 }
             }
@@ -405,19 +407,19 @@ public class ProjectModel implements Serializable {
                 sectors = new ArrayList<>();
             }
 
-            public List<Sector> getSectors() {
+            public synchronized List<Sector> getSectors() {
                 return sectors;
             }
 
-            public void setSectors(List<Sector> sectors) {
+            public synchronized void setSectors(List<Sector> sectors) {
                 this.sectors = sectors;
             }
 
-            public String getId() {
+            public synchronized String getId() {
                 return id;
             }
 
-            public void setId(String id) {
+            public synchronized void setId(String id) {
                 this.id = id;
             }
         }
@@ -444,11 +446,11 @@ public class ProjectModel implements Serializable {
             this.name = name;
         }
 
-        public Map<String, SectorGroup> getSectorGroupById() {
+        public synchronized Map<String, SectorGroup> getSectorGroupById() {
             return sectorGroupById;
         }
 
-        public void setSectorGroupById(Map<String, SectorGroup> sectorGroupById) {
+        public synchronized void setSectorGroupById(Map<String, SectorGroup> sectorGroupById) {
             this.sectorGroupById = sectorGroupById;
         }
 
@@ -459,7 +461,6 @@ public class ProjectModel implements Serializable {
         public void setEventsById(Map<String, Event> eventsById) {
             this.eventsById = eventsById;
         }
-
 
 
         public PipelineType getPipelineType() {

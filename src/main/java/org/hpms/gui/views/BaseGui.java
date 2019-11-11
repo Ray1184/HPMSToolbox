@@ -4,6 +4,8 @@
 
 package org.hpms.gui.views;
 
+import org.hpms.gui.utils.ListEntryCellRenderer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -206,6 +208,9 @@ public class BaseGui {
             mainFrame.setLocationRelativeTo(mainFrame.getOwner());
         }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+        eventsList.setCellRenderer(new ListEntryCellRenderer());
+        roomsList.setCellRenderer(new ListEntryCellRenderer());
+        sgList.setCellRenderer(new ListEntryCellRenderer());
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables

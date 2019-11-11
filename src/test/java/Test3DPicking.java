@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 
-public class TestPicking extends JFrame implements MouseMotionListener, MouseListener {
+public class Test3DPicking extends JFrame implements MouseMotionListener, MouseListener {
 
     private static final long serialVersionUID = 1L;
     private Graphics g = null;
@@ -24,7 +24,7 @@ public class TestPicking extends JFrame implements MouseMotionListener, MouseLis
     private int mouseY = 240;
 
 
-    public TestPicking() {
+    public Test3DPicking() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setSize(640, 480);
@@ -178,7 +178,7 @@ public class TestPicking extends JFrame implements MouseMotionListener, MouseLis
 
     public static void main(String[] args)
             throws Exception {
-        TestPicking cd = new TestPicking();
+        Test3DPicking cd = new Test3DPicking();
         cd.initStuff();
         cd.doIt();
     }

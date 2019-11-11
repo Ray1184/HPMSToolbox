@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hpms.gui.control.WorkAreaController.NORMALIZE_RATIO;
+
 import static org.hpms.gui.data.ProjectModel.DEFAULT_SG_NAME;
 import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
@@ -104,9 +104,9 @@ public class TestDraw {
 
     private static int[] normalize3(float[] floats, float offset, float zoom) {
         int[] vals = {
-                (int) (floats[0] * NORMALIZE_RATIO * zoom) + (int) offset,
-                (int) (floats[1] * NORMALIZE_RATIO * zoom) + (int) offset,
-                (int) (floats[2] * NORMALIZE_RATIO * zoom) + (int) offset};
+                (int) (floats[0] * 10 * zoom) + (int) offset,
+                (int) (floats[1] * 10 * zoom) + (int) offset,
+                (int) (floats[2] * 10 * zoom) + (int) offset};
 
         System.out.println(vals[0] + "-" + vals[1] + "-" + vals[2]);
 

@@ -53,7 +53,7 @@ public class CreateEventDelegate {
 
 
     private void buildNewEventPanel() {
-
+        mainPanel.setTitle("Create New Event");
         newEvent.getEventLclCombo().addItem(new Labels.TriggerTypeItem("Init Phase (triggered 1 time on room startup)", ProjectModel.RoomModel.Event.TriggerType.INIT));
         newEvent.getEventLclCombo().addItem(new Labels.TriggerTypeItem("Loop Phase (triggered each update)", ProjectModel.RoomModel.Event.TriggerType.LOOP));
         newEvent.getEventLclCombo().addItem(new Labels.TriggerTypeItem("Cleanup Phase (triggered 1 time on room leaving)", ProjectModel.RoomModel.Event.TriggerType.CLEANUP));

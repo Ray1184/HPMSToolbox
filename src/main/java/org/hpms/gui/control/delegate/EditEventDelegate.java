@@ -38,7 +38,7 @@ public class EditEventDelegate {
     }
 
     public void editEvent() {
-
+        mainPanel.setTitle("Edit Event");
         ToolsController toolsController = (ToolsController) Controllers.TOOLS_CONTROLLER.getController();
         eventName = toolsController.getSelectedEvent();
         ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();

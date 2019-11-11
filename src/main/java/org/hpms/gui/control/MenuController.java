@@ -124,6 +124,7 @@ public class MenuController implements Controller, ActionListener {
         BaseGui gui = BaseGui.getInstance();
         gui.getInfoLabel().setText(info.toString());
 
+
     }
 
 
