@@ -1,9 +1,7 @@
 package org.hpms.gui.control;
 
 import org.hpms.gui.AppInfo;
-import org.hpms.gui.control.delegate.CreateEventDelegate;
-import org.hpms.gui.control.delegate.LoadProjectDelegate;
-import org.hpms.gui.control.delegate.NewProjectDelegate;
+import org.hpms.gui.control.delegate.*;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.utils.ErrorManager;
@@ -21,6 +19,8 @@ public class MenuController implements Controller, ActionListener {
     private final NewProjectDelegate newProjectDelegate = new NewProjectDelegate();
     private final LoadProjectDelegate loadProjectDelegate = new LoadProjectDelegate();
     private final CreateEventDelegate createEventDelegate = new CreateEventDelegate();
+    private final CreateRoomDelegate createRoomDelegate = new CreateRoomDelegate();
+    private final CreateSectorGroupDelegate createSectorGroupDelegate = new CreateSectorGroupDelegate();
     private List<JMenuItem> items;
 
     @Override
@@ -78,10 +78,10 @@ public class MenuController implements Controller, ActionListener {
 
                 break;
             case "CREATE_ROOM":
-
+                createRoomDelegate.createRoom();
                 break;
             case "CREATE_SECTOR_GROUP":
-
+                createSectorGroupDelegate.createSectorGroup();
                 break;
             case "CREATE_EVENT":
                 createEventDelegate.createEvent();

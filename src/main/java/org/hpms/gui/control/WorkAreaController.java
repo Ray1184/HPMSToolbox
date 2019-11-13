@@ -26,7 +26,6 @@ public class WorkAreaController implements Controller {
                 @Override
                 protected void done() {
                     super.done();
-                    System.out.println("WHY HERE");
                 }
             }.execute();
 
@@ -40,22 +39,7 @@ public class WorkAreaController implements Controller {
     @Override
     public void update() {
 
-        ProjectModel project = ProjectManager.getInstance().getProjectModel();
-        if (project == null) {
-            return;
-        }
-        float x = project.getUserSettings().getLastMapX();
-        float y = project.getUserSettings().getLastMapY();
-        float zoom = project.getUserSettings().getLastZoomFactor();
-        BaseGui gui = BaseGui.getInstance();
-        String roomId = (String) gui.getRoomsList().getSelectedValue();
-        if (roomId == null) {
-            return;
-        }
-        ProjectModel.RoomModel room = project.getRooms().get(roomId);
-        if (room == null) {
-            return;
-        }
+
 
 
     }

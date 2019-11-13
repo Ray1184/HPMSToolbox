@@ -138,6 +138,7 @@ public class Main {
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.Event.Action.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.Event.ConditionAction.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.Event.TriggerType.class);
+        ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.PipelineType.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.SectorGroup.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.SectorGroup.Sector.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.RoomModel.SectorGroup.Sector.PerimetralSide.class);

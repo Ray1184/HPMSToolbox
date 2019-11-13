@@ -4,10 +4,37 @@ import org.hpms.gui.data.ProjectModel;
 
 public interface Labels {
 
+    class PipelineTypeItem {
+        private final String desc;
+
+        private final ProjectModel.RoomModel.PipelineType pipelineType;
+
+        public PipelineTypeItem(String desc, ProjectModel.RoomModel.PipelineType pipelineType) {
+            this.desc = desc;
+            this.pipelineType = pipelineType;
+        }
+
+        @Override
+        public String toString() {
+            return desc;
+        }
+
+        /**
+         * Getter for property 'pipelineType'.
+         *
+         * @return Value for property 'pipelineType'.
+         */
+        public ProjectModel.RoomModel.PipelineType getPipelineType() {
+            return pipelineType;
+        }
+
+
+    }
+
     class TriggerTypeItem {
         private final String desc;
 
-        private ProjectModel.RoomModel.Event.TriggerType triggerType;
+        private final ProjectModel.RoomModel.Event.TriggerType triggerType;
 
         public TriggerTypeItem(String desc, ProjectModel.RoomModel.Event.TriggerType triggerType) {
             this.desc = desc;
@@ -28,13 +55,6 @@ public interface Labels {
             return triggerType;
         }
 
-        /**
-         * Setter for property 'triggerType'.
-         *
-         * @param triggerType Value to set for property 'triggerType'.
-         */
-        public void setTriggerType(ProjectModel.RoomModel.Event.TriggerType triggerType) {
-            this.triggerType = triggerType;
-        }
+
     }
 }

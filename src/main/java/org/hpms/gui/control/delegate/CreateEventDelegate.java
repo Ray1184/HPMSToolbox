@@ -11,8 +11,6 @@ import org.hpms.gui.views.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -88,12 +86,7 @@ public class CreateEventDelegate {
             }
         });
 
-        newEvent.getNewEvtTxt().addKeyListener(new KeyAdapter() {
-            public void keyTyped(KeyEvent e) {
-                if (newEvent.getNewEvtTxt().getText().length() >= 20)
-                    e.consume();
-            }
-        });
+
         newEvent.getNewEvtTxt().getDocument().addDocumentListener((EasyDocumentListener) e -> {
             if (newEvent.getNewEvtTxt().getText().isEmpty()) {
                 newEvent.getNextBtn().setEnabled(false);
@@ -124,7 +117,7 @@ public class CreateEventDelegate {
             String params = staticFunction.getArgsTxt().getText();
             try {
                 LuaFunctionDeclare function = LuaFunctionParser.parse(functionName, params, codeTxt);
-                ProjectManager.getInstance().getProjectModel().getCommonFunctions().put("(STATIC) " + eventName, function);
+                ProjectManager.getInstance().getProjectModel().getCommonFunctions().put(eventName, function);
                 Controllers.updateAll();
                 mainPanel.dispose();
             } catch (Exception ex) {

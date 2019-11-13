@@ -4,9 +4,9 @@
 
 package org.hpms.gui.views;
 
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 /**
  * @author N

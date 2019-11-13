@@ -4,6 +4,8 @@
 
 package org.hpms.gui.views;
 
+import org.hpms.gui.utils.ListEntryCellRenderer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -24,7 +26,7 @@ public class BaseGui {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-        // Generated using JFormDesigner Evaluation license - Ray
+        // Generated using JFormDesigner Evaluation license - N
         mainFrame = new JFrame();
         mainMenu = new JMenuBar();
         projectBtn = new JMenu();
@@ -48,6 +50,8 @@ public class BaseGui {
         roomsTabs = new JTabbedPane();
         roomsTab = new JScrollPane();
         roomsList = new JList();
+        functionsTab = new JScrollPane();
+        functionsList = new JList();
         toolsTab = new JTabbedPane();
         sgTab = new JScrollPane();
         sgList = new JList();
@@ -174,6 +178,12 @@ public class BaseGui {
                             roomsTab.setViewportView(roomsList);
                         }
                         roomsTabs.addTab("Rooms", roomsTab);
+
+                        //======== functionsTab ========
+                        {
+                            functionsTab.setViewportView(functionsList);
+                        }
+                        roomsTabs.addTab("Functions", functionsTab);
                     }
                     vSplitter.setTopComponent(roomsTabs);
 
@@ -209,10 +219,12 @@ public class BaseGui {
         eventsList.setCellRenderer(new ListEntryCellRenderer());
         roomsList.setCellRenderer(new ListEntryCellRenderer());
         sgList.setCellRenderer(new ListEntryCellRenderer());
+        functionsList.setCellRenderer(new ListEntryCellRenderer());
+
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Ray
+    // Generated using JFormDesigner Evaluation license - N
     private JFrame mainFrame;
     private JMenuBar mainMenu;
     private JMenu projectBtn;
@@ -236,6 +248,8 @@ public class BaseGui {
     private JTabbedPane roomsTabs;
     private JScrollPane roomsTab;
     private JList roomsList;
+    private JScrollPane functionsTab;
+    private JList functionsList;
     private JTabbedPane toolsTab;
     private JScrollPane sgTab;
     private JList sgList;
@@ -268,6 +282,24 @@ public class BaseGui {
 
     public void setEventsList(JList eventsList) {
         this.eventsList = eventsList;
+    }
+
+    /**
+     * Getter for property 'functionsList'.
+     *
+     * @return Value for property 'functionsList'.
+     */
+    public JList getFunctionsList() {
+        return functionsList;
+    }
+
+    /**
+     * Setter for property 'functionsList'.
+     *
+     * @param functionsList Value to set for property 'functionsList'.
+     */
+    public void setFunctionsList(JList functionsList) {
+        this.functionsList = functionsList;
     }
 
     public JScrollPane getWorkArea() {

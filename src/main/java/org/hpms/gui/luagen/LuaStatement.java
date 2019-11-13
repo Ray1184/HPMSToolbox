@@ -44,7 +44,7 @@ public interface LuaStatement {
 
     String getParentIndent();
 
-    void setParentIndent(final String indent);
+    void setParentIndent(String indent);
 
     ValidationResult validate();
 

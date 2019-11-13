@@ -13,7 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ScriptBuilder {
 
@@ -159,7 +162,7 @@ public class ScriptBuilder {
 
     private static String createHeaderComment(String name) {
         StringBuilder sb = new StringBuilder();
-        Calendar gc = GregorianCalendar.getInstance();
+        Calendar gc = Calendar.getInstance();
         sb.append("-- Script: ")
                 .append(name)
                 .append(".lua\n-- Date: ")

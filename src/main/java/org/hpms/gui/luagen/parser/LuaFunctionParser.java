@@ -7,7 +7,6 @@ import org.hpms.gui.luagen.components.LuaInstance;
 import org.hpms.gui.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LuaFunctionParser {
@@ -54,7 +53,7 @@ public class LuaFunctionParser {
         List<LuaInstance> paramsList = new ArrayList<>();
         if (!params.isEmpty()) {
             params = params.replaceAll("[\\t\\n\\r]+", " ").trim();
-            String tokens[] = params.split(",");
+            String[] tokens = params.split(",");
             for (String p : tokens) {
                 LuaInstance param = new LuaInstance(p.trim(), LuaInstance.Type.OBJECT);
                 paramsList.add(param);

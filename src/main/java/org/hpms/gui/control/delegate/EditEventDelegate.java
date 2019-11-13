@@ -13,7 +13,6 @@ import org.hpms.gui.views.CreateNewEventWizardStaticFunction;
 import org.hpms.gui.views.CreateNewEventWizardStepNameType;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -28,6 +27,7 @@ public class EditEventDelegate {
     private final CreateNewEventWizardStaticFunction staticFunction;
     private String originalCode;
     private String eventName;
+    private String functionName;
 
     public EditEventDelegate() {
         mainPanel = new CreateNewEventWizard(BaseGui.getInstance().getMainFrame());
@@ -41,13 +41,14 @@ public class EditEventDelegate {
         mainPanel.setTitle("Edit Event");
         ToolsController toolsController = (ToolsController) Controllers.TOOLS_CONTROLLER.getController();
         eventName = toolsController.getSelectedEvent();
+        functionName = toolsController.getSelectedFunction();
         ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
         if (projectModel == null) {
             return;
         }
-        if (projectModel.getCommonFunctions().containsKey(eventName)) {
+        if (projectModel.getCommonFunctions().containsKey(functionName)) {
             JPanel wizardManager = mainPanel.getWizardManager();
-            editStaticFunction(projectModel.getCommonFunctions().get(eventName));
+            editStaticFunction(projectModel.getCommonFunctions().get(functionName));
             wizardManager.add(staticFunction, STATIC_FUNCTION);
             expand();
             mainPanel.setVisible(true);
@@ -114,8 +115,8 @@ public class EditEventDelegate {
             String codeTxt = staticFunction.getCodeArea().getText();
             String params = staticFunction.getArgsTxt().getText();
             try {
-                LuaFunctionDeclare function = LuaFunctionParser.parse(eventName, params, codeTxt);
-                ProjectManager.getInstance().getProjectModel().getCommonFunctions().put(eventName, function);
+                LuaFunctionDeclare function = LuaFunctionParser.parse(functionName, params, codeTxt);
+                ProjectManager.getInstance().getProjectModel().getCommonFunctions().put(functionName, function);
                 Controllers.updateAll();
                 mainPanel.dispose();
             } catch (Exception ex) {

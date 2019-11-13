@@ -17,8 +17,10 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
     private float distance;
     private float dx;
     private float dy;
+    private float offX;
+    private float offY;
     private boolean repaint;
-    private final W3DHelper helper;
+    private final W3DManager helper;
     private int currentButton;
 
     public W3DArea(JComponent parent) {
@@ -51,8 +53,8 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
         line = new SimpleVector(dx, 0, dy);
         buffer = new FrameBuffer(parent.getWidth(), parent.getHeight(), FrameBuffer.SAMPLINGMODE_NORMAL);
-        helper = new W3DHelper(selectedWorld, nonSelectedWorld, buffer);
-        helper.init();
+        helper = W3DManager.getInstance();
+        helper.create(selectedWorld, nonSelectedWorld, buffer);
     }
 
     public void loop() throws Exception {
@@ -71,6 +73,8 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
             if (lastMousePosX == mouseX && lastMousePosY == mouseY) {
                 dx = 0;
                 dy = 0;
+                offX = 0;
+                offY = 0;
             }
 
             line.set(dx, 0, dy);
@@ -109,6 +113,8 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
         world.getCamera().moveCamera(Camera.CAMERA_MOVEIN, distance);
         world.getCamera().rotateAxis(m.invert3x3().getXAxis(), distance * distance * line.length() / (distance * distance * 100));
         world.getCamera().moveCamera(Camera.CAMERA_MOVEOUT, distance);
+        world.getCamera().moveCamera(Camera.CAMERA_MOVELEFT, offX / (500 / (distance)));
+        world.getCamera().moveCamera(Camera.CAMERA_MOVEDOWN, offY / (500 / (distance)));
     }
 
     @Override
@@ -149,6 +155,9 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
         if (currentButton == MouseEvent.BUTTON2) {
             dx = -(lastMousePosX - e.getX());
             dy = -(e.getY() - lastMousePosY);
+        } else if (currentButton == MouseEvent.BUTTON3) {
+            offX = -(lastMousePosX - e.getX());
+            offY = -(e.getY() - lastMousePosY);
         }
     }
 

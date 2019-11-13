@@ -6,7 +6,6 @@ import com.esotericsoftware.kryo.io.Output;
 import org.hpms.gui.data.ProjectModel;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class ProjectManager {
@@ -50,7 +49,7 @@ public class ProjectManager {
         output.close();
     }
 
-    public ProjectModel getProjectModel() {
+    public synchronized ProjectModel getProjectModel() {
         return projectModel;
     }
 

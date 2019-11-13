@@ -5,7 +5,6 @@ import org.hpms.gui.luagen.components.LuaInstance.Type;
 import org.hpms.gui.utils.Utils;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public enum LuaBinaryOperator implements LuaStatement {

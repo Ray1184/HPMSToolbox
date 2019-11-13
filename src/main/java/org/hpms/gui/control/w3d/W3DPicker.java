@@ -7,10 +7,10 @@ import com.threed.jpct.World;
 
 public class W3DPicker {
 
-    private FrameBuffer frameBuffer;
+    private final FrameBuffer frameBuffer;
 
 
-    private SimpleVector ray;
+    private final SimpleVector ray;
 
     private SimpleVector norm;
 

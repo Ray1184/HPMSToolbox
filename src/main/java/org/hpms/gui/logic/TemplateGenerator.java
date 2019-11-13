@@ -1,9 +1,15 @@
 package org.hpms.gui.logic;
 
 import org.hpms.gui.luagen.LuaStatement;
-import org.hpms.gui.luagen.components.*;
+import org.hpms.gui.luagen.components.LuaExpression;
+import org.hpms.gui.luagen.components.LuaFunctionDeclare;
+import org.hpms.gui.luagen.components.LuaInstance;
+import org.hpms.gui.luagen.components.LuaScript;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TemplateGenerator {
 

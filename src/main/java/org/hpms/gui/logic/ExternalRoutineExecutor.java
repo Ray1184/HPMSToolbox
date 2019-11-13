@@ -1,6 +1,9 @@
 package org.hpms.gui.logic;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Locale;
 
 public class ExternalRoutineExecutor {
@@ -9,9 +12,9 @@ public class ExternalRoutineExecutor {
         XML_TO_BINARY("Xml2HFloor"),
         DAE_TO_HDAT("DaeToHDat");
 
-        private String name;
+        private final String name;
 
-        private Object[] ret;
+        private final Object[] ret;
 
         Routine(String name, Object... ret) {
             this.name = name;

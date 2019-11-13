@@ -4,7 +4,6 @@ import org.hpms.gui.luagen.LuaStatement;
 import org.hpms.gui.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LuaIfStatement implements LuaStatement {
@@ -15,9 +14,9 @@ public class LuaIfStatement implements LuaStatement {
 
             private String parentIndent;
 
-            private List<LuaExpression> expressions;
+            private final List<LuaExpression> expressions;
 
-            private List<LuaBinaryOperator> binaryConnectors;
+            private final List<LuaBinaryOperator> binaryConnectors;
 
 
             public LuaSingleCondition(LuaExpression condition) {
@@ -32,8 +31,8 @@ public class LuaIfStatement implements LuaStatement {
             }
 
             public LuaSingleCondition() {
-                this.binaryConnectors = new ArrayList<>();
-                this.expressions = new ArrayList<>();
+                binaryConnectors = new ArrayList<>();
+                expressions = new ArrayList<>();
             }
 
             @Override

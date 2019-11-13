@@ -141,7 +141,7 @@ public class ProjectModel implements Serializable {
                 LOOP("update"),
                 CLEANUP("cleanup");
 
-                private String scriptPart;
+                private final String scriptPart;
 
                 TriggerType(String scriptPart) {
                     this.scriptPart = scriptPart;
@@ -397,6 +397,26 @@ public class ProjectModel implements Serializable {
                 public synchronized void setGroupId(String groupId) {
                     this.groupId = groupId;
                 }
+
+                @Override
+                public boolean equals(Object o) {
+                    if (this == o) return true;
+                    if (o == null || getClass() != o.getClass()) return false;
+
+                    Sector sector = (Sector) o;
+
+                    if (Float.compare(sector.x1, x1) != 0) return false;
+                    if (Float.compare(sector.x2, x2) != 0) return false;
+                    if (Float.compare(sector.x3, x3) != 0) return false;
+                    if (Float.compare(sector.y1, y1) != 0) return false;
+                    if (Float.compare(sector.y2, y2) != 0) return false;
+                    if (Float.compare(sector.y3, y3) != 0) return false;
+                    if (Float.compare(sector.z1, z1) != 0) return false;
+                    if (Float.compare(sector.z2, z2) != 0) return false;
+                    return Float.compare(sector.z3, z3) == 0;
+                }
+
+
             }
 
             private List<Sector> sectors;
@@ -490,6 +510,14 @@ public class ProjectModel implements Serializable {
 
     private String projectName;
 
+    private String projectModelsPath;
+
+    private String projectTexturesPath;
+
+    private String projectFloorsPath;
+
+    private String projectAudioPath;
+
     public ProjectModel() {
         rooms = new LinkedHashMap<>();
         userSettings = new UserSettings();
@@ -552,5 +580,77 @@ public class ProjectModel implements Serializable {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    /**
+     * Getter for property 'projectModelsPath'.
+     *
+     * @return Value for property 'projectModelsPath'.
+     */
+    public String getProjectModelsPath() {
+        return projectModelsPath;
+    }
+
+    /**
+     * Setter for property 'projectModelsPath'.
+     *
+     * @param projectModelsPath Value to set for property 'projectModelsPath'.
+     */
+    public void setProjectModelsPath(String projectModelsPath) {
+        this.projectModelsPath = projectModelsPath;
+    }
+
+    /**
+     * Getter for property 'projectTexturesPath'.
+     *
+     * @return Value for property 'projectTexturesPath'.
+     */
+    public String getProjectTexturesPath() {
+        return projectTexturesPath;
+    }
+
+    /**
+     * Setter for property 'projectTexturesPath'.
+     *
+     * @param projectTexturesPath Value to set for property 'projectTexturesPath'.
+     */
+    public void setProjectTexturesPath(String projectTexturesPath) {
+        this.projectTexturesPath = projectTexturesPath;
+    }
+
+    /**
+     * Getter for property 'projectFloorsPath'.
+     *
+     * @return Value for property 'projectFloorsPath'.
+     */
+    public String getProjectFloorsPath() {
+        return projectFloorsPath;
+    }
+
+    /**
+     * Setter for property 'projectFloorsPath'.
+     *
+     * @param projectFloorsPath Value to set for property 'projectFloorsPath'.
+     */
+    public void setProjectFloorsPath(String projectFloorsPath) {
+        this.projectFloorsPath = projectFloorsPath;
+    }
+
+    /**
+     * Getter for property 'projectAudioPath'.
+     *
+     * @return Value for property 'projectAudioPath'.
+     */
+    public String getProjectAudioPath() {
+        return projectAudioPath;
+    }
+
+    /**
+     * Setter for property 'projectAudioPath'.
+     *
+     * @param projectAudioPath Value to set for property 'projectAudioPath'.
+     */
+    public void setProjectAudioPath(String projectAudioPath) {
+        this.projectAudioPath = projectAudioPath;
     }
 }

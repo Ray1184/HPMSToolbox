@@ -10,10 +10,6 @@ public class W3DUserData {
 
     private Color color;
 
-    public W3DUserData(ProjectModel.RoomModel.SectorGroup.Sector sectorData) {
-        this.sectorData = sectorData;
-    }
-
     public W3DUserData() {
     }
 

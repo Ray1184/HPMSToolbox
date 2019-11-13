@@ -20,12 +20,12 @@ new FormModel {
 				} ) {
 					name: "subContainer"
 					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "newProjLabel"
+						name: "roomNameLabel"
 						"text": "Room Name:"
 						"horizontalAlignment": 0
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "newProjNameTxt"
+						name: "roomNameTxt"
 						"preferredSize": new java.awt.Dimension( 400, 30 )
 					} )
 				} )
@@ -34,11 +34,11 @@ new FormModel {
 				} ) {
 					name: "subContainer5"
 					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "newProjLabel3"
+						name: "roomTypeLabel"
 						"text": "Room Type:"
 					} )
 					add( new FormComponent( "javax.swing.JComboBox" ) {
-						name: "comboBox1"
+						name: "roomTypeCombo"
 						"preferredSize": new java.awt.Dimension( 410, 30 )
 					} )
 				} )
@@ -47,16 +47,16 @@ new FormModel {
 				} ) {
 					name: "subContainer3"
 					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "newProjLabel2"
+						name: "sgMapLbl"
 						"text": "Sector Map:"
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "projectTxt"
+						name: "sgMapTxt"
 						"minimumSize": new java.awt.Dimension( 200, 46 )
 						"preferredSize": new java.awt.Dimension( 300, 30 )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "projectLoadBtn"
+						name: "sgMapLoadBtn"
 						"text": "..."
 						"preferredSize": new java.awt.Dimension( 105, 46 )
 					} )
@@ -64,8 +64,8 @@ new FormModel {
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
 					name: "subContainer4"
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "checkBox1"
-						"text": "Generate sector groups? (available only for .dae format)"
+						name: "generateChk"
+						"text": "<html>Generate sector groups? (available only for .dae format)<br/>(not supported yet)</html>"
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {

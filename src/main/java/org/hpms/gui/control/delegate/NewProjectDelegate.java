@@ -35,6 +35,22 @@ public class NewProjectDelegate {
             ProjectManager.getInstance().getProjectModel().setProjectName(projectName);
             try {
                 ProjectManager.getInstance().persistToFile(AppInfo.getCurrentWorkspace() + File.separator + projectName + ".hproj");
+                File projModels = new File(AppInfo.getCurrentWorkspace() + File.separator + projectName + "_data" + File.separator + "models");
+                File projTextures = new File(AppInfo.getCurrentWorkspace() + File.separator + projectName + "_data" + File.separator + "textures");
+                File projAudio = new File(AppInfo.getCurrentWorkspace() + File.separator + projectName + "_data" + File.separator + "audio");
+                File projFloors = new File(AppInfo.getCurrentWorkspace() + File.separator + projectName + "_data" + File.separator + "floors");
+                boolean res = projModels.mkdirs();
+                res &= projTextures.mkdirs();
+                res &= projAudio.mkdirs();
+                res &= projFloors.mkdirs();
+                if (!res) {
+                    throw new Exception("An error occurred while creating project structure.");
+                }
+                ProjectManager.getInstance().getProjectModel().setProjectModelsPath(projModels.getAbsolutePath());
+                ProjectManager.getInstance().getProjectModel().setProjectTexturesPath(projTextures.getAbsolutePath());
+                ProjectManager.getInstance().getProjectModel().setProjectAudioPath(projAudio.getAbsolutePath());
+                ProjectManager.getInstance().getProjectModel().setProjectFloorsPath(projFloors.getAbsolutePath());
+
                 Controllers.updateAll();
                 newProject.dispose();
             } catch (Exception ex) {

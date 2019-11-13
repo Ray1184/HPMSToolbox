@@ -21,17 +21,17 @@ public class CreateNewRoom extends JDialog {
         // Generated using JFormDesigner Evaluation license - N
         container = new JPanel();
         subContainer = new JPanel();
-        newProjLabel = new JLabel();
-        newProjNameTxt = new JTextField();
+        roomNameLabel = new JLabel();
+        roomNameTxt = new JTextField();
         subContainer5 = new JPanel();
-        newProjLabel3 = new JLabel();
-        comboBox1 = new JComboBox();
+        roomTypeLabel = new JLabel();
+        roomTypeCombo = new JComboBox();
         subContainer3 = new JPanel();
-        newProjLabel2 = new JLabel();
-        projectTxt = new JTextField();
-        projectLoadBtn = new JButton();
+        sgMapLbl = new JLabel();
+        sgMapTxt = new JTextField();
+        sgMapLoadBtn = new JButton();
         subContainer4 = new JPanel();
-        checkBox1 = new JCheckBox();
+        generateChk = new JCheckBox();
         subContainer2 = new JPanel();
         okBtn = new JButton();
         cancBtn = new JButton();
@@ -44,27 +44,26 @@ public class CreateNewRoom extends JDialog {
 
         //======== container ========
         {
-            container.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
-            . border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder
-            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
-            awt .Font .BOLD ,12 ), java. awt. Color. red) ,container. getBorder( )) )
-            ; container. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
-            ;
+            container.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder
+            ( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER, javax. swing. border
+            . TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt
+            . Color. red) ,container. getBorder( )) ); container. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void
+            propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( )
+            ; }} );
             container.setLayout(new GridLayout(5, 0, 10, 0));
 
             //======== subContainer ========
             {
                 subContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
-                //---- newProjLabel ----
-                newProjLabel.setText("Room Name:");
-                newProjLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                subContainer.add(newProjLabel);
+                //---- roomNameLabel ----
+                roomNameLabel.setText("Room Name:");
+                roomNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                subContainer.add(roomNameLabel);
 
-                //---- newProjNameTxt ----
-                newProjNameTxt.setPreferredSize(new Dimension(400, 30));
-                subContainer.add(newProjNameTxt);
+                //---- roomNameTxt ----
+                roomNameTxt.setPreferredSize(new Dimension(400, 30));
+                subContainer.add(roomNameTxt);
             }
             container.add(subContainer);
 
@@ -72,13 +71,13 @@ public class CreateNewRoom extends JDialog {
             {
                 subContainer5.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
-                //---- newProjLabel3 ----
-                newProjLabel3.setText("Room Type:");
-                subContainer5.add(newProjLabel3);
+                //---- roomTypeLabel ----
+                roomTypeLabel.setText("Room Type:");
+                subContainer5.add(roomTypeLabel);
 
-                //---- comboBox1 ----
-                comboBox1.setPreferredSize(new Dimension(410, 30));
-                subContainer5.add(comboBox1);
+                //---- roomTypeCombo ----
+                roomTypeCombo.setPreferredSize(new Dimension(410, 30));
+                subContainer5.add(roomTypeCombo);
             }
             container.add(subContainer5);
 
@@ -86,19 +85,19 @@ public class CreateNewRoom extends JDialog {
             {
                 subContainer3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
-                //---- newProjLabel2 ----
-                newProjLabel2.setText("Sector Map:");
-                subContainer3.add(newProjLabel2);
+                //---- sgMapLbl ----
+                sgMapLbl.setText("Sector Map:");
+                subContainer3.add(sgMapLbl);
 
-                //---- projectTxt ----
-                projectTxt.setMinimumSize(new Dimension(200, 46));
-                projectTxt.setPreferredSize(new Dimension(300, 30));
-                subContainer3.add(projectTxt);
+                //---- sgMapTxt ----
+                sgMapTxt.setMinimumSize(new Dimension(200, 46));
+                sgMapTxt.setPreferredSize(new Dimension(300, 30));
+                subContainer3.add(sgMapTxt);
 
-                //---- projectLoadBtn ----
-                projectLoadBtn.setText("...");
-                projectLoadBtn.setPreferredSize(new Dimension(105, 46));
-                subContainer3.add(projectLoadBtn);
+                //---- sgMapLoadBtn ----
+                sgMapLoadBtn.setText("...");
+                sgMapLoadBtn.setPreferredSize(new Dimension(105, 46));
+                subContainer3.add(sgMapLoadBtn);
             }
             container.add(subContainer3);
 
@@ -106,9 +105,9 @@ public class CreateNewRoom extends JDialog {
             {
                 subContainer4.setLayout(new FlowLayout());
 
-                //---- checkBox1 ----
-                checkBox1.setText("Generate sector groups? (available only for .dae format)");
-                subContainer4.add(checkBox1);
+                //---- generateChk ----
+                generateChk.setText("<html>Generate sector groups? (available only for .dae format)<br/>(not supported yet)</html>");
+                subContainer4.add(generateChk);
             }
             container.add(subContainer4);
 
@@ -137,19 +136,83 @@ public class CreateNewRoom extends JDialog {
     // Generated using JFormDesigner Evaluation license - N
     private JPanel container;
     private JPanel subContainer;
-    private JLabel newProjLabel;
-    private JTextField newProjNameTxt;
+    private JLabel roomNameLabel;
+    private JTextField roomNameTxt;
     private JPanel subContainer5;
-    private JLabel newProjLabel3;
-    private JComboBox comboBox1;
+    private JLabel roomTypeLabel;
+    private JComboBox roomTypeCombo;
     private JPanel subContainer3;
-    private JLabel newProjLabel2;
-    private JTextField projectTxt;
-    private JButton projectLoadBtn;
+    private JLabel sgMapLbl;
+    private JTextField sgMapTxt;
+    private JButton sgMapLoadBtn;
     private JPanel subContainer4;
-    private JCheckBox checkBox1;
+    private JCheckBox generateChk;
     private JPanel subContainer2;
     private JButton okBtn;
     private JButton cancBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+
+    /**
+     * Getter for property 'roomNameTxt'.
+     *
+     * @return Value for property 'roomNameTxt'.
+     */
+    public JTextField getRoomNameTxt() {
+        return roomNameTxt;
+    }
+
+    /**
+     * Getter for property 'roomTypeCombo'.
+     *
+     * @return Value for property 'roomTypeCombo'.
+     */
+    public JComboBox getRoomTypeCombo() {
+        return roomTypeCombo;
+    }
+
+    /**
+     * Getter for property 'sgMapTxt'.
+     *
+     * @return Value for property 'sgMapTxt'.
+     */
+    public JTextField getSgMapTxt() {
+        return sgMapTxt;
+    }
+
+    /**
+     * Getter for property 'sgMapLoadBtn'.
+     *
+     * @return Value for property 'sgMapLoadBtn'.
+     */
+    public JButton getSgMapLoadBtn() {
+        return sgMapLoadBtn;
+    }
+
+    /**
+     * Getter for property 'generateChk'.
+     *
+     * @return Value for property 'generateChk'.
+     */
+    public JCheckBox getGenerateChk() {
+        return generateChk;
+    }
+
+    /**
+     * Getter for property 'okBtn'.
+     *
+     * @return Value for property 'okBtn'.
+     */
+    public JButton getOkBtn() {
+        return okBtn;
+    }
+
+    /**
+     * Getter for property 'cancBtn'.
+     *
+     * @return Value for property 'cancBtn'.
+     */
+    public JButton getCancBtn() {
+        return cancBtn;
+    }
 }

@@ -35,7 +35,7 @@ public class GraphicsUtils {
         }
     }
 
-    private static CircularArray<Color> colorWheel = new CircularArray<>();
+    private static final CircularArray<Color> colorWheel = new CircularArray<>();
 
     static {
         colorWheel.insert(Color.RED);
