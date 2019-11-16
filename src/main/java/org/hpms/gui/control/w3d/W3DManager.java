@@ -144,6 +144,10 @@ public class W3DManager {
         polygons.clear();
         ProjectModel project = ProjectManager.getInstance().getProjectModel();
         String selectedRoom = newMap ? currentRoom : ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
+        if (selectedRoom == null) {
+            refresh(null);
+            return;
+        }
         String walkmapPath = ProjectManager.getInstance().getProjectModel().getProjectFloorsPath() + File.separator + selectedRoom + "_floor";
         polygons.putAll(GraphicsUtils.loadModelExplodedAsMap(walkmapPath, 1, object3D -> {
             FloorUtils.calculateData(object3D);
@@ -196,7 +200,6 @@ public class W3DManager {
             W3DUserData data = (W3DUserData) object3D.getUserObject();
             String oldSectorGroup = data.getSectorGroupID();
             data.setSectorGroupID(sectorName);
-            object3D.setAdditionalColor(Color.RED);
 
             ProjectModel model = ProjectManager.getInstance().getProjectModel();
             ProjectModel.RoomModel roomModel = model.getRooms().get(selectedRoom);
@@ -218,6 +221,10 @@ public class W3DManager {
         }
 
         refresh(currentSectorGroup);
+    }
+
+    public synchronized boolean hasSectorCandiates() {
+        return !groupCandidates.isEmpty();
     }
 
 

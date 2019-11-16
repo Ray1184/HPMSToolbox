@@ -1,8 +1,10 @@
 package org.hpms.gui.control.delegate;
 
 import org.hpms.gui.control.Controllers;
+import org.hpms.gui.control.ToolsController;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.utils.ErrorManager;
+import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -20,7 +22,7 @@ public class LoadProjectDelegate {
         f.setAcceptAllFileFilterUsed(false);
         f.setDialogTitle("Select Project to load");
         try {
-            if (f.getSelectedFile() == null) {
+            if (f.getSelectedFile() == null || !f.getSelectedFile().exists() || !f.getSelectedFile().getName().endsWith(".hproj")) {
                 return;
             }
             ProjectManager.getInstance().buildFromFile(f.getSelectedFile().getAbsolutePath());
@@ -28,6 +30,9 @@ public class LoadProjectDelegate {
             JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
         }
         Controllers.updateAll();
+        if (ProjectManager.getInstance().getProjectModel().getRooms().size() > 0) {
+            BaseGui.getInstance().getRoomsList().setSelectedIndex(0);
+        }
 
     }
 }

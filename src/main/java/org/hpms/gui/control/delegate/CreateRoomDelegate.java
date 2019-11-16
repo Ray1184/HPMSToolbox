@@ -27,6 +27,8 @@ public class CreateRoomDelegate {
 
 
     public void createRoom() {
+        createNewRoom.getSgMapTxt().setText("");
+        createNewRoom.getRoomNameTxt().setText("");
         createNewRoom.pack();
         createNewRoom.setVisible(true);
     }
@@ -73,7 +75,17 @@ public class CreateRoomDelegate {
             project.getRooms().put(createNewRoom.getRoomNameTxt().getText().trim(), room);
             //JList roomsList = BaseGui.getInstance().getRoomsList();
             //roomsList.setSelectedValue(new ListEntry(createNewRoom.getRoomNameTxt().getText(), new ImageIcon("icons/room.png")), true);
+            W3DManager.getInstance().currentRoom = createNewRoom.getRoomNameTxt().getText().trim();
             W3DManager.getInstance().reloadNew = true;
+
+            while (W3DManager.getInstance().reloadNew) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ignored) {
+                }
+            }
+            Controllers.updateAll();
+
             createNewRoom.dispose();
         });
 
