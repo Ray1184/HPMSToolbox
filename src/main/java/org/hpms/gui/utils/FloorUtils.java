@@ -35,7 +35,7 @@ public class FloorUtils {
         object3D.setUserObject(userData);
     }
 
-    public static void recalculateSectors(Object3D object3D, ProjectModel project, String room) {
+    public static void reassignSectors(Object3D object3D, ProjectModel project, String room) {
         W3DUserData userData = (W3DUserData) object3D.getUserObject();
 
         if (userData == null || userData.getSectorData() == null || room == null || project.getRooms().get(room) == null) {

@@ -98,7 +98,7 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
             selectedWorld.draw(buffer);
 
             nonSelectedWorld.renderScene(buffer);
-            nonSelectedWorld.drawWireframe(buffer, Color.GREEN);
+            nonSelectedWorld.drawWireframe(buffer, helper.readOnlySectors() ? Color.GRAY : Color.GREEN);
 
             buffer.update();
             buffer.display(parent.getGraphics());

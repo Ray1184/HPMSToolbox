@@ -36,10 +36,6 @@ public class W3DManager {
 
     public volatile boolean reloadNew;
 
-    public volatile boolean createSectorGroup;
-
-    public volatile String currentSectorGroup;
-
     public volatile String currentRoom;
 
     public static W3DManager getInstance() {
@@ -66,7 +62,7 @@ public class W3DManager {
         if (!initialized) {
             return;
         }
-        if (clicking) {
+        if (clicking && !readOnlySectors()) {
             clicking = false;
             checkPickingResults(mouseX, mouseY, nonSelectedWorld, selectedWorld, true);
             checkPickingResults(mouseX, mouseY, selectedWorld, nonSelectedWorld, false);
@@ -83,14 +79,10 @@ public class W3DManager {
         }
 
         if (refresh) {
-            refresh(null);
+            refresh();
             refresh = false;
         }
 
-        if (createSectorGroup) {
-            createSectorGroup();
-            createSectorGroup = false;
-        }
     }
 
     private void checkPickingResults(int mouseX, int mouseY, World fromWorld, World toWorld, boolean addingAttempt) {
@@ -109,7 +101,9 @@ public class W3DManager {
                     }
                 } else {
                     groupCandidates.remove(picked);
+
                 }
+                refreshSectorGroups();
             }
         }
     }
@@ -145,35 +139,33 @@ public class W3DManager {
         ProjectModel project = ProjectManager.getInstance().getProjectModel();
         String selectedRoom = newMap ? currentRoom : ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
         if (selectedRoom == null) {
-            refresh(null);
+            refresh();
             return;
         }
         String walkmapPath = ProjectManager.getInstance().getProjectModel().getProjectFloorsPath() + File.separator + selectedRoom + "_floor";
         polygons.putAll(GraphicsUtils.loadModelExplodedAsMap(walkmapPath, 1, object3D -> {
             FloorUtils.calculateData(object3D);
             if (!newMap) {
-                FloorUtils.recalculateSectors(object3D, project, selectedRoom);
+                FloorUtils.reassignSectors(object3D, project, selectedRoom);
             }
 
             return object3D;
         }));
 
-        refresh(null);
+        refresh();
 
     }
 
 
-    private void refresh(String currentSectorGroup) {
+    private void refresh() {
         nonSelectedWorld.removeAll();
         selectedWorld.removeAll();
 
         for (Object3D object3D : polygons.values()) {
             object3D.build();
 
-            if (currentSectorGroup == null) {
-                currentSectorGroup = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
-            }
-            String selectedSg = currentSectorGroup;
+            String selectedSg = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
+            ;
             String sgId = ((W3DUserData) object3D.getUserObject()).getSectorGroupID();
 
             if (sgId == null) {
@@ -190,6 +182,28 @@ public class W3DManager {
         }
     }
 
+
+    private void refreshSectorGroups() {
+        String selectedSg = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
+        if (selectedSg == null) {
+            return;
+        }
+        ProjectModel model = ProjectManager.getInstance().getProjectModel();
+        if (model == null) {
+            return;
+        }
+        String room = currentRoom != null ? currentRoom : ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
+        ProjectModel.RoomModel roomModel = model.getRooms().get(room);
+
+        ProjectModel.RoomModel.SectorGroup sectorGroup = roomModel.getSectorGroupById().get(selectedSg);
+        sectorGroup.getSectors().clear();
+        for (Object3D candidate : groupCandidates) {
+            W3DUserData data = (W3DUserData) candidate.getUserObject();
+            sectorGroup.getSectors().add(data.getSectorData());
+        }
+    }
+
+    /*
     private void createSectorGroup() {
         String selectedRoom = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
         String sectorName = currentSectorGroup;
@@ -222,9 +236,15 @@ public class W3DManager {
 
         refresh(currentSectorGroup);
     }
+    */
+
 
     public synchronized boolean hasSectorCandiates() {
         return !groupCandidates.isEmpty();
+    }
+
+    public synchronized boolean readOnlySectors() {
+        return ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg() == null;
     }
 
 

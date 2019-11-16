@@ -88,9 +88,6 @@ public class ToolsController implements Controller {
         });
 
 
-
-
-
         JList sgList = BaseGui.getInstance().getSgList();
         sgList.addListSelectionListener(e -> {
             if (sgList.getSelectedValue() != null) {
@@ -121,35 +118,8 @@ public class ToolsController implements Controller {
                 selectedRoom = ((ListEntry) roomsList.getSelectedValue()).getValue();
 
                 // Re-check selections for room dependent items.
-                ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
-                if (projectModel == null) {
-                    return;
-                }
-
-                DefaultListModel<ListEntry> eModel = new DefaultListModel<>();
-                DefaultListModel<ListEntry> sgModel = new DefaultListModel<>();
-                eventList.removeAll();
-                eventList.setModel(eModel);
-                sgList.removeAll();
-                sgList.setModel(sgModel);
-                for (String evt : projectModel.getRooms().get(selectedRoom).getEventsById().keySet()) {
-                    eModel.addElement(new ListEntry(evt, new ImageIcon("icons/event.png")));
-                }
-
-                if (selectedEvent == null && !eModel.isEmpty()) {
-                    selectedEvent = eModel.get(0).getValue();
-                    eventList.setSelectedIndex(0);
-                }
-
-
-                for (String sg : projectModel.getRooms().get(selectedRoom).getSectorGroupById().keySet()) {
-                    sgModel.addElement(new ListEntry(sg, new ImageIcon("icons/sg.png")));
-                }
-
-                if (selectedSg == null && !sgModel.isEmpty()) {
-                    selectedSg = sgModel.get(0).getValue();
-                    sgList.setSelectedIndex(0);
-                }
+                manageEventsSelection();
+                manageSectorGroupsSelection();
 
                 W3DManager.getInstance().reload = true;
 
@@ -176,75 +146,18 @@ public class ToolsController implements Controller {
 
     @Override
     public void update() {
-        JList roomsList = BaseGui.getInstance().getRoomsList();
-        JList eventList = BaseGui.getInstance().getEventsList();
-        JList sgList = BaseGui.getInstance().getSgList();
-        JList fnList = BaseGui.getInstance().getFunctionsList();
 
+        manageRoomsSelection();
+        manageFunctionsSelection();
+        manageEventsSelection();
+        manageSectorGroupsSelection();
 
-        ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
-        if (projectModel == null) {
-            return;
-        }
-        DefaultListModel<ListEntry> rModel = new DefaultListModel<>();
-        DefaultListModel<ListEntry> eModel = new DefaultListModel<>();
-        DefaultListModel<ListEntry> sgModel = new DefaultListModel<>();
-        DefaultListModel<ListEntry> fnModel = new DefaultListModel<>();
-
-        roomsList.removeAll();
-        roomsList.setModel(rModel);
-        eventList.removeAll();
-        eventList.setModel(eModel);
-        sgList.removeAll();
-        sgList.setModel(sgModel);
-        fnList.removeAll();
-        fnList.setModel(fnModel);
-
-        for (String room : projectModel.getRooms().keySet()) {
-            rModel.addElement(new ListEntry(room, new ImageIcon("icons/room.png")));
-        }
-        if (selectedRoom == null && !rModel.isEmpty()) {
-            selectedRoom = rModel.get(0).getValue();
-            roomsList.setSelectedIndex(0);
-        }
-
-
-        for (String fn : projectModel.getCommonFunctions().keySet()) {
-            fnModel.addElement(new ListEntry(fn, new ImageIcon("icons/static_event.png")));
-        }
-
-        if (selectedFunction == null && !fnModel.isEmpty()) {
-            selectedFunction = fnModel.get(0).getValue();
-            fnList.setSelectedIndex(0);
-        }
-
-        if (selectedRoom != null) {
-
-            for (String evt : projectModel.getRooms().get(selectedRoom).getEventsById().keySet()) {
-                eModel.addElement(new ListEntry(evt, new ImageIcon("icons/event.png")));
-            }
-
-            if (selectedEvent == null && !eModel.isEmpty()) {
-                selectedEvent = eModel.get(0).getValue();
-                eventList.setSelectedIndex(0);
-            }
-
-
-            for (String sg : projectModel.getRooms().get(selectedRoom).getSectorGroupById().keySet()) {
-                sgModel.addElement(new ListEntry(sg, new ImageIcon("icons/sg.png")));
-            }
-
-            if (selectedSg == null && !sgModel.isEmpty()) {
-                selectedSg = sgModel.get(0).getValue();
-                sgList.setSelectedIndex(0);
-            }
-        } else {
-            // If all rooms are deleted, show black screen on 3D board.
+        if (selectedRoom == null) {
+            // If all rooms/sg are deleted, show black screen on 3D board.
             W3DManager.getInstance().reload = true;
         }
-
-
     }
+
 
     private void deleteItem(int item) {
 
@@ -279,6 +192,92 @@ public class ToolsController implements Controller {
                 break;
         }
         Controllers.updateAll();
+    }
+
+    private void manageFunctionsSelection() {
+        ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
+        if (projectModel == null) {
+            return;
+        }
+        JList fnList = BaseGui.getInstance().getFunctionsList();
+        DefaultListModel<ListEntry> fnModel = new DefaultListModel<>();
+        fnList.removeAll();
+        fnList.setModel(fnModel);
+
+        for (String fn : projectModel.getCommonFunctions().keySet()) {
+            fnModel.addElement(new ListEntry(fn, new ImageIcon("icons/static_event.png")));
+        }
+
+        if (selectedFunction == null && !fnModel.isEmpty()) {
+            selectedFunction = fnModel.get(0).getValue();
+            fnList.setSelectedIndex(0);
+        }
+    }
+
+    private void manageRoomsSelection() {
+        ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
+        if (projectModel == null) {
+            return;
+        }
+
+        JList roomsList = BaseGui.getInstance().getRoomsList();
+        DefaultListModel<ListEntry> rModel = new DefaultListModel<>();
+        roomsList.removeAll();
+        roomsList.setModel(rModel);
+
+        for (String room : projectModel.getRooms().keySet()) {
+            rModel.addElement(new ListEntry(room, new ImageIcon("icons/room.png")));
+        }
+        if (selectedRoom == null && !rModel.isEmpty()) {
+            selectedRoom = rModel.get(0).getValue();
+            roomsList.setSelectedIndex(0);
+        }
+    }
+
+    private void manageEventsSelection() {
+        ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
+        if (projectModel == null || selectedRoom == null || !projectModel.getRooms().containsKey(selectedRoom)) {
+            return;
+        }
+
+        JList eventList = BaseGui.getInstance().getEventsList();
+        DefaultListModel<ListEntry> eModel = new DefaultListModel<>();
+        eventList.removeAll();
+        eventList.setModel(eModel);
+
+        for (String evt : projectModel.getRooms().get(selectedRoom).getEventsById().keySet()) {
+            eModel.addElement(new ListEntry(evt, new ImageIcon("icons/event.png")));
+        }
+
+        if (selectedEvent == null && !eModel.isEmpty()) {
+            selectedEvent = eModel.get(0).getValue();
+            eventList.setSelectedIndex(0);
+        }
+
+
+    }
+
+    private void manageSectorGroupsSelection() {
+        ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
+        if (projectModel == null || selectedRoom == null || !projectModel.getRooms().containsKey(selectedRoom)) {
+            return;
+        }
+
+        JList sgList = BaseGui.getInstance().getSgList();
+        DefaultListModel<ListEntry> sgModel = new DefaultListModel<>();
+
+        sgList.removeAll();
+        sgList.setModel(sgModel);
+
+
+        for (String sg : projectModel.getRooms().get(selectedRoom).getSectorGroupById().keySet()) {
+            sgModel.addElement(new ListEntry(sg, new ImageIcon("icons/sg.png")));
+        }
+
+        if (selectedSg == null && !sgModel.isEmpty()) {
+            selectedSg = sgModel.get(0).getValue();
+            sgList.setSelectedIndex(0);
+        }
     }
 
 
