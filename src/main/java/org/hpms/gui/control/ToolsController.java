@@ -5,12 +5,16 @@ import org.hpms.gui.control.w3d.W3DManager;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.utils.EasyMouseListener;
+import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.utils.ListEntry;
 import org.hpms.gui.views.BaseGui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class ToolsController implements Controller {
 
@@ -21,6 +25,8 @@ public class ToolsController implements Controller {
     private String selectedEvent;
     private String selectedSg;
     private String selectedFunction;
+    private boolean addingRoom;
+    private boolean deletingRoom;
 
     public static final int ROOM = 0;
     public static final int SG = 1;
@@ -47,6 +53,9 @@ public class ToolsController implements Controller {
         functionsList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+                if (functionsList.getModel().getSize() == 0) {
+                    return;
+                }
                 if (KeyEvent.VK_DELETE == e.getKeyCode()) {
                     JFrame frame = new JFrame();
                     int dialogResult = JOptionPane.showConfirmDialog(frame, "Are you sure to delete function " + selectedFunction + "?", "Warning", JOptionPane.YES_NO_OPTION);
@@ -75,6 +84,9 @@ public class ToolsController implements Controller {
         eventList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+                if (eventList.getModel().getSize() == 0) {
+                    return;
+                }
                 if (KeyEvent.VK_DELETE == e.getKeyCode()) {
                     JFrame frame = new JFrame();
                     int dialogResult = JOptionPane.showConfirmDialog(frame, "Are you sure to delete event " + selectedEvent + "?", "Warning", JOptionPane.YES_NO_OPTION);
@@ -99,9 +111,12 @@ public class ToolsController implements Controller {
         sgList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+                if (sgList.getModel().getSize() == 0) {
+                    return;
+                }
                 if (KeyEvent.VK_DELETE == e.getKeyCode()) {
                     JFrame frame = new JFrame();
-                    int dialogResult = JOptionPane.showConfirmDialog(frame, "Are you sure to delete sector group " + selectedRoom + "?", "Warning", JOptionPane.YES_NO_OPTION);
+                    int dialogResult = JOptionPane.showConfirmDialog(frame, "Are you sure to delete sector group " + selectedSg + "?", "Warning", JOptionPane.YES_NO_OPTION);
                     if (dialogResult == JOptionPane.YES_OPTION) {
                         deleteItem(SG);
                         frame.dispose();
@@ -114,15 +129,45 @@ public class ToolsController implements Controller {
 
         JList roomsList = BaseGui.getInstance().getRoomsList();
         roomsList.addListSelectionListener(e -> {
-            if (roomsList.getSelectedValue() != null) {
-                selectedRoom = ((ListEntry) roomsList.getSelectedValue()).getValue();
+            try {
+                if (roomsList.getModel().getSize() > 0) {
+                    String nextSelectedRoom = null;
 
-                // Re-check selections for room dependent items.
-                manageEventsSelection();
-                manageSectorGroupsSelection();
 
+                    if (roomsList.getSelectedValue() != null) {
+                        nextSelectedRoom = ((ListEntry) roomsList.getSelectedValue()).getValue();
+                    } else if (deletingRoom) {
+                        deletingRoom = false;
+                        nextSelectedRoom = ((ListEntry) roomsList.getModel().getElementAt(0)).getValue();
+                        roomsList.setSelectedIndex(0);
+                    } else if (addingRoom) {
+                        addingRoom = false;
+                        manageEventsSelection();
+                        manageSectorGroupsSelection();
+                        recheckSelections(eventList, sgList);
+                        manageEventsSelection();
+                        manageSectorGroupsSelection();
+                        W3DManager.getInstance().reload = true;
+                        return;
+                    }
+                    if (roomsList.getSelectedValue() != null) {
+                        if (nextSelectedRoom != null && !nextSelectedRoom.equals(selectedRoom)) {
+                            selectedRoom = nextSelectedRoom;
+
+                            // Re-check selections for room dependent items.
+                            manageEventsSelection();
+                            manageSectorGroupsSelection();
+
+                            recheckSelections(eventList, sgList);
+
+                            manageEventsSelection();
+                            manageSectorGroupsSelection();
+                        }
+                    }
+                }
                 W3DManager.getInstance().reload = true;
-
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
             }
         });
 
@@ -130,10 +175,14 @@ public class ToolsController implements Controller {
         roomsList.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+                if (roomsList.getModel().getSize() == 0) {
+                    return;
+                }
                 if (KeyEvent.VK_DELETE == e.getKeyCode()) {
                     JFrame frame = new JFrame();
                     int dialogResult = JOptionPane.showConfirmDialog(frame, "Are you sure to delete room " + selectedRoom + "?", "Warning", JOptionPane.YES_NO_OPTION);
                     if (dialogResult == JOptionPane.YES_OPTION) {
+                        deletingRoom = true;
                         deleteItem(ROOM);
                         frame.dispose();
 
@@ -143,14 +192,32 @@ public class ToolsController implements Controller {
         });
     }
 
+    private void recheckSelections(JList eventList, JList sgList) {
+        if (eventList.getModel() == null || eventList.getModel().getSize() == 0) {
+            selectedEvent = null;
+        } else {
+            selectedEvent = ((ListEntry) eventList.getModel().getElementAt(0)).getValue();
+
+        }
+        if (sgList.getModel() == null || sgList.getModel().getSize() == 0) {
+            selectedSg = null;
+        } else {
+            selectedSg = ((ListEntry) sgList.getModel().getElementAt(0)).getValue();
+
+        }
+    }
+
 
     @Override
     public void update() {
-
-        manageRoomsSelection();
-        manageFunctionsSelection();
-        manageEventsSelection();
-        manageSectorGroupsSelection();
+        try {
+            manageRoomsSelection();
+            manageFunctionsSelection();
+            manageEventsSelection();
+            manageSectorGroupsSelection();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+        }
 
         if (selectedRoom == null) {
             // If all rooms/sg are deleted, show black screen on 3D board.
@@ -169,6 +236,10 @@ public class ToolsController implements Controller {
             case ROOM:
                 if (selectedRoom != null) {
                     project.getRooms().remove(selectedRoom);
+                    File f = new File(project.getProjectFloorsPath() + File.separator + selectedRoom + "_floor");
+                    if (!f.delete()) {
+                        f.deleteOnExit();
+                    }
                     selectedRoom = null;
                 }
                 break;
@@ -194,7 +265,7 @@ public class ToolsController implements Controller {
         Controllers.updateAll();
     }
 
-    private void manageFunctionsSelection() {
+    private void manageFunctionsSelection() throws IOException {
         ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
         if (projectModel == null) {
             return;
@@ -204,17 +275,26 @@ public class ToolsController implements Controller {
         fnList.removeAll();
         fnList.setModel(fnModel);
 
+        int index = 0;
+        boolean found = false;
         for (String fn : projectModel.getCommonFunctions().keySet()) {
-            fnModel.addElement(new ListEntry(fn, new ImageIcon("icons/static_event.png")));
+            if (!fn.equals(selectedFunction) && !found) {
+                index++;
+            } else {
+                found = true;
+            }
+            fnModel.addElement(new ListEntry(fn, new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/icons/static_event.png")))));
         }
 
         if (selectedFunction == null && !fnModel.isEmpty()) {
             selectedFunction = fnModel.get(0).getValue();
             fnList.setSelectedIndex(0);
+        } else {
+            fnList.setSelectedIndex(index);
         }
     }
 
-    private void manageRoomsSelection() {
+    private void manageRoomsSelection() throws IOException {
         ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
         if (projectModel == null) {
             return;
@@ -225,16 +305,25 @@ public class ToolsController implements Controller {
         roomsList.removeAll();
         roomsList.setModel(rModel);
 
+        int index = 0;
+        boolean found = false;
         for (String room : projectModel.getRooms().keySet()) {
-            rModel.addElement(new ListEntry(room, new ImageIcon("icons/room.png")));
+            if (!room.equals(selectedRoom) && !found) {
+                index++;
+            } else {
+                found = true;
+            }
+            rModel.addElement(new ListEntry(room, new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/icons/room.png")))));
         }
         if (selectedRoom == null && !rModel.isEmpty()) {
             selectedRoom = rModel.get(0).getValue();
             roomsList.setSelectedIndex(0);
+        } else {
+            roomsList.setSelectedIndex(index);
         }
     }
 
-    private void manageEventsSelection() {
+    private void manageEventsSelection() throws IOException {
         ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
         if (projectModel == null || selectedRoom == null || !projectModel.getRooms().containsKey(selectedRoom)) {
             return;
@@ -245,19 +334,28 @@ public class ToolsController implements Controller {
         eventList.removeAll();
         eventList.setModel(eModel);
 
+        int index = 0;
+        boolean found = false;
         for (String evt : projectModel.getRooms().get(selectedRoom).getEventsById().keySet()) {
-            eModel.addElement(new ListEntry(evt, new ImageIcon("icons/event.png")));
+            if (!evt.equals(selectedEvent) && !found) {
+                index++;
+            } else {
+                found = true;
+            }
+            eModel.addElement(new ListEntry(evt, new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/icons/event.png")))));
         }
 
         if (selectedEvent == null && !eModel.isEmpty()) {
             selectedEvent = eModel.get(0).getValue();
             eventList.setSelectedIndex(0);
+        } else {
+            eventList.setSelectedIndex(index);
         }
 
 
     }
 
-    private void manageSectorGroupsSelection() {
+    private void manageSectorGroupsSelection() throws IOException {
         ProjectModel projectModel = ProjectManager.getInstance().getProjectModel();
         if (projectModel == null || selectedRoom == null || !projectModel.getRooms().containsKey(selectedRoom)) {
             return;
@@ -269,14 +367,22 @@ public class ToolsController implements Controller {
         sgList.removeAll();
         sgList.setModel(sgModel);
 
-
+        int index = 0;
+        boolean found = false;
         for (String sg : projectModel.getRooms().get(selectedRoom).getSectorGroupById().keySet()) {
-            sgModel.addElement(new ListEntry(sg, new ImageIcon("icons/sg.png")));
+            if (!sg.equals(selectedSg) && !found) {
+                index++;
+            } else {
+                found = true;
+            }
+            sgModel.addElement(new ListEntry(sg, new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/icons/sg.png")))));
         }
 
         if (selectedSg == null && !sgModel.isEmpty()) {
             selectedSg = sgModel.get(0).getValue();
             sgList.setSelectedIndex(0);
+        } else {
+            sgList.setSelectedIndex(index);
         }
     }
 
@@ -295,5 +401,30 @@ public class ToolsController implements Controller {
 
     public synchronized String getSelectedFunction() {
         return selectedFunction;
+    }
+
+    public synchronized void setSelectedRoom(String selectedRoom) {
+        this.selectedRoom = selectedRoom;
+    }
+
+    public synchronized void setSelectedEvent(String selectedEvent) {
+        this.selectedEvent = selectedEvent;
+    }
+
+    public synchronized void setSelectedSg(String selectedSg) {
+        this.selectedSg = selectedSg;
+    }
+
+    public synchronized void setSelectedFunction(String selectedFunction) {
+        this.selectedFunction = selectedFunction;
+    }
+
+
+    public synchronized boolean isAddingRoom() {
+        return addingRoom;
+    }
+
+    public synchronized void setAddingRoom(boolean addingRoom) {
+        this.addingRoom = addingRoom;
     }
 }

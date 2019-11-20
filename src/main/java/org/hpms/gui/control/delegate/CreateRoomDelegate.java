@@ -1,12 +1,12 @@
 package org.hpms.gui.control.delegate;
 
 import org.hpms.gui.control.Controllers;
+import org.hpms.gui.control.ToolsController;
 import org.hpms.gui.control.w3d.W3DManager;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.utils.EasyDocumentListener;
 import org.hpms.gui.utils.ErrorManager;
-import org.hpms.gui.utils.ListEntry;
 import org.hpms.gui.utils.Utils;
 import org.hpms.gui.views.BaseGui;
 import org.hpms.gui.views.CreateNewRoom;
@@ -70,12 +70,11 @@ public class CreateRoomDelegate {
                 JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
             }
             ProjectModel.RoomModel room = new ProjectModel.RoomModel();
-            room.setName(createNewRoom.getRoomNameTxt().getText().trim());
+            String roomName = createNewRoom.getRoomNameTxt().getText().trim();
+            room.setName(roomName);
             room.setPipelineType(((Labels.PipelineTypeItem) createNewRoom.getRoomTypeCombo().getSelectedItem()).getPipelineType());
-            project.getRooms().put(createNewRoom.getRoomNameTxt().getText().trim(), room);
-            //JList roomsList = BaseGui.getInstance().getRoomsList();
-            //roomsList.setSelectedValue(new ListEntry(createNewRoom.getRoomNameTxt().getText(), new ImageIcon("icons/room.png")), true);
-            W3DManager.getInstance().currentRoom = createNewRoom.getRoomNameTxt().getText().trim();
+            project.getRooms().put(roomName, room);
+            W3DManager.getInstance().currentRoom = roomName;
             W3DManager.getInstance().reloadNew = true;
 
             while (W3DManager.getInstance().reloadNew) {
@@ -84,6 +83,8 @@ public class CreateRoomDelegate {
                 } catch (InterruptedException ignored) {
                 }
             }
+            ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).setAddingRoom(true);
+            ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).setSelectedRoom(roomName);
             Controllers.updateAll();
 
             createNewRoom.dispose();

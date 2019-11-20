@@ -5,11 +5,8 @@ import java.awt.*;
 
 public class ListEntryCellRenderer extends JLabel implements ListCellRenderer {
 
-    private JLabel label;
 
-    public Component getListCellRendererComponent(JList list, Object value,
-                                                  int index, boolean isSelected,
-                                                  boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         ListEntry entry = (ListEntry) value;
 
         setText(value.toString());

@@ -1,12 +1,12 @@
 package org.hpms.gui.control;
 
 import org.hpms.gui.control.w3d.W3DArea;
-import org.hpms.gui.data.ProjectModel;
-import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
+
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
 public class WorkAreaController implements Controller {
     private final W3DArea w3DArea = new W3DArea(BaseGui.getInstance().getWorkArea());
@@ -17,15 +17,25 @@ public class WorkAreaController implements Controller {
         try {
             new SwingWorker<Void, Void>() {
 
+                private Exception exception;
+
+
                 @Override
-                protected Void doInBackground() throws Exception {
-                    w3DArea.loop();
+                protected Void doInBackground() {
+                    try {
+                        w3DArea.loop();
+                    } catch (Exception e) {
+                        exception = e;
+                    }
                     return null;
                 }
 
                 @Override
                 protected void done() {
                     super.done();
+                    if (exception != null) {
+                        JOptionPane.showMessageDialog(null, createReadOnlyJTextField(exception), "Error", JOptionPane.PLAIN_MESSAGE);
+                    }
                 }
             }.execute();
 

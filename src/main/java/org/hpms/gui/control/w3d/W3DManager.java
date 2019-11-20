@@ -1,5 +1,6 @@
 package org.hpms.gui.control.w3d;
 
+import com.threed.jpct.Camera;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.World;
@@ -29,6 +30,7 @@ public class W3DManager {
     private boolean clicking;
     private static final W3DManager INSTANCE = new W3DManager();
     private final List<Object3D> groupCandidates;
+    private String previousRoom;
 
     public volatile boolean refresh;
 
@@ -38,23 +40,61 @@ public class W3DManager {
 
     public volatile String currentRoom;
 
+
     public static W3DManager getInstance() {
         return INSTANCE;
     }
 
+    private Map<String, ViewSettings> cameraMap;
+    private TransformationHolder t;
+
     private W3DManager() {
         groupCandidates = new ArrayList<>();
         polygons = new HashMap<>();
+        cameraMap = new HashMap<>();
+
     }
 
     public void create(World selectedWorld, World nonSelectedWorld, FrameBuffer frameBuffer) {
         this.selectedWorld = selectedWorld;
         this.nonSelectedWorld = nonSelectedWorld;
-
+        t = new TransformationHolder(selectedWorld, nonSelectedWorld);
+        cameraMap.put("default", new ViewSettings(t.selectedWorld.getCamera(), t.nonSelectedWorld.getCamera(), t.distance));
         picker = new W3DPicker(frameBuffer);
 
 
         initialized = true;
+    }
+
+    public void updateBuffer(FrameBuffer buffer) {
+        picker.updateFrameBuffer(buffer);
+    }
+
+    private void checkPickingResults(int mouseX, int mouseY, World fromWorld, World toWorld, boolean addingAttempt) {
+        if (polygons.isEmpty()) {
+            return;
+        }
+        int[] pickingRes = picker.getPickingResult(fromWorld, mouseX, mouseY);
+        if (pickingRes != null) {
+            Object3D picked = polygons.get(pickingRes[0]);
+            if (picked != null) {
+                if (picked.getUserObject() != null && picked.getUserObject() instanceof String
+                        && picked.getUserObject().equals(GraphicsUtils.LINE_ID)) {
+                    return;
+                }
+                fromWorld.removeObject(picked.getID());
+                toWorld.addObject(picked);
+                if (addingAttempt) {
+                    if (!groupCandidates.contains(picked)) {
+                        groupCandidates.add(picked);
+                    }
+                } else {
+                    groupCandidates.remove(picked);
+
+                }
+                refreshSectorGroups();
+            }
+        }
     }
 
 
@@ -85,26 +125,62 @@ public class W3DManager {
 
     }
 
-    private void checkPickingResults(int mouseX, int mouseY, World fromWorld, World toWorld, boolean addingAttempt) {
-        if (polygons.isEmpty()) {
+    private void reload(boolean newMap) {
+        if (!initialized) {
             return;
         }
-        int[] pickingRes = picker.getPickingResult(fromWorld, mouseX, mouseY);
-        if (pickingRes != null) {
-            Object3D picked = polygons.get(pickingRes[0]);
-            if (picked != null) {
-                fromWorld.removeObject(picked.getID());
-                toWorld.addObject(picked);
-                if (addingAttempt) {
-                    if (!groupCandidates.contains(picked)) {
-                        groupCandidates.add(picked);
-                    }
-                } else {
-                    groupCandidates.remove(picked);
+        polygons.clear();
+        ProjectModel project = ProjectManager.getInstance().getProjectModel();
+        currentRoom = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
 
-                }
-                refreshSectorGroups();
+        if (currentRoom == null) {
+            refresh();
+            return;
+        }
+        if (!cameraMap.containsKey(currentRoom)) {
+            Camera sel = new Camera();
+            Camera nonSel = new Camera();
+            TransformationHolder.restoreCam(sel, 50.0f);
+            TransformationHolder.restoreCam(nonSel, 50.0f);
+            cameraMap.put(currentRoom, new ViewSettings(sel, nonSel, 50.0f));
+        }
+
+        String walkmapPath = ProjectManager.getInstance().getProjectModel().getProjectFloorsPath() + File.separator + currentRoom + "_floor";
+        polygons.putAll(GraphicsUtils.loadModelExplodedAsMap(walkmapPath, 1, object3D -> {
+            FloorUtils.calculateData(object3D);
+            if (!newMap) {
+                FloorUtils.reassignSectors(object3D, project, currentRoom);
             }
+
+            return object3D;
+        }));
+
+        refresh();
+
+    }
+
+    private void refresh() {
+        nonSelectedWorld.removeAll();
+        selectedWorld.removeAll();
+
+        for (Object3D object3D : polygons.values()) {
+            object3D.build();
+
+            String selectedSg = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
+
+            String sgId = ((W3DUserData) object3D.getUserObject()).getSectorGroupID();
+
+            if (sgId == null) {
+                nonSelectedWorld.addObject(object3D);
+            } else {
+                selectedWorld.addObject(object3D);
+                if (sgId.equals(selectedSg)) {
+                    object3D.setAdditionalColor(Color.RED);
+                } else {
+                    object3D.setAdditionalColor(Color.BLUE);
+                }
+            }
+
         }
     }
 
@@ -131,58 +207,6 @@ public class W3DManager {
         clicking = false;
     }
 
-    private void reload(boolean newMap) {
-        if (!initialized) {
-            return;
-        }
-        polygons.clear();
-        ProjectModel project = ProjectManager.getInstance().getProjectModel();
-        String selectedRoom = newMap ? currentRoom : ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
-        if (selectedRoom == null) {
-            refresh();
-            return;
-        }
-        String walkmapPath = ProjectManager.getInstance().getProjectModel().getProjectFloorsPath() + File.separator + selectedRoom + "_floor";
-        polygons.putAll(GraphicsUtils.loadModelExplodedAsMap(walkmapPath, 1, object3D -> {
-            FloorUtils.calculateData(object3D);
-            if (!newMap) {
-                FloorUtils.reassignSectors(object3D, project, selectedRoom);
-            }
-
-            return object3D;
-        }));
-
-        refresh();
-
-    }
-
-
-    private void refresh() {
-        nonSelectedWorld.removeAll();
-        selectedWorld.removeAll();
-
-        for (Object3D object3D : polygons.values()) {
-            object3D.build();
-
-            String selectedSg = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
-            ;
-            String sgId = ((W3DUserData) object3D.getUserObject()).getSectorGroupID();
-
-            if (sgId == null) {
-                nonSelectedWorld.addObject(object3D);
-            } else {
-                selectedWorld.addObject(object3D);
-                if (sgId.equals(selectedSg)) {
-                    object3D.setAdditionalColor(Color.RED);
-                } else {
-                    object3D.setAdditionalColor(Color.BLUE);
-                }
-            }
-
-        }
-    }
-
-
     private void refreshSectorGroups() {
         String selectedSg = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
         if (selectedSg == null) {
@@ -195,52 +219,73 @@ public class W3DManager {
         String room = currentRoom != null ? currentRoom : ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
         ProjectModel.RoomModel roomModel = model.getRooms().get(room);
 
+        if (!roomModel.getSectorGroupById().containsKey(selectedSg)) {
+            return;
+        }
         ProjectModel.RoomModel.SectorGroup sectorGroup = roomModel.getSectorGroupById().get(selectedSg);
         sectorGroup.getSectors().clear();
         for (Object3D candidate : groupCandidates) {
             W3DUserData data = (W3DUserData) candidate.getUserObject();
             sectorGroup.getSectors().add(data.getSectorData());
         }
+
     }
 
-    /*
-    private void createSectorGroup() {
-        String selectedRoom = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
-        String sectorName = currentSectorGroup;
-        if (selectedRoom == null) {
-            return;
-        }
-        for (Object3D object3D : groupCandidates) {
-            W3DUserData data = (W3DUserData) object3D.getUserObject();
-            String oldSectorGroup = data.getSectorGroupID();
-            data.setSectorGroupID(sectorName);
+    public TransformationHolder getTransformation() {
 
-            ProjectModel model = ProjectManager.getInstance().getProjectModel();
-            ProjectModel.RoomModel roomModel = model.getRooms().get(selectedRoom);
-            if (roomModel == null) {
-                return;
-            }
-            if (!roomModel.getSectorGroupById().containsKey(sectorName)) {
-                roomModel.getSectorGroupById().put(sectorName, new ProjectModel.RoomModel.SectorGroup());
-            }
-            ProjectModel.RoomModel.SectorGroup secGroup = roomModel.getSectorGroupById().get(sectorName);
-            secGroup.setId(sectorName);
-            secGroup.getSectors().add(data.getSectorData());
-
-            // If sector was present in another sector group, it must be removed.
-            if (oldSectorGroup != null && roomModel.getSectorGroupById().containsKey(oldSectorGroup)) {
-                roomModel.getSectorGroupById().get(oldSectorGroup).getSectors().remove(data.getSectorData());
-            }
-
-        }
-
-        refresh(currentSectorGroup);
+        return t;
     }
-    */
 
+    public boolean checkChangeCam() {
+        if (currentRoom == null || !cameraMap.containsKey(currentRoom)) {
+            return false;
+        }
+        if (!currentRoom.equals(previousRoom)) {
+            previousRoom = currentRoom;
+            t.selectedWorld.setCameraTo(cameraMap.get(currentRoom).selCamera);
+            t.nonSelectedWorld.setCameraTo(cameraMap.get(currentRoom).nonSelCamera);
+            t.distance = cameraMap.get(currentRoom).distance;
+            return true;
+        }
 
-    public synchronized boolean hasSectorCandiates() {
-        return !groupCandidates.isEmpty();
+        return false;
+
+    }
+
+    public static class ViewSettings {
+        public Camera selCamera;
+
+        public Camera nonSelCamera;
+
+        public float distance;
+
+        public ViewSettings(Camera selCamera, Camera nonSelCamera, float distance) {
+            this.selCamera = selCamera;
+            this.nonSelCamera = nonSelCamera;
+            this.distance = distance;
+        }
+    }
+
+    public static class TransformationHolder {
+
+        public World selectedWorld;
+        public World nonSelectedWorld;
+        public float distance;
+
+        public TransformationHolder(World selWorld, World nonSelWorld) {
+
+            selectedWorld = selWorld;
+            nonSelectedWorld = nonSelWorld;
+            distance = 50.0f;
+            restoreCam(selectedWorld.getCamera(), distance);
+            restoreCam(nonSelectedWorld.getCamera(), distance);
+
+        }
+
+        public static void restoreCam(Camera c, float distance) {
+            c.moveCamera(Camera.CAMERA_MOVEUP, distance);
+            c.rotateCameraX((float) Math.PI / 2f);
+        }
     }
 
     public synchronized boolean readOnlySectors() {

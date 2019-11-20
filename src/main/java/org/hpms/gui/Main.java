@@ -11,7 +11,9 @@ import org.hpms.gui.utils.EasyDocumentListener;
 import org.hpms.gui.views.BaseGui;
 import org.hpms.gui.views.WorkspaceChooser;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,20 +21,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
 public class Main {
 
+    private List<Image> icons;
+
+    private Main() {
+        icons = new ArrayList<>();
+    }
 
     public static void main(String[] args) {
 
-        javax.swing.SwingUtilities.invokeLater(Main::createAndShowGUI);
+        Main main = new Main();
+        javax.swing.SwingUtilities.invokeLater(main::createAndShowGUI);
+
 
 
     }
 
-    private static void checkWorkspace() throws Exception {
+    private void checkWorkspace() throws Exception {
         File jarFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         File file = new File(jarFile.getParentFile(), "Toolbox.ini");
         if (!file.exists()) {
@@ -51,8 +61,9 @@ public class Main {
         }
     }
 
-    private static void showWorkspaceChooser(File file) {
+    private void showWorkspaceChooser(File file) {
         WorkspaceChooser frame = new WorkspaceChooser();
+        frame.setIconImages(icons);
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -96,9 +107,10 @@ public class Main {
         });
     }
 
-    private static void startGui() {
+    private void startGui() {
         BaseGui gui = BaseGui.getInstance();
         JFrame frame = gui.getMainFrame();
+        frame.setIconImages(icons);
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -107,7 +119,7 @@ public class Main {
     }
 
 
-    private static void createAndShowGUI() {
+    private void createAndShowGUI() {
         try {
             UIManager.setLookAndFeel(new DarculaLaf());
         } catch (UnsupportedLookAndFeelException e) {
@@ -116,6 +128,10 @@ public class Main {
         }
 
         try {
+            icons.add(ImageIO.read(getClass().getResourceAsStream("/icons/icon_16.png")));
+            icons.add(ImageIO.read(getClass().getResourceAsStream("/icons/icon_32.png")));
+            icons.add(ImageIO.read(getClass().getResourceAsStream("/icons/icon_64.png")));
+            icons.add(ImageIO.read(getClass().getResourceAsStream("/icons/icon_128.png")));
             registerSerializables();
             checkWorkspace();
 
@@ -128,7 +144,7 @@ public class Main {
     }
 
 
-    private static void registerSerializables() {
+    private void registerSerializables() {
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.ProjectPreferences.class);
         ProjectManager.KRYO_SERIALIZER.register(ProjectModel.BuildSettings.class);

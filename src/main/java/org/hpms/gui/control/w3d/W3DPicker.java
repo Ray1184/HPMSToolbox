@@ -7,8 +7,7 @@ import com.threed.jpct.World;
 
 public class W3DPicker {
 
-    private final FrameBuffer frameBuffer;
-
+    private FrameBuffer frameBuffer;
 
     private final SimpleVector ray;
 
@@ -21,13 +20,14 @@ public class W3DPicker {
         norm = new SimpleVector();
     }
 
+    public void updateFrameBuffer(FrameBuffer frameBuffer) {
+        this.frameBuffer = frameBuffer;
+    }
+
     public int[] getPickingResult(World world, int mouseX, int mouseY) {
         Interact2D.reproject2D3D(world.getCamera(), frameBuffer, mouseX, mouseY, ray);
-        if (ray != null) {
-            norm = ray.normalize(norm);
-            return Interact2D.pickPolygon(world.getVisibilityList(), norm);
-        }
-        return null;
+        norm = ray.normalize(norm);
+        return Interact2D.pickPolygon(world.getVisibilityList(), norm);
     }
 
 }

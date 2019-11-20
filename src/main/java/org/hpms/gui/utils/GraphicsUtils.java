@@ -14,6 +14,9 @@ import java.util.function.Function;
 
 public class GraphicsUtils {
 
+
+    public static final String LINE_ID = "#GuideLine#";
+
     private static class CircularArray<T> {
         private final List<T> list;
         private int counter;
@@ -118,5 +121,20 @@ public class GraphicsUtils {
 
     public static Color nextColor() {
         return colorWheel.next();
+    }
+
+    public static Object3D createLine() {
+        Object3D line = new Object3D(1);
+
+        SimpleVector p1 = new SimpleVector(0, 0, 0);
+        SimpleVector p2 = new SimpleVector(0, 1, 10);
+        SimpleVector p3 = new SimpleVector(0, 0, 10);
+
+        line.addTriangle(p1, p2, p3);
+
+        line.addTriangle(p2, p1, p3);
+        line.setUserObject(LINE_ID);
+        line.build();
+        return line;
     }
 }

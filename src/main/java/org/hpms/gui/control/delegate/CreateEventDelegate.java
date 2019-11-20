@@ -1,6 +1,7 @@
 package org.hpms.gui.control.delegate;
 
 import org.hpms.gui.control.Controllers;
+import org.hpms.gui.control.ToolsController;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.luagen.components.LuaFunctionDeclare;
@@ -118,6 +119,7 @@ public class CreateEventDelegate {
             try {
                 LuaFunctionDeclare function = LuaFunctionParser.parse(functionName, params, codeTxt);
                 ProjectManager.getInstance().getProjectModel().getCommonFunctions().put(eventName, function);
+                ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).setSelectedFunction(eventName);
                 Controllers.updateAll();
                 mainPanel.dispose();
             } catch (Exception ex) {

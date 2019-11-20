@@ -35,6 +35,43 @@
                     <outputDirectory>src/main/generated</outputDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>org.hpms.gui.Main</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>lib/darcula-1.0.jar lib/jpct-1.0.jar</Class-Path>
+                            <Built-By>Ray1184</Built-By>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -70,10 +107,22 @@
             <version>1.18.10</version>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.threed.jpct</groupId>
+            <artifactId>jpct</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jpct.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.bulenkov.darcula</groupId>
+            <artifactId>darcula</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/darcula-1.0.0.jar</systemPath>
+        </dependency>
 
     </dependencies>
-
 
 
 </project>

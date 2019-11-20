@@ -1,6 +1,7 @@
 package org.hpms.gui.control.w3d;
 
 import com.threed.jpct.*;
+import org.hpms.gui.utils.FontManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,23 +9,27 @@ import java.awt.event.*;
 
 public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseListener {
     private final SimpleVector line;
-    private final World selectedWorld;
-    private final World nonSelectedWorld;
+
     private FrameBuffer buffer;
     private final JComponent parent;
-    private int lastMousePosX;
-    private int lastMousePosY;
-    private float distance;
-    private float dx;
-    private float dy;
-    private float offX;
-    private float offY;
+
     private boolean repaint;
     private final W3DManager helper;
     private int currentButton;
+    public float dx;
+    public float dy;
+    public float offX;
+    public float offY;
+    public int lastMousePosX;
+    public int lastMousePosY;
+    private boolean loopIntegrityCheck;
+    private FontManager fontManager;
+
 
     public W3DArea(JComponent parent) {
         Logger.setLogLevel(Logger.ERROR);
+        loopIntegrityCheck = true;
+        fontManager = new FontManager(new Font("Courier New", Font.PLAIN, 10));
         this.parent = parent;
         this.parent.setVisible(true);
         this.parent.addMouseMotionListener(this);
@@ -37,29 +42,35 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
             }
         });
-        selectedWorld = new World();
+        World selectedWorld = new World();
         selectedWorld.setAmbientLight(150, 150, 150);
-        distance = 50;
 
-        selectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEUP, distance);
-        selectedWorld.getCamera().rotateCameraX((float) Math.PI / 2f);
-
-        nonSelectedWorld = new World();
+        World nonSelectedWorld = new World();
         nonSelectedWorld.setAmbientLight(150, 150, 150);
 
-
-        nonSelectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEUP, distance);
-        nonSelectedWorld.getCamera().rotateCameraX((float) Math.PI / 2f);
-
-        line = new SimpleVector(dx, 0, dy);
         buffer = new FrameBuffer(parent.getWidth(), parent.getHeight(), FrameBuffer.SAMPLINGMODE_NORMAL);
+
         helper = W3DManager.getInstance();
         helper.create(selectedWorld, nonSelectedWorld, buffer);
+
+
+        line = new SimpleVector(dx, 0, dy);
+
+
     }
 
     public void loop() throws Exception {
 
         while (parent.isShowing()) {
+
+            loopIntegrityCheck = false;
+            if (helper.checkChangeCam()) {
+                dx = 0;
+                dy = 0;
+                offX = 0;
+                offY = 0;
+            }
+            loopIntegrityCheck = true;
 
             int mouseX;
             int mouseY;
@@ -71,6 +82,7 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
             mouseY = pi.getLocation().y - pl.y;
 
             if (lastMousePosX == mouseX && lastMousePosY == mouseY) {
+
                 dx = 0;
                 dy = 0;
                 offX = 0;
@@ -81,8 +93,8 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
             Matrix m = line.normalize().getRotationMatrix();
             m.rotateAxis(m.getXAxis(), (float) -Math.PI / 2f);
 
-            fixCamera(selectedWorld, m);
-            fixCamera(nonSelectedWorld, m);
+            fixCamera(helper.getTransformation().selectedWorld, m);
+            fixCamera(helper.getTransformation().nonSelectedWorld, m);
 
             lastMousePosX = mouseX;
             lastMousePosY = mouseY;
@@ -91,17 +103,20 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
             if (repaint) {
                 buffer = new FrameBuffer(parent.getWidth(), parent.getHeight(), FrameBuffer.SAMPLINGMODE_NORMAL);
+                helper.updateBuffer(buffer);
                 repaint = false;
             }
             buffer.clear(Color.BLACK);
-            selectedWorld.renderScene(buffer);
-            selectedWorld.draw(buffer);
+            helper.getTransformation().selectedWorld.renderScene(buffer);
+            helper.getTransformation().selectedWorld.draw(buffer);
 
-            nonSelectedWorld.renderScene(buffer);
-            nonSelectedWorld.drawWireframe(buffer, helper.readOnlySectors() ? Color.GRAY : Color.GREEN);
-
+            helper.getTransformation().nonSelectedWorld.renderScene(buffer);
+            helper.getTransformation().nonSelectedWorld.drawWireframe(buffer, helper.readOnlySectors() ? Color.GRAY : Color.GREEN);
+            fontManager.blitString(buffer, "X: 10\nY: 26.8\nR:", 10, 20, 2, Color.WHITE);
             buffer.update();
+
             buffer.display(parent.getGraphics());
+
 
             Thread.sleep(10);
         }
@@ -110,15 +125,19 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
     }
 
     private void fixCamera(World world, Matrix m) {
-        world.getCamera().moveCamera(Camera.CAMERA_MOVEIN, distance);
-        world.getCamera().rotateAxis(m.invert3x3().getXAxis(), distance * distance * line.length() / (distance * distance * 100));
-        world.getCamera().moveCamera(Camera.CAMERA_MOVEOUT, distance);
-        world.getCamera().moveCamera(Camera.CAMERA_MOVELEFT, offX / (500 / (distance)));
-        world.getCamera().moveCamera(Camera.CAMERA_MOVEDOWN, offY / (500 / (distance)));
+        W3DManager.TransformationHolder t = helper.getTransformation();
+        world.getCamera().moveCamera(Camera.CAMERA_MOVEIN, t.distance);
+        world.getCamera().rotateAxis(m.invert3x3().getXAxis(), t.distance * t.distance * line.length() / (t.distance * t.distance * 100));
+        world.getCamera().moveCamera(Camera.CAMERA_MOVEOUT, t.distance);
+        world.getCamera().moveCamera(Camera.CAMERA_MOVELEFT, offX / (500 / (t.distance)));
+        world.getCamera().moveCamera(Camera.CAMERA_MOVEDOWN, offY / (500 / (t.distance)));
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (!loopIntegrityCheck) {
+            return;
+        }
         if (helper != null) {
             helper.mouseClicked(e);
         }
@@ -126,6 +145,9 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (!loopIntegrityCheck) {
+            return;
+        }
         currentButton = e.getButton();
         if (helper != null) {
             helper.mousePressed(e);
@@ -134,6 +156,9 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (!loopIntegrityCheck) {
+            return;
+        }
         currentButton = MouseEvent.NOBUTTON;
         if (helper != null) {
             helper.mouseReleased(e);
@@ -152,12 +177,17 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (currentButton == MouseEvent.BUTTON2) {
-            dx = -(lastMousePosX - e.getX());
-            dy = -(e.getY() - lastMousePosY);
-        } else if (currentButton == MouseEvent.BUTTON3) {
-            offX = -(lastMousePosX - e.getX());
-            offY = -(e.getY() - lastMousePosY);
+        if (!loopIntegrityCheck) {
+            return;
+        }
+        if (helper != null && helper.initialized()) {
+            if (currentButton == MouseEvent.BUTTON2) {
+                dx = -(lastMousePosX - e.getX());
+                dy = -(e.getY() - lastMousePosY);
+            } else if (currentButton == MouseEvent.BUTTON3) {
+                offX = -(lastMousePosX - e.getX());
+                offY = -(e.getY() - lastMousePosY);
+            }
         }
     }
 
@@ -170,23 +200,27 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
+        if (!loopIntegrityCheck) {
+            return;
+        }
         int step = e.getWheelRotation() > 0 ? 3 : -3;
         if (helper != null && helper.initialized()) {
-            if (step < 0 && distance <= 8) {
-                distance = 8;
+            W3DManager.TransformationHolder t = helper.getTransformation();
+            if (step < 0 && t.distance <= 8) {
+                t.distance = 8;
                 return;
             }
             Matrix m = line.normalize().getRotationMatrix();
             m.rotateAxis(m.getXAxis(), (float) -Math.PI / 2f);
-            selectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEIN, distance);
-            selectedWorld.getCamera().rotateAxis(m.invert3x3().getXAxis(), distance * distance * line.length() / (distance * distance * 100));
-            selectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEOUT, distance + step);
+            helper.getTransformation().selectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEIN, t.distance);
+            helper.getTransformation().selectedWorld.getCamera().rotateAxis(m.invert3x3().getXAxis(), t.distance * t.distance * line.length() / (t.distance * t.distance * 100));
+            helper.getTransformation().selectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEOUT, t.distance + step);
 
-            nonSelectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEIN, distance);
-            nonSelectedWorld.getCamera().rotateAxis(m.invert3x3().getXAxis(), distance * distance * line.length() / (distance * distance * 100));
-            nonSelectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEOUT, distance + step);
+            helper.getTransformation().nonSelectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEIN, t.distance);
+            helper.getTransformation().nonSelectedWorld.getCamera().rotateAxis(m.invert3x3().getXAxis(), t.distance * t.distance * line.length() / (t.distance * t.distance * 100));
+            helper.getTransformation().nonSelectedWorld.getCamera().moveCamera(Camera.CAMERA_MOVEOUT, t.distance + step);
 
-            distance += step;
+            t.distance += step;
 
         }
 
