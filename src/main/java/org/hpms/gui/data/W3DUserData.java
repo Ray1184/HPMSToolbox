@@ -10,6 +10,8 @@ public class W3DUserData {
 
     private Color color;
 
+    private boolean changing;
+
     public W3DUserData() {
     }
 
@@ -35,5 +37,14 @@ public class W3DUserData {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public boolean isChanging() {
+        return changing;
+    }
+
+
+    public void setChanging(boolean changing) {
+        this.changing = changing;
     }
 }

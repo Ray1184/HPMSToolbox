@@ -1,7 +1,6 @@
 package org.hpms.gui.control.w3d;
 
 import com.threed.jpct.*;
-import org.hpms.gui.utils.FontManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,18 +17,16 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
     private int currentButton;
     public float dx;
     public float dy;
-    public float offX;
-    public float offY;
     public int lastMousePosX;
     public int lastMousePosY;
     private boolean loopIntegrityCheck;
-    private FontManager fontManager;
+
 
 
     public W3DArea(JComponent parent) {
         Logger.setLogLevel(Logger.ERROR);
+
         loopIntegrityCheck = true;
-        fontManager = new FontManager(new Font("Courier New", Font.PLAIN, 10));
         this.parent = parent;
         this.parent.setVisible(true);
         this.parent.addMouseMotionListener(this);
@@ -64,11 +61,12 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
         while (parent.isShowing()) {
 
             loopIntegrityCheck = false;
+            W3DManager.TransformationHolder t = helper.getTransformation();
             if (helper.checkChangeCam()) {
                 dx = 0;
                 dy = 0;
-                offX = 0;
-                offY = 0;
+                t.offX = 0;
+                t.offY = 0;
             }
             loopIntegrityCheck = true;
 
@@ -85,8 +83,8 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
                 dx = 0;
                 dy = 0;
-                offX = 0;
-                offY = 0;
+                t.offX = 0;
+                t.offY = 0;
             }
 
             line.set(dx, 0, dy);
@@ -112,7 +110,7 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
             helper.getTransformation().nonSelectedWorld.renderScene(buffer);
             helper.getTransformation().nonSelectedWorld.drawWireframe(buffer, helper.readOnlySectors() ? Color.GRAY : Color.GREEN);
-            fontManager.blitString(buffer, "X: 10\nY: 26.8\nR:", 10, 20, 2, Color.WHITE);
+
             buffer.update();
 
             buffer.display(parent.getGraphics());
@@ -129,8 +127,8 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
         world.getCamera().moveCamera(Camera.CAMERA_MOVEIN, t.distance);
         world.getCamera().rotateAxis(m.invert3x3().getXAxis(), t.distance * t.distance * line.length() / (t.distance * t.distance * 100));
         world.getCamera().moveCamera(Camera.CAMERA_MOVEOUT, t.distance);
-        world.getCamera().moveCamera(Camera.CAMERA_MOVELEFT, offX / (500 / (t.distance)));
-        world.getCamera().moveCamera(Camera.CAMERA_MOVEDOWN, offY / (500 / (t.distance)));
+        world.getCamera().moveCamera(Camera.CAMERA_MOVELEFT, t.offX / (500 / (t.distance)));
+        world.getCamera().moveCamera(Camera.CAMERA_MOVEDOWN, t.offY / (500 / (t.distance)));
     }
 
     @Override
@@ -181,12 +179,13 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
             return;
         }
         if (helper != null && helper.initialized()) {
+            W3DManager.TransformationHolder t = helper.getTransformation();
             if (currentButton == MouseEvent.BUTTON2) {
                 dx = -(lastMousePosX - e.getX());
                 dy = -(e.getY() - lastMousePosY);
             } else if (currentButton == MouseEvent.BUTTON3) {
-                offX = -(lastMousePosX - e.getX());
-                offY = -(e.getY() - lastMousePosY);
+                t.offX = -(lastMousePosX - e.getX());
+                t.offY = -(e.getY() - lastMousePosY);
             }
         }
     }

@@ -104,6 +104,7 @@ public class ToolsController implements Controller {
         sgList.addListSelectionListener(e -> {
             if (sgList.getSelectedValue() != null) {
                 selectedSg = ((ListEntry) sgList.getSelectedValue()).getValue();
+                W3DManager.getInstance().refreshSectorGroups = true;
             }
         });
 

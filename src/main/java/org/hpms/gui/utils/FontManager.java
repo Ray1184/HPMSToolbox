@@ -110,19 +110,19 @@ public class FontManager {
     }
 
     /**
-     * same as getGLFont(font, ENGLISH)
+     * same as getFont(font, ENGLISH)
      *
-     * @see #getGLFont(Font, String)
+     * @see #getFont(Font, String)
      */
-    public static FontManager getGLFont(Font font) {
-        return getGLFont(font, ENGLISH);
+    public static FontManager getFont(Font font) {
+        return getFont(font, ENGLISH);
     }
 
     /**
      * returns cached font or creates a new one caches and returns it.
      * note: cache mechanism doesnt take alphabet into account.
      */
-    public static FontManager getGLFont(Font font, String alphabet) {
+    public static FontManager getFont(Font font, String alphabet) {
         String key = font.getName() + "/" + font.getSize() + "/" + font.getStyle();
 
         synchronized (FONTS) {

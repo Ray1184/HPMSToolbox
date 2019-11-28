@@ -29,7 +29,7 @@ public class W3DManager {
     private W3DPicker picker;
     private boolean clicking;
     private static final W3DManager INSTANCE = new W3DManager();
-    private final List<Object3D> groupCandidates;
+    private final Map<String, List<Object3D>> pickedPolygonsByRoom;
     private String previousRoom;
 
     public volatile boolean refresh;
@@ -37,6 +37,8 @@ public class W3DManager {
     public volatile boolean reload;
 
     public volatile boolean reloadNew;
+
+    public volatile boolean refreshSectorGroups;
 
     public volatile String currentRoom;
 
@@ -49,7 +51,7 @@ public class W3DManager {
     private TransformationHolder t;
 
     private W3DManager() {
-        groupCandidates = new ArrayList<>();
+        pickedPolygonsByRoom = new HashMap<>();
         polygons = new HashMap<>();
         cameraMap = new HashMap<>();
 
@@ -78,21 +80,34 @@ public class W3DManager {
         if (pickingRes != null) {
             Object3D picked = polygons.get(pickingRes[0]);
             if (picked != null) {
-                if (picked.getUserObject() != null && picked.getUserObject() instanceof String
-                        && picked.getUserObject().equals(GraphicsUtils.LINE_ID)) {
+                //if (picked.getUserObject() != null && picked.getUserObject() instanceof String
+                //        && picked.getUserObject().equals(GraphicsUtils.LINE_ID)) {
+                //    return;
+                //}
+                currentRoom = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
+                if (currentRoom == null) {
                     return;
                 }
+                pickedPolygonsByRoom.putIfAbsent(currentRoom, new ArrayList<>());
                 fromWorld.removeObject(picked.getID());
                 toWorld.addObject(picked);
                 if (addingAttempt) {
-                    if (!groupCandidates.contains(picked)) {
-                        groupCandidates.add(picked);
+                    if (!pickedPolygonsByRoom.get(currentRoom).contains(picked)) {
+                        pickedPolygonsByRoom.get(currentRoom).add(picked);
+                        W3DUserData data = (W3DUserData) picked.getUserObject();
+                        data.setChanging(true);
                     }
                 } else {
-                    groupCandidates.remove(picked);
+                    W3DUserData data = (W3DUserData) picked.getUserObject();
+                    String selectedSg = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
+                    if (selectedSg.equals(data.getSectorGroupID())) {
+                        // Remove only if picked sector group equals to selected.
+                        data.setSectorGroupID(null);
+                        pickedPolygonsByRoom.get(currentRoom).remove(picked);
+                    }
 
                 }
-                refreshSectorGroups();
+                updateSectorGroups(addingAttempt);
             }
         }
     }
@@ -111,16 +126,15 @@ public class W3DManager {
         if (reloadNew) {
             reload(true);
             reloadNew = false;
-        }
-
-        if (reload) {
+        } else if (reload) {
             reload(false);
             reload = false;
-        }
-
-        if (refresh) {
+        } else if (refresh) {
             refresh();
             refresh = false;
+        } else if (refreshSectorGroups) {
+            refreshSectorGroups();
+            refreshSectorGroups = false;
         }
 
     }
@@ -162,11 +176,18 @@ public class W3DManager {
     private void refresh() {
         nonSelectedWorld.removeAll();
         selectedWorld.removeAll();
-
         for (Object3D object3D : polygons.values()) {
             object3D.build();
+        }
+        refreshSectorGroups();
 
-            String selectedSg = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
+    }
+
+    public void refreshSectorGroups() {
+
+        String selectedSg = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
+
+        for (Object3D object3D : polygons.values()) {
 
             String sgId = ((W3DUserData) object3D.getUserObject()).getSectorGroupID();
 
@@ -207,7 +228,7 @@ public class W3DManager {
         clicking = false;
     }
 
-    private void refreshSectorGroups() {
+    private void updateSectorGroups(boolean addingAttempt) {
         String selectedSg = ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg();
         if (selectedSg == null) {
             return;
@@ -216,6 +237,7 @@ public class W3DManager {
         if (model == null) {
             return;
         }
+        // Variable in tools controller may be not up to date.
         String room = currentRoom != null ? currentRoom : ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedRoom();
         ProjectModel.RoomModel roomModel = model.getRooms().get(room);
 
@@ -224,15 +246,30 @@ public class W3DManager {
         }
         ProjectModel.RoomModel.SectorGroup sectorGroup = roomModel.getSectorGroupById().get(selectedSg);
         sectorGroup.getSectors().clear();
-        for (Object3D candidate : groupCandidates) {
+        for (Object3D candidate : pickedPolygonsByRoom.get(room)) {
             W3DUserData data = (W3DUserData) candidate.getUserObject();
+            /*if (addingAttempt) {
+                sectorGroup.getSectors().add(data.getSectorData());
+                if (data.isChanging()) {
+                    data.setSectorGroupID(sectorGroup.getId());
+                    data.setChanging(false);
+                }
+            } else {
+                sectorGroup.getSectors().remove(data.getSectorData());
+                data.setSectorGroupID(null);
+            }*/
             sectorGroup.getSectors().add(data.getSectorData());
+            if (data.isChanging()) {
+                data.setSectorGroupID(sectorGroup.getId());
+                data.setChanging(false);
+            }
         }
+
+        refreshSectorGroups();
 
     }
 
     public TransformationHolder getTransformation() {
-
         return t;
     }
 
@@ -271,12 +308,16 @@ public class W3DManager {
         public World selectedWorld;
         public World nonSelectedWorld;
         public float distance;
+        public float offX;
+        public float offY;
 
         public TransformationHolder(World selWorld, World nonSelWorld) {
 
             selectedWorld = selWorld;
             nonSelectedWorld = nonSelWorld;
             distance = 50.0f;
+            offX = 0.0f;
+            offY = 0.0f;
             restoreCam(selectedWorld.getCamera(), distance);
             restoreCam(nonSelectedWorld.getCamera(), distance);
 
