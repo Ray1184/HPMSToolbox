@@ -6,25 +6,19 @@ import java.util.List;
 
 public class LuaInstance implements LuaStatement {
 
-    public enum Type {
-        NUMBER,
-        BOOLEAN,
-        STRING,
-        OBJECT,
-        NIL
-    }
-
+    public static final LuaInstance NIL = new LuaInstance("nil", Type.NIL);
     private String parentIndent;
 
     private String name;
 
     private Type type;
 
+    private Object value;
+
     private List<LuaInstance> properties;
 
-    public static final LuaInstance NIL = new LuaInstance("nil", Type.NIL);
-
-    public LuaInstance() {}
+    public LuaInstance() {
+    }
 
     public LuaInstance(String name, Type type) {
         this(name, type, null);
@@ -64,6 +58,15 @@ public class LuaInstance implements LuaStatement {
     }
 
     /**
+     * Setter for property 'properties'.
+     *
+     * @param properties Value to set for property 'properties'.
+     */
+    public void setProperties(List<LuaInstance> properties) {
+        this.properties = properties;
+    }
+
+    /**
      * Getter for property 'type'.
      *
      * @return Value for property 'type'.
@@ -79,15 +82,6 @@ public class LuaInstance implements LuaStatement {
      */
     public void setType(Type type) {
         this.type = type;
-    }
-
-    /**
-     * Setter for property 'properties'.
-     *
-     * @param properties Value to set for property 'properties'.
-     */
-    public void setProperties(List<LuaInstance> properties) {
-        this.properties = properties;
     }
 
     @Override
@@ -108,5 +102,22 @@ public class LuaInstance implements LuaStatement {
     @Override
     public void setParentIndent(String parentIndent) {
         this.parentIndent = parentIndent;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public enum Type {
+        NUMBER,
+        BOOLEAN,
+        STRING,
+        OBJECT,
+        VOID,
+        NIL
     }
 }

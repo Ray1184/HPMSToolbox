@@ -54,14 +54,6 @@ public class ExternalRoutineExecutor {
     }
 
     private static final class OsCheck {
-        /**
-         * types of Operating Systems
-         */
-        public enum OSType {
-            Windows, MacOS, Linux, Other
-        }
-
-
         private static OSType detectedOS;
 
         public static OSType getOperatingSystemType() {
@@ -78,6 +70,13 @@ public class ExternalRoutineExecutor {
                 }
             }
             return detectedOS;
+        }
+
+        /**
+         * types of Operating Systems
+         */
+        public enum OSType {
+            Windows, MacOS, Linux, Other
         }
     }
 

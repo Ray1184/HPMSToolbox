@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        jaxb:extensionBindingPrefixes="xjc"
+        jaxb:version="1.0"
+>
+    <!-- Force generated model to serializable -->
+    <annotation>
+        <appinfo>
+            <jaxb:globalBindings generateIsSetMethod="true">
+                <xjc:serializable uid="1"/>
+            </jaxb:globalBindings>
+        </appinfo>
+    </annotation>
+    <element name="functions">
+        <complexType>
+            <sequence>
+                <element maxOccurs="unbounded" name="function">
+                    <complexType>
+                        <sequence>
+                            <element name="name" type="string"/>
+                            <element name="returnType" type="string"/>
+                            <element name="params">
+                                <complexType>
+                                    <sequence>
+                                        <element maxOccurs="unbounded" name="param">
+                                            <complexType>
+                                                <attribute name="name" type="string" use="required"/>
+                                                <attribute name="type" type="string" use="required"/>
+                                                <attribute name="description" type="string"/>
+                                            </complexType>
+                                        </element>
+                                    </sequence>
+                                </complexType>
+                            </element>
+                            <element name="body" type="string"/>
+                        </sequence>
+                        <attribute name="id" type="string" use="required"/>
+                        <attribute name="description" type="string" use="required"/>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

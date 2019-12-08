@@ -11,6 +11,15 @@ import java.awt.*;
  * @author Ray
  */
 public class CreateNewProject extends JDialog {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel container;
+    private JPanel subContainer;
+    private JLabel newProjLabel;
+    private JTextField newProjNameTxt;
+    private JPanel subContainer2;
+    private JButton okBtn;
+    private JButton cancBtn;
     public CreateNewProject(Window owner) {
         super(owner);
         initComponents();
@@ -36,13 +45,19 @@ public class CreateNewProject extends JDialog {
 
         //======== container ========
         {
-            container.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax
-            . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-            .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,container. getBorder( )) ); container. addPropertyChangeListener (new java. beans.
-            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .
-            equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            container.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new
+                    javax.swing.border.EmptyBorder(0, 0, 0, 0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax
+                    .swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM, new java
+                    .awt.Font("Dia\u006cog", java.awt.Font.BOLD, 12), java.awt
+                    .Color.red), container.getBorder()));
+            container.addPropertyChangeListener(new java.beans.
+                    PropertyChangeListener() {
+                @Override
+                public void propertyChange(java.beans.PropertyChangeEvent e) {
+                    if ("bord\u0065r".
+                            equals(e.getPropertyName())) throw new RuntimeException();
+                }
+            });
             container.setLayout(new GridLayout(2, 0, 10, 0));
 
             //======== subContainer ========
@@ -62,7 +77,7 @@ public class CreateNewProject extends JDialog {
             //======== subContainer2 ========
             {
                 subContainer2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-                ((FlowLayout)subContainer2.getLayout()).setAlignOnBaseline(true);
+                ((FlowLayout) subContainer2.getLayout()).setAlignOnBaseline(true);
 
                 //---- okBtn ----
                 okBtn.setText("OK");
@@ -79,18 +94,7 @@ public class CreateNewProject extends JDialog {
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel container;
-    private JPanel subContainer;
-    private JLabel newProjLabel;
-    private JTextField newProjNameTxt;
-    private JPanel subContainer2;
-    private JButton okBtn;
-    private JButton cancBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-
 
     public JTextField getNewProjNameTxt() {
         return newProjNameTxt;

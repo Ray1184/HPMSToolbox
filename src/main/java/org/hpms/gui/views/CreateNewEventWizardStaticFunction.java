@@ -16,9 +16,20 @@ import java.awt.*;
  * @author Ray
  */
 public class CreateNewEventWizardStaticFunction extends JPanel {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel subContainer3;
+    private JLabel argsLabel;
+    private JTextField argsTxt;
+    private JPanel subContainer;
+    private JPanel subContainer2;
+    private JButton cancBtn;
+    private JButton okBtn;
+    private RSyntaxTextArea codeArea;
     public CreateNewEventWizardStaticFunction() {
         initComponents();
     }
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -32,7 +43,7 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
         okBtn = new JButton();
 
         //======== this ========
-        setBorder(new EmptyBorder(0, 0, 0 ,0));
+        setBorder(new EmptyBorder(0, 0, 0, 0));
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         //======== subContainer3 ========
@@ -58,7 +69,7 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
         //======== subContainer2 ========
         {
             subContainer2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-            ((FlowLayout)subContainer2.getLayout()).setAlignOnBaseline(true);
+            ((FlowLayout) subContainer2.getLayout()).setAlignOnBaseline(true);
 
             //---- cancBtn ----
             cancBtn.setText("Back");
@@ -77,19 +88,6 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
 
         subContainer.add(sp);
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel subContainer3;
-    private JLabel argsLabel;
-    private JTextField argsTxt;
-    private JPanel subContainer;
-    private JPanel subContainer2;
-    private JButton cancBtn;
-    private JButton okBtn;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
-
-    private RSyntaxTextArea codeArea;
 
     /**
      * Getter for property 'codeArea'.

@@ -6,7 +6,6 @@ import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.luagen.components.LuaFunctionDeclare;
 import org.hpms.gui.luagen.parser.LuaFunctionParser;
-import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.views.BaseGui;
 import org.hpms.gui.views.CreateNewEventWizard;
 import org.hpms.gui.views.CreateNewEventWizardStaticFunction;
@@ -15,6 +14,8 @@ import org.hpms.gui.views.CreateNewEventWizardStepNameType;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
 public class EditEventDelegate {
 
@@ -120,7 +121,8 @@ public class EditEventDelegate {
                 Controllers.updateAll();
                 mainPanel.dispose();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                System.exit(-1);
             }
         });
     }

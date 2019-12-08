@@ -4,13 +4,31 @@
 
 package forms;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author N
  */
 public class CreateNewRoom extends JDialog {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel container;
+    private JPanel subContainer;
+    private JLabel roomNameLabel;
+    private JTextField roomNameTxt;
+    private JPanel subContainer5;
+    private JLabel roomTypeLabel;
+    private JComboBox roomTypeCombo;
+    private JPanel subContainer3;
+    private JLabel sgMapLbl;
+    private JTextField sgMapTxt;
+    private JButton sgMapLoadBtn;
+    private JPanel subContainer4;
+    private JCheckBox generateChk;
+    private JPanel subContainer2;
+    private JButton okBtn;
+    private JButton cancBtn;
     public CreateNewRoom(Window owner) {
         super(owner);
         initComponents();
@@ -44,12 +62,18 @@ public class CreateNewRoom extends JDialog {
 
         //======== container ========
         {
-            container.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder
-            ( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER, javax. swing. border
-            . TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,container. getBorder( )) ); container. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void
-            propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( )
-            ; }} );
+            container.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
+                    (0, 0, 0, 0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax.swing.border.TitledBorder.CENTER, javax.swing.border
+                    .TitledBorder.BOTTOM, new java.awt.Font("D\u0069alog", java.awt.Font.BOLD, 12), java.awt
+                    .Color.red), container.getBorder()));
+            container.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+                @Override
+                public void
+                propertyChange(java.beans.PropertyChangeEvent e) {
+                    if ("\u0062order".equals(e.getPropertyName())) throw new RuntimeException()
+                            ;
+                }
+            });
             container.setLayout(new GridLayout(5, 0, 10, 0));
 
             //======== subContainer ========
@@ -114,7 +138,7 @@ public class CreateNewRoom extends JDialog {
             //======== subContainer2 ========
             {
                 subContainer2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-                ((FlowLayout)subContainer2.getLayout()).setAlignOnBaseline(true);
+                ((FlowLayout) subContainer2.getLayout()).setAlignOnBaseline(true);
 
                 //---- okBtn ----
                 okBtn.setText("OK");
@@ -131,27 +155,7 @@ public class CreateNewRoom extends JDialog {
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel container;
-    private JPanel subContainer;
-    private JLabel roomNameLabel;
-    private JTextField roomNameTxt;
-    private JPanel subContainer5;
-    private JLabel roomTypeLabel;
-    private JComboBox roomTypeCombo;
-    private JPanel subContainer3;
-    private JLabel sgMapLbl;
-    private JTextField sgMapTxt;
-    private JButton sgMapLoadBtn;
-    private JPanel subContainer4;
-    private JCheckBox generateChk;
-    private JPanel subContainer2;
-    private JButton okBtn;
-    private JButton cancBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-
 
     /**
      * Getter for property 'roomNameTxt'.

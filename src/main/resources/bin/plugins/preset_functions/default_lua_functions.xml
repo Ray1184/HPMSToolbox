@@ -1,0 +1,31 @@
+<functions>
+    <function id="SET_VIEW" description="Change camera and background when an entity collides with a sector group">
+        <name>set_view</name>
+        <returnType>VOID</returnType>
+        <params>
+            <param name="entity" type="OBJECT" description="Entity handle who activates the view"/>
+            <param name="sg_id" type="STRING" description="Sector group id to sample"/>
+            <param name="background_image" type="OBJECT" description="Background to set on view change"/>
+            <param name="pos_x" type="NUMBER" description="New X value for camera position"/>
+            <param name="pos_y" type="NUMBER" description="New Y value for camera position"/>
+            <param name="pos_z" type="NUMBER" description="New Z value for camera position"/>
+            <param name="rot_x" type="NUMBER" description="New X value for camera rotation"/>
+            <param name="rot_y" type="NUMBER" description="New Y value for camera rotation"/>
+            <param name="rot_z" type="NUMBER" description="New Z value for camera rotation"/>
+        </params>
+        <body>
+            <![CDATA[
+if hpms.sample(sg_id, entity) then
+    camera.position = hpms.vec3(pos_x, pos_y, pos_z)
+    camera.orientation = hpms.vec3(rot_x, rot_y, rot_z)
+    if camera.out_of_date then
+        hpms.update_view(camera)
+        hpms.add_picture_to_scene(background_image, scene)
+    end
+end
+]]>
+        </body>
+    </function>
+
+
+</functions>

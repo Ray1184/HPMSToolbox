@@ -4,18 +4,22 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import org.hpms.gui.data.ProjectModel;
+import org.hpms.gui.plugins.DefaultFunctions;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public class ProjectManager {
 
-    private static final ProjectManager INSTANCE = new ProjectManager();
-
     public static final Kryo KRYO_SERIALIZER = new Kryo();
-
+    private static final ProjectManager INSTANCE = new ProjectManager();
+    private final DefaultFunctions defaultFunctions;
 
     private ProjectModel projectModel;
+
+    private ProjectManager() {
+        defaultFunctions = new DefaultFunctions();
+    }
 
     public static ProjectManager getInstance() {
         return INSTANCE;
@@ -28,6 +32,10 @@ public class ProjectManager {
         projectModel.getSettings().setExplodeBuild(false);
         projectModel.getSettings().setCacheImages(true);
         projectModel.getSettings().setCacheModels(true);
+    }
+
+    public DefaultFunctions getDefaultFunctions() {
+        return defaultFunctions;
     }
 
     public boolean noProject() {

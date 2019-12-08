@@ -15,13 +15,46 @@ import java.awt.*;
 public class BaseGui {
 
     private static final BaseGui INSTANCE = new BaseGui();
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JFrame mainFrame;
+    private JMenuBar mainMenu;
+    private JMenu projectBtn;
+    private JMenuItem newProjectBtn;
+    private JMenuItem loadProjectBtn;
+    private JMenuItem saveProjectBtn;
+    private JMenuItem settingsProjectBtn;
+    private JMenuItem exitProjectBtn;
+    private JMenu toolsBtn;
+    private JMenuItem newRoomToolsBtn;
+    private JMenuItem newSecGrToolsBtn;
+    private JMenuItem newEventTolsBtn;
+    private JMenu buildBtn;
+    private JMenuItem runtimeBuildBtn;
+    private JMenuItem settingsBuildBtn;
+    private JMenu helpBtn;
+    private JMenuItem tutorialsHelpBtn;
+    private JMenuItem aboutHelpsBtn;
+    private JSplitPane hSplitter;
+    private JSplitPane vSplitter;
+    private JTabbedPane roomsTabs;
+    private JScrollPane roomsTab;
+    private JList roomsList;
+    private JScrollPane functionsTab;
+    private JList functionsList;
+    private JTabbedPane toolsTab;
+    private JScrollPane sgTab;
+    private JList sgList;
+    private JScrollPane eventsTab;
+    private JList eventsList;
+    private JScrollPane workArea;
+    private JLabel infoLabel;
+    private BaseGui() {
+        initComponents();
+    }
 
     public static BaseGui getInstance() {
         return INSTANCE;
-    }
-
-    private BaseGui() {
-        initComponents();
     }
 
     private void initComponents() {
@@ -222,43 +255,7 @@ public class BaseGui {
         functionsList.setCellRenderer(new ListEntryCellRenderer());
 
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JFrame mainFrame;
-    private JMenuBar mainMenu;
-    private JMenu projectBtn;
-    private JMenuItem newProjectBtn;
-    private JMenuItem loadProjectBtn;
-    private JMenuItem saveProjectBtn;
-    private JMenuItem settingsProjectBtn;
-    private JMenuItem exitProjectBtn;
-    private JMenu toolsBtn;
-    private JMenuItem newRoomToolsBtn;
-    private JMenuItem newSecGrToolsBtn;
-    private JMenuItem newEventTolsBtn;
-    private JMenu buildBtn;
-    private JMenuItem runtimeBuildBtn;
-    private JMenuItem settingsBuildBtn;
-    private JMenu helpBtn;
-    private JMenuItem tutorialsHelpBtn;
-    private JMenuItem aboutHelpsBtn;
-    private JSplitPane hSplitter;
-    private JSplitPane vSplitter;
-    private JTabbedPane roomsTabs;
-    private JScrollPane roomsTab;
-    private JList roomsList;
-    private JScrollPane functionsTab;
-    private JList functionsList;
-    private JTabbedPane toolsTab;
-    private JScrollPane sgTab;
-    private JList sgList;
-    private JScrollPane eventsTab;
-    private JList eventsList;
-    private JScrollPane workArea;
-    private JLabel infoLabel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-
 
     public JList getRoomsList() {
         return roomsList;

@@ -208,8 +208,4 @@ public enum LuaBinaryOperator implements LuaStatement {
     public abstract List<Type> allowedTypeOnRight();
 
 
-
-
-
-
 }

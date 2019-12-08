@@ -10,8 +10,10 @@ public class LuaScript implements LuaStatement {
     private Map<String, LuaStatement> chunks;
 
     private boolean rawArray;
+    private String parentIndent;
 
-    public LuaScript() {}
+    public LuaScript() {
+    }
 
     public LuaScript(Map<String, LuaStatement> chunks, boolean rawArray) {
         this.chunks = chunks;
@@ -21,8 +23,6 @@ public class LuaScript implements LuaStatement {
     public LuaScript(Map<String, LuaStatement> chunks) {
         this(chunks, false);
     }
-
-    private String parentIndent;
 
     @Override
     public String getCode() {

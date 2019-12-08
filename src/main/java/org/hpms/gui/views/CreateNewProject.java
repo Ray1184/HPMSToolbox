@@ -12,6 +12,15 @@ import java.awt.*;
  * @author Ray
  */
 public class CreateNewProject extends JDialog {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel container;
+    private JPanel subContainer;
+    private JLabel newProjLabel;
+    private JTextField newProjNameTxt;
+    private JPanel subContainer2;
+    private JButton okBtn;
+    private JButton cancBtn;
     public CreateNewProject(Window owner) {
         super(owner);
         initComponents();
@@ -57,7 +66,7 @@ public class CreateNewProject extends JDialog {
             //======== subContainer2 ========
             {
                 subContainer2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-                ((FlowLayout)subContainer2.getLayout()).setAlignOnBaseline(true);
+                ((FlowLayout) subContainer2.getLayout()).setAlignOnBaseline(true);
 
                 //---- okBtn ----
                 okBtn.setText("OK");
@@ -74,18 +83,7 @@ public class CreateNewProject extends JDialog {
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel container;
-    private JPanel subContainer;
-    private JLabel newProjLabel;
-    private JTextField newProjNameTxt;
-    private JPanel subContainer2;
-    private JButton okBtn;
-    private JButton cancBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-
 
     public JTextField getNewProjNameTxt() {
         return newProjNameTxt;

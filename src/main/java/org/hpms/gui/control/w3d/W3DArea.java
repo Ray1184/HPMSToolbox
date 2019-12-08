@@ -1,6 +1,7 @@
 package org.hpms.gui.control.w3d;
 
 import com.threed.jpct.*;
+import org.hpms.gui.utils.GraphicsUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,19 +9,16 @@ import java.awt.event.*;
 
 public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseListener {
     private final SimpleVector line;
-
-    private FrameBuffer buffer;
     private final JComponent parent;
-
-    private boolean repaint;
     private final W3DManager helper;
+    private FrameBuffer buffer;
+    private boolean repaint;
     private int currentButton;
-    public float dx;
-    public float dy;
-    public int lastMousePosX;
-    public int lastMousePosY;
+    private float dx;
+    private float dy;
+    private int lastMousePosX;
+    private int lastMousePosY;
     private boolean loopIntegrityCheck;
-
 
 
     public W3DArea(JComponent parent) {
@@ -39,6 +37,7 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
 
             }
         });
+
         World selectedWorld = new World();
         selectedWorld.setAmbientLight(150, 150, 150);
 
@@ -105,6 +104,9 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
                 repaint = false;
             }
             buffer.clear(Color.BLACK);
+            if (helper.currentRoom != null) {
+                buffer.blit(new Texture(GraphicsUtils.textToImage(t.toString(), 10, 10)), 0, 0, 0, 0, 512, 512, FrameBuffer.OPAQUE_BLITTING);
+            }
             helper.getTransformation().selectedWorld.renderScene(buffer);
             helper.getTransformation().selectedWorld.draw(buffer);
 
@@ -120,6 +122,9 @@ public class W3DArea implements MouseMotionListener, MouseWheelListener, MouseLi
         }
         buffer.disableRenderer(IRenderer.RENDERER_OPENGL);
         buffer.dispose();
+        if (helper != null && helper.initialized()) {
+            // TODO Manage key released.
+        }
     }
 
     private void fixCamera(World world, Matrix m) {

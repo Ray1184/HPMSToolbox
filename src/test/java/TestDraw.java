@@ -6,10 +6,8 @@ import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 
 import static org.hpms.gui.data.ProjectModel.DEFAULT_SG_NAME;
 import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
@@ -23,6 +21,7 @@ public class TestDraw {
             UIManager.setLookAndFeel(new DarculaLaf());
         } catch (UnsupportedLookAndFeelException e) {
             JOptionPane.showMessageDialog(null, createReadOnlyJTextField(e), "Error", JOptionPane.PLAIN_MESSAGE);
+            System.exit(-1);
 
         }
         testDraw();

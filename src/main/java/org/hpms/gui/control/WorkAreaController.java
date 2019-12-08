@@ -1,7 +1,6 @@
 package org.hpms.gui.control;
 
 import org.hpms.gui.control.w3d.W3DArea;
-import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
@@ -35,21 +34,21 @@ public class WorkAreaController implements Controller {
                     super.done();
                     if (exception != null) {
                         JOptionPane.showMessageDialog(null, createReadOnlyJTextField(exception), "Error", JOptionPane.PLAIN_MESSAGE);
+                        System.exit(-1);
                     }
                 }
             }.execute();
 
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(e), "Error", JOptionPane.PLAIN_MESSAGE);
-            BaseGui.getInstance().getMainFrame().dispose();
+            JOptionPane.showMessageDialog(null, createReadOnlyJTextField(e), "Error", JOptionPane.PLAIN_MESSAGE);
+            System.exit(-1);
+
         }
     }
 
     @Override
     public void update() {
-
-
 
 
     }

@@ -14,7 +14,8 @@ public class LuaFunctionCall implements LuaStatement {
 
     protected String parentIndent;
 
-    public LuaFunctionCall() {}
+    public LuaFunctionCall() {
+    }
 
     public LuaFunctionCall(LuaInstance returnInstance, String name, List<LuaInstance> parameters) {
         this.returnInstance = returnInstance;
@@ -114,7 +115,22 @@ public class LuaFunctionCall implements LuaStatement {
                     sb.append(", ");
                 }
                 first = false;
-                sb.append(param.getCode());
+                String val;
+                switch (param.getType()) {
+                    case BOOLEAN:
+                    case NUMBER:
+                    case OBJECT:
+                    case STRING:
+                        val = (String) param.getValue();
+                        break;
+                    case VOID:
+                        val = "";
+                        break;
+                    default:
+                        val = "nil";
+                        break;
+                }
+                sb.append(val);
             }
         }
         sb.append(")");

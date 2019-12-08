@@ -7,13 +7,14 @@ import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.luagen.components.LuaFunctionDeclare;
 import org.hpms.gui.luagen.parser.LuaFunctionParser;
 import org.hpms.gui.utils.EasyDocumentListener;
-import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.views.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
 public class CreateEventDelegate {
     public static final String NEW_EVENT = "NEW_EVENT";
@@ -123,7 +124,8 @@ public class CreateEventDelegate {
                 Controllers.updateAll();
                 mainPanel.dispose();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                System.exit(-1);
             }
         });
 

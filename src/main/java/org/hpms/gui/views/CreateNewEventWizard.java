@@ -12,6 +12,10 @@ import java.awt.*;
  * @author N
  */
 public class CreateNewEventWizard extends JDialog {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel wizardManager;
+
     public CreateNewEventWizard(Window owner) {
         super(owner);
         initComponents();
@@ -39,12 +43,7 @@ public class CreateNewEventWizard extends JDialog {
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel wizardManager;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-
 
     /**
      * Getter for property 'wizardManager'.

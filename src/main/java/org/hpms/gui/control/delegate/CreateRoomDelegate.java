@@ -6,7 +6,6 @@ import org.hpms.gui.control.w3d.W3DManager;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.utils.EasyDocumentListener;
-import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.utils.Utils;
 import org.hpms.gui.views.BaseGui;
 import org.hpms.gui.views.CreateNewRoom;
@@ -15,6 +14,8 @@ import org.hpms.gui.views.Labels;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
 public class CreateRoomDelegate {
 
@@ -54,7 +55,8 @@ public class CreateRoomDelegate {
                 }
                 createNewRoom.getSgMapTxt().setText(f.getSelectedFile().getAbsolutePath());
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                System.exit(-1);
             }
         });
 
@@ -67,7 +69,8 @@ public class CreateRoomDelegate {
             try {
                 Utils.copyFile(createNewRoom.getSgMapTxt().getText(), project.getProjectFloorsPath() + File.separator + createNewRoom.getRoomNameTxt().getText().trim() + "_floor");
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                System.exit(-1);
             }
             ProjectModel.RoomModel room = new ProjectModel.RoomModel();
             String roomName = createNewRoom.getRoomNameTxt().getText().trim();

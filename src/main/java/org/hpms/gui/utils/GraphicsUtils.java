@@ -6,6 +6,7 @@ import com.threed.jpct.Object3D;
 import com.threed.jpct.SimpleVector;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,28 +17,7 @@ public class GraphicsUtils {
 
 
     public static final String LINE_ID = "#GuideLine#";
-
-    private static class CircularArray<T> {
-        private final List<T> list;
-        private int counter;
-
-        public CircularArray() {
-            list = new ArrayList<>();
-            counter = 0;
-        }
-
-        public void insert(T object) {
-            list.add(object);
-        }
-
-        public T next() {
-            if (counter >= list.size()) {
-                counter = 0;
-            }
-            return list.get(counter++);
-        }
-    }
-
+    private static final LRUCache<String, BufferedImage> imagesBuffer;
     private static final CircularArray<Color> colorWheel = new CircularArray<>();
 
     static {
@@ -51,6 +31,7 @@ public class GraphicsUtils {
         colorWheel.insert(Color.MAGENTA);
         colorWheel.insert(Color.YELLOW);
         colorWheel.insert(Color.PINK);
+        imagesBuffer = new LRUCache<>(512);
     }
 
     public static Object3D loadModel(String filename, float scale) {
@@ -118,7 +99,6 @@ public class GraphicsUtils {
         return newModels;
     }
 
-
     public static Color nextColor() {
         return colorWheel.next();
     }
@@ -136,5 +116,47 @@ public class GraphicsUtils {
         line.setUserObject(LINE_ID);
         line.build();
         return line;
+    }
+
+    public static BufferedImage textToImage(String text, int x, int y) {
+        String key = x + text + y;
+        if (imagesBuffer.hasKey(key)) {
+            return imagesBuffer.get(key);
+        }
+
+        BufferedImage bufferedImage = new BufferedImage(512, 512,
+                BufferedImage.TYPE_INT_RGB);
+
+        Graphics graphics = bufferedImage.getGraphics();
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(0, 0, 512, 512);
+        graphics.setColor(Color.GRAY);
+        graphics.setFont(new Font("Courier New", Font.PLAIN, 10));
+        for (String line : text.split("\n")) {
+            graphics.drawString(line, x, y += graphics.getFontMetrics().getHeight());
+        }
+        return bufferedImage;
+
+    }
+
+    private static class CircularArray<T> {
+        private final List<T> list;
+        private int counter;
+
+        public CircularArray() {
+            list = new ArrayList<>();
+            counter = 0;
+        }
+
+        public void insert(T object) {
+            list.add(object);
+        }
+
+        public T next() {
+            if (counter >= list.size()) {
+                counter = 0;
+            }
+            return list.get(counter++);
+        }
     }
 }

@@ -39,12 +39,11 @@ public class Main {
         javax.swing.SwingUtilities.invokeLater(main::createAndShowGUI);
 
 
-
     }
 
     private void checkWorkspace() throws Exception {
         File jarFile = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        File file = new File(jarFile.getParentFile(), "Toolbox.ini");
+        File file = new File(jarFile.getParentFile(), "toolbox.ini");
         if (!file.exists()) {
             showWorkspaceChooser(file);
 
@@ -103,6 +102,7 @@ public class Main {
             } catch (IOException ex) {
                 frame.dispose();
                 JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                System.exit(-1);
             }
         });
     }
@@ -124,6 +124,7 @@ public class Main {
             UIManager.setLookAndFeel(new DarculaLaf());
         } catch (UnsupportedLookAndFeelException e) {
             JOptionPane.showMessageDialog(null, createReadOnlyJTextField(e), "Error", JOptionPane.PLAIN_MESSAGE);
+            System.exit(-1);
 
         }
 
@@ -138,6 +139,7 @@ public class Main {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, createReadOnlyJTextField(e), "Error", JOptionPane.PLAIN_MESSAGE);
             System.exit(-1);
+
         }
 
 
@@ -173,7 +175,6 @@ public class Main {
         ProjectManager.KRYO_SERIALIZER.register(LinkedHashMap.class);
 
     }
-
 
 
 }

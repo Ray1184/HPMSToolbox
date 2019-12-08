@@ -8,7 +8,8 @@ public class LuaExpression implements LuaStatement {
 
     private String expression;
 
-    public LuaExpression() {}
+    public LuaExpression() {
+    }
 
     public LuaExpression(String expression) {
         this.expression = expression;
@@ -16,7 +17,12 @@ public class LuaExpression implements LuaStatement {
 
     @Override
     public String getCode() {
-        return parentIndex + expression;
+        StringBuilder sb = new StringBuilder();
+        String[] tokens = expression.split("\n");
+        for (String token : tokens) {
+            sb.append(parentIndex).append(token).append("\n");
+        }
+        return sb.toString();
     }
 
     @Override

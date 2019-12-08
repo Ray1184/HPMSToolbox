@@ -4,7 +4,6 @@ import org.hpms.gui.AppInfo;
 import org.hpms.gui.control.delegate.*;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
-import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
@@ -13,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
 public class MenuController implements Controller, ActionListener {
 
@@ -68,7 +69,8 @@ public class MenuController implements Controller, ActionListener {
                     ProjectManager.getInstance().persistToFile(ProjectManager.getInstance().getProjectModel().getProjectPath() +
                             File.separator + ProjectManager.getInstance().getProjectModel().getProjectName() + ".hproj");
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                    System.exit(-1);
                 }
                 break;
             case "PREFERENCES":

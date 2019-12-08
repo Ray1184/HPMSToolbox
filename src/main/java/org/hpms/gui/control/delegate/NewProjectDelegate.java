@@ -4,12 +4,13 @@ import org.hpms.gui.AppInfo;
 import org.hpms.gui.control.Controllers;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.utils.EasyDocumentListener;
-import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.views.BaseGui;
 import org.hpms.gui.views.CreateNewProject;
 
 import javax.swing.*;
 import java.io.File;
+
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
 public class NewProjectDelegate {
     private final CreateNewProject newProject;
@@ -54,9 +55,9 @@ public class NewProjectDelegate {
                 Controllers.updateAll();
                 newProject.dispose();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
-                newProject.dispose();
-                BaseGui.getInstance().getMainFrame().dispose();
+                JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                System.exit(-1);
+
             }
         });
     }

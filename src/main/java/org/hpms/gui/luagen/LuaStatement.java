@@ -6,20 +6,27 @@ public interface LuaStatement {
 
     String INDENTATION = "    ";
 
+    String getCode();
+
+    String getParentIndent();
+
+    void setParentIndent(String indent);
+
+    ValidationResult validate();
+
     class ValidationResult {
+
+        private final boolean valid;
+        private final List<String> reasons;
 
         public ValidationResult(boolean valid, List<String> reasons) {
             this.valid = valid;
             this.reasons = reasons;
 
         }
-
         public ValidationResult(boolean valid) {
             this(valid, null);
         }
-
-        private final boolean valid;
-        private final List<String> reasons;
 
         /**
          * Getter for property 'valid'.
@@ -39,14 +46,6 @@ public interface LuaStatement {
             return reasons;
         }
     }
-
-    String getCode();
-
-    String getParentIndent();
-
-    void setParentIndent(String indent);
-
-    ValidationResult validate();
 
 
 }

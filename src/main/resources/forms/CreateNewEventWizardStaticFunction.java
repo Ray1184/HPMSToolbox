@@ -2,8 +2,8 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 /*
  * Created by JFormDesigner on Sat Oct 26 17:44:38 CEST 2019
  */
@@ -13,9 +13,20 @@ import javax.swing.*;
  * @author Ray
  */
 public class CreateNewEventWizardStaticFunction extends JPanel {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel subContainer3;
+    private JLabel argsLabel;
+    private JTextField argsTxt;
+    private JPanel subContainer;
+    private JPanel subContainer2;
+    private JButton cancBtn;
+    private JButton okBtn;
+    private RSyntaxTextArea codeArea;
     public CreateNewEventWizardStaticFunction() {
         initComponents();
     }
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -29,12 +40,18 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
         okBtn = new JButton();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
-        . border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder
-        . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
-        awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder( )) )
-        ;  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-        ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing
+                .border.EmptyBorder(0, 0, 0, 0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax.swing.border.TitledBorder
+                .CENTER, javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dia\u006cog", java.
+                awt.Font.BOLD, 12), java.awt.Color.red), getBorder()))
+        ;
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            @Override
+            public void propertyChange(java.beans.PropertyChangeEvent e
+            ) {
+                if ("bord\u0065r".equals(e.getPropertyName())) throw new RuntimeException();
+            }
+        })
         ;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -61,7 +78,7 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
         //======== subContainer2 ========
         {
             subContainer2.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-            ((FlowLayout)subContainer2.getLayout()).setAlignOnBaseline(true);
+            ((FlowLayout) subContainer2.getLayout()).setAlignOnBaseline(true);
 
             //---- cancBtn ----
             cancBtn.setText("Back");
@@ -80,19 +97,6 @@ public class CreateNewEventWizardStaticFunction extends JPanel {
 
         subContainer.add(sp);
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel subContainer3;
-    private JLabel argsLabel;
-    private JTextField argsTxt;
-    private JPanel subContainer;
-    private JPanel subContainer2;
-    private JButton cancBtn;
-    private JButton okBtn;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
-
-    private RSyntaxTextArea codeArea;
 
     /**
      * Getter for property 'codeArea'.

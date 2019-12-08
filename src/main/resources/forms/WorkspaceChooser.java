@@ -5,13 +5,22 @@
 package org.hpms.gui.views;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import javax.swing.border.*;
 
 /**
  * @author N
  */
 public class WorkspaceChooser extends JFrame {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel container;
+    private JLabel chooseWorkspaceLbl;
+    private JPanel subContainer;
+    private JTextField workspaceTxt;
+    private JButton workspaceLoadBtn;
+    private JPanel subContainer2;
+    private JButton confirmWorkspaceBtn;
     public WorkspaceChooser() {
         initComponents();
     }
@@ -37,12 +46,18 @@ public class WorkspaceChooser extends JFrame {
         //======== container ========
         {
             container.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
-            swing.border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border
-            .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog"
-            ,java.awt.Font.BOLD,12),java.awt.Color.red),container. getBorder
-            ()));container. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
-            .beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException
-            ();}});
+                    swing.border.EmptyBorder(0, 0, 0, 0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax.swing.border
+                    .TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dia\u006cog"
+                    , java.awt.Font.BOLD, 12), java.awt.Color.red), container.getBorder
+                    ()));
+            container.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+                @Override
+                public void propertyChange(java
+                                                   .beans.PropertyChangeEvent e) {
+                    if ("bord\u0065r".equals(e.getPropertyName())) throw new RuntimeException
+                            ();
+                }
+            });
             container.setLayout(new GridLayout(3, 0));
 
             //---- chooseWorkspaceLbl ----
@@ -82,16 +97,6 @@ public class WorkspaceChooser extends JFrame {
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel container;
-    private JLabel chooseWorkspaceLbl;
-    private JPanel subContainer;
-    private JTextField workspaceTxt;
-    private JButton workspaceLoadBtn;
-    private JPanel subContainer2;
-    private JButton confirmWorkspaceBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     /**
@@ -120,9 +125,6 @@ public class WorkspaceChooser extends JFrame {
     public JButton getConfirmWorkspaceBtn() {
         return confirmWorkspaceBtn;
     }
-
-
-
 
 
 }

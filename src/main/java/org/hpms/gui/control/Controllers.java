@@ -13,6 +13,18 @@ public enum Controllers {
         this.controller = controller;
     }
 
+    public static void initAll() {
+        for (Controllers c : Controllers.values()) {
+            c.init();
+        }
+    }
+
+    public static void updateAll() {
+        for (Controllers c : Controllers.values()) {
+            c.update();
+        }
+    }
+
     public void init() {
         controller.init();
     }
@@ -28,18 +40,6 @@ public enum Controllers {
      */
     public Controller getController() {
         return controller;
-    }
-
-    public static void initAll() {
-        for (Controllers c : Controllers.values()) {
-            c.init();
-        }
-    }
-
-    public static void updateAll() {
-        for (Controllers c : Controllers.values()) {
-            c.update();
-        }
     }
 
 

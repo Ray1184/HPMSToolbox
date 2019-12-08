@@ -20,6 +20,27 @@ public class ProjectModel implements Serializable {
     public static final String SHADERS_DIR = DATA_DIR + File.separator + "shaders";
     public static final String SCRIPTS_DIR = DATA_DIR + File.separator + "scripts";
     public static final String DEFAULT_SG_NAME = "____default____";
+    private UserSettings userSettings;
+    private ProjectPreferences preferences;
+    private BuildSettings settings;
+    private Map<String, RoomModel> rooms;
+    private Map<String, LuaFunctionDeclare> commonFunctions;
+    private String firstRoom;
+    private String projectPath;
+    private String runtimeName;
+    private String projectName;
+    private String projectModelsPath;
+    private String projectTexturesPath;
+    private String projectFloorsPath;
+    private String projectAudioPath;
+
+    public ProjectModel() {
+        rooms = new LinkedHashMap<>();
+        userSettings = new UserSettings();
+        preferences = new ProjectPreferences();
+        settings = new BuildSettings();
+        commonFunctions = new LinkedHashMap<>();
+    }
 
     public String getProjectPath() {
         return projectPath;
@@ -37,16 +58,142 @@ public class ProjectModel implements Serializable {
         this.runtimeName = runtimeName;
     }
 
+    public UserSettings getUserSettings() {
+        return userSettings;
+    }
+
+    public void setUserSettings(UserSettings userSettings) {
+        this.userSettings = userSettings;
+    }
+
+    public ProjectPreferences getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(ProjectPreferences preferences) {
+        this.preferences = preferences;
+    }
+
+    public BuildSettings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(BuildSettings settings) {
+        this.settings = settings;
+    }
+
+    public Map<String, RoomModel> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Map<String, RoomModel> rooms) {
+        this.rooms = rooms;
+    }
+
+    public String getFirstRoom() {
+        return firstRoom;
+    }
+
+    public void setFirstRoom(String firstRoom) {
+        this.firstRoom = firstRoom;
+    }
+
+    public Map<String, LuaFunctionDeclare> getCommonFunctions() {
+        return commonFunctions;
+    }
+
+    public void setCommonFunctions(Map<String, LuaFunctionDeclare> commonFunctions) {
+        this.commonFunctions = commonFunctions;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    /**
+     * Getter for property 'projectModelsPath'.
+     *
+     * @return Value for property 'projectModelsPath'.
+     */
+    public String getProjectModelsPath() {
+        return projectModelsPath;
+    }
+
+    /**
+     * Setter for property 'projectModelsPath'.
+     *
+     * @param projectModelsPath Value to set for property 'projectModelsPath'.
+     */
+    public void setProjectModelsPath(String projectModelsPath) {
+        this.projectModelsPath = projectModelsPath;
+    }
+
+    /**
+     * Getter for property 'projectTexturesPath'.
+     *
+     * @return Value for property 'projectTexturesPath'.
+     */
+    public String getProjectTexturesPath() {
+        return projectTexturesPath;
+    }
+
+    /**
+     * Setter for property 'projectTexturesPath'.
+     *
+     * @param projectTexturesPath Value to set for property 'projectTexturesPath'.
+     */
+    public void setProjectTexturesPath(String projectTexturesPath) {
+        this.projectTexturesPath = projectTexturesPath;
+    }
+
+    /**
+     * Getter for property 'projectFloorsPath'.
+     *
+     * @return Value for property 'projectFloorsPath'.
+     */
+    public String getProjectFloorsPath() {
+        return projectFloorsPath;
+    }
+
+    /**
+     * Setter for property 'projectFloorsPath'.
+     *
+     * @param projectFloorsPath Value to set for property 'projectFloorsPath'.
+     */
+    public void setProjectFloorsPath(String projectFloorsPath) {
+        this.projectFloorsPath = projectFloorsPath;
+    }
+
+    /**
+     * Getter for property 'projectAudioPath'.
+     *
+     * @return Value for property 'projectAudioPath'.
+     */
+    public String getProjectAudioPath() {
+        return projectAudioPath;
+    }
+
+    /**
+     * Setter for property 'projectAudioPath'.
+     *
+     * @param projectAudioPath Value to set for property 'projectAudioPath'.
+     */
+    public void setProjectAudioPath(String projectAudioPath) {
+        this.projectAudioPath = projectAudioPath;
+    }
+
     public static class UserSettings implements Serializable {
+
+        float lastMapX;
+        float lastMapY;
+        float lastZoomFactor;
 
         public UserSettings() {
         }
-
-        float lastMapX;
-
-        float lastMapY;
-
-        float lastZoomFactor;
 
         public float getLastMapX() {
             return lastMapX;
@@ -81,16 +228,13 @@ public class ProjectModel implements Serializable {
 
     public static class BuildSettings implements Serializable {
 
+        private boolean explodeBuild;
+        private boolean debug;
+        private boolean cacheImages;
+        private boolean cacheModels;
+
         public BuildSettings() {
         }
-
-        private boolean explodeBuild;
-
-        private boolean debug;
-
-        private boolean cacheImages;
-
-        private boolean cacheModels;
 
         public boolean isExplodeBuild() {
             return explodeBuild;
@@ -125,8 +269,49 @@ public class ProjectModel implements Serializable {
         }
     }
 
-
     public static class RoomModel implements Serializable {
+
+        private String name;
+        private Map<String, SectorGroup> sectorGroupById;
+        private Map<String, Event> eventsById;
+        private PipelineType pipelineType;
+
+        public RoomModel() {
+            eventsById = new LinkedHashMap<>();
+            sectorGroupById = new LinkedHashMap<>();
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public synchronized Map<String, SectorGroup> getSectorGroupById() {
+            return sectorGroupById;
+        }
+
+        public synchronized void setSectorGroupById(Map<String, SectorGroup> sectorGroupById) {
+            this.sectorGroupById = sectorGroupById;
+        }
+
+        public Map<String, Event> getEventsById() {
+            return eventsById;
+        }
+
+        public void setEventsById(Map<String, Event> eventsById) {
+            this.eventsById = eventsById;
+        }
+
+        public PipelineType getPipelineType() {
+            return pipelineType;
+        }
+
+        public void setPipelineType(PipelineType pipelineType) {
+            this.pipelineType = pipelineType;
+        }
 
         public enum PipelineType {
             R25D,
@@ -136,64 +321,10 @@ public class ProjectModel implements Serializable {
 
         public static class Event implements Serializable {
 
-            public enum TriggerType {
-                INIT("setup"),
-                LOOP("update"),
-                CLEANUP("cleanup");
-
-                private final String scriptPart;
-
-                TriggerType(String scriptPart) {
-                    this.scriptPart = scriptPart;
-                }
-
-                public String getScriptPart() {
-                    return scriptPart;
-                }
-            }
-
-            public static class ConditionAction implements Serializable {
-                public ConditionAction() {
-                }
-
-                private LuaIfStatement ifStatement;
-
-                public LuaIfStatement getIfStatement() {
-                    return ifStatement;
-                }
-
-                public void setIfStatement(LuaIfStatement ifStatement) {
-                    this.ifStatement = ifStatement;
-                }
-            }
-
-            public static class Action implements Serializable {
-                public Action() {
-                    statementList = new ArrayList<>();
-                }
-
-                private List<LuaStatement> statementList;
-
-                public List<LuaStatement> getStatementList() {
-                    return statementList;
-                }
-
-                public void setStatementList(List<LuaStatement> statementList) {
-                    this.statementList = statementList;
-                }
-
-
-            }
-
             private String name;
-
-
             private ConditionAction conditionAction;
-
             private Action action;
-
             private TriggerType triggerType;
-
             private int priority;
 
             public Event() {
@@ -242,40 +373,85 @@ public class ProjectModel implements Serializable {
                 this.priority = priority;
             }
 
+            public enum TriggerType {
+                INIT("setup"),
+                LOOP("update"),
+                CLEANUP("cleanup");
+
+                private final String scriptPart;
+
+                TriggerType(String scriptPart) {
+                    this.scriptPart = scriptPart;
+                }
+
+                public String getScriptPart() {
+                    return scriptPart;
+                }
+            }
+
+            public static class ConditionAction implements Serializable {
+                private LuaIfStatement ifStatement;
+
+                public ConditionAction() {
+                }
+
+                public LuaIfStatement getIfStatement() {
+                    return ifStatement;
+                }
+
+                public void setIfStatement(LuaIfStatement ifStatement) {
+                    this.ifStatement = ifStatement;
+                }
+            }
+
+            public static class Action implements Serializable {
+                private List<LuaStatement> statementList;
+
+                public Action() {
+                    statementList = new ArrayList<>();
+                }
+
+                public List<LuaStatement> getStatementList() {
+                    return statementList;
+                }
+
+                public void setStatementList(List<LuaStatement> statementList) {
+                    this.statementList = statementList;
+                }
+
+
+            }
+
         }
 
         public static class SectorGroup implements Serializable {
+            private List<Sector> sectors;
+            private String id;
+
+            public SectorGroup() {
+                sectors = new ArrayList<>();
+            }
+
+            public synchronized List<Sector> getSectors() {
+                return sectors;
+            }
+
+            public synchronized void setSectors(List<Sector> sectors) {
+                this.sectors = sectors;
+            }
+
+            public synchronized String getId() {
+                return id;
+            }
+
+            public synchronized void setId(String id) {
+                this.id = id;
+            }
+
             public static class Sector implements Serializable {
-                public static class PerimetralSide implements Serializable {
-                    private int idx1;
-                    private int idx2;
-
-                    public PerimetralSide() {
-                    }
-
-                    public synchronized int getIdx1() {
-                        return idx1;
-                    }
-
-                    public synchronized void setIdx1(int idx1) {
-                        this.idx1 = idx1;
-                    }
-
-                    public synchronized int getIdx2() {
-                        return idx2;
-                    }
-
-                    public synchronized void setIdx2(int idx2) {
-                        this.idx2 = idx2;
-                    }
-                }
-
                 private float x1, x2, x3, y1, y2, y3, z1, z2, z3;
-
                 private String id;
-
                 private String groupId;
-
                 private List<PerimetralSide> sides;
 
                 public Sector() {
@@ -416,241 +592,32 @@ public class ProjectModel implements Serializable {
                     return Float.compare(sector.z3, z3) == 0;
                 }
 
+                public static class PerimetralSide implements Serializable {
+                    private int idx1;
+                    private int idx2;
+
+                    public PerimetralSide() {
+                    }
+
+                    public synchronized int getIdx1() {
+                        return idx1;
+                    }
+
+                    public synchronized void setIdx1(int idx1) {
+                        this.idx1 = idx1;
+                    }
+
+                    public synchronized int getIdx2() {
+                        return idx2;
+                    }
+
+                    public synchronized void setIdx2(int idx2) {
+                        this.idx2 = idx2;
+                    }
+                }
+
 
             }
-
-            private List<Sector> sectors;
-
-            private String id;
-
-            public SectorGroup() {
-                sectors = new ArrayList<>();
-            }
-
-            public synchronized List<Sector> getSectors() {
-                return sectors;
-            }
-
-            public synchronized void setSectors(List<Sector> sectors) {
-                this.sectors = sectors;
-            }
-
-            public synchronized String getId() {
-                return id;
-            }
-
-            public synchronized void setId(String id) {
-                this.id = id;
-            }
         }
-
-        private String name;
-
-        private Map<String, SectorGroup> sectorGroupById;
-
-        private Map<String, Event> eventsById;
-
-        private PipelineType pipelineType;
-
-
-        public RoomModel() {
-            eventsById = new LinkedHashMap<>();
-            sectorGroupById = new LinkedHashMap<>();
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public synchronized Map<String, SectorGroup> getSectorGroupById() {
-            return sectorGroupById;
-        }
-
-        public synchronized void setSectorGroupById(Map<String, SectorGroup> sectorGroupById) {
-            this.sectorGroupById = sectorGroupById;
-        }
-
-        public Map<String, Event> getEventsById() {
-            return eventsById;
-        }
-
-        public void setEventsById(Map<String, Event> eventsById) {
-            this.eventsById = eventsById;
-        }
-
-
-        public PipelineType getPipelineType() {
-            return pipelineType;
-        }
-
-        public void setPipelineType(PipelineType pipelineType) {
-            this.pipelineType = pipelineType;
-        }
-    }
-
-    private UserSettings userSettings;
-
-    private ProjectPreferences preferences;
-
-    private BuildSettings settings;
-
-    private Map<String, RoomModel> rooms;
-
-    private Map<String, LuaFunctionDeclare> commonFunctions;
-
-    private String firstRoom;
-
-    private String projectPath;
-
-    private String runtimeName;
-
-    private String projectName;
-
-    private String projectModelsPath;
-
-    private String projectTexturesPath;
-
-    private String projectFloorsPath;
-
-    private String projectAudioPath;
-
-    public ProjectModel() {
-        rooms = new LinkedHashMap<>();
-        userSettings = new UserSettings();
-        preferences = new ProjectPreferences();
-        settings = new BuildSettings();
-        commonFunctions = new LinkedHashMap<>();
-    }
-
-    public UserSettings getUserSettings() {
-        return userSettings;
-    }
-
-    public void setUserSettings(UserSettings userSettings) {
-        this.userSettings = userSettings;
-    }
-
-    public ProjectPreferences getPreferences() {
-        return preferences;
-    }
-
-    public void setPreferences(ProjectPreferences preferences) {
-        this.preferences = preferences;
-    }
-
-    public BuildSettings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(BuildSettings settings) {
-        this.settings = settings;
-    }
-
-    public Map<String, RoomModel> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(Map<String, RoomModel> rooms) {
-        this.rooms = rooms;
-    }
-
-    public String getFirstRoom() {
-        return firstRoom;
-    }
-
-    public void setFirstRoom(String firstRoom) {
-        this.firstRoom = firstRoom;
-    }
-
-    public Map<String, LuaFunctionDeclare> getCommonFunctions() {
-        return commonFunctions;
-    }
-
-    public void setCommonFunctions(Map<String, LuaFunctionDeclare> commonFunctions) {
-        this.commonFunctions = commonFunctions;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    /**
-     * Getter for property 'projectModelsPath'.
-     *
-     * @return Value for property 'projectModelsPath'.
-     */
-    public String getProjectModelsPath() {
-        return projectModelsPath;
-    }
-
-    /**
-     * Setter for property 'projectModelsPath'.
-     *
-     * @param projectModelsPath Value to set for property 'projectModelsPath'.
-     */
-    public void setProjectModelsPath(String projectModelsPath) {
-        this.projectModelsPath = projectModelsPath;
-    }
-
-    /**
-     * Getter for property 'projectTexturesPath'.
-     *
-     * @return Value for property 'projectTexturesPath'.
-     */
-    public String getProjectTexturesPath() {
-        return projectTexturesPath;
-    }
-
-    /**
-     * Setter for property 'projectTexturesPath'.
-     *
-     * @param projectTexturesPath Value to set for property 'projectTexturesPath'.
-     */
-    public void setProjectTexturesPath(String projectTexturesPath) {
-        this.projectTexturesPath = projectTexturesPath;
-    }
-
-    /**
-     * Getter for property 'projectFloorsPath'.
-     *
-     * @return Value for property 'projectFloorsPath'.
-     */
-    public String getProjectFloorsPath() {
-        return projectFloorsPath;
-    }
-
-    /**
-     * Setter for property 'projectFloorsPath'.
-     *
-     * @param projectFloorsPath Value to set for property 'projectFloorsPath'.
-     */
-    public void setProjectFloorsPath(String projectFloorsPath) {
-        this.projectFloorsPath = projectFloorsPath;
-    }
-
-    /**
-     * Getter for property 'projectAudioPath'.
-     *
-     * @return Value for property 'projectAudioPath'.
-     */
-    public String getProjectAudioPath() {
-        return projectAudioPath;
-    }
-
-    /**
-     * Setter for property 'projectAudioPath'.
-     *
-     * @param projectAudioPath Value to set for property 'projectAudioPath'.
-     */
-    public void setProjectAudioPath(String projectAudioPath) {
-        this.projectAudioPath = projectAudioPath;
     }
 }

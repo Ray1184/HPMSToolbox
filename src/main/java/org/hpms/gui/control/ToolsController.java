@@ -5,7 +5,6 @@ import org.hpms.gui.control.w3d.W3DManager;
 import org.hpms.gui.data.ProjectModel;
 import org.hpms.gui.logic.ProjectManager;
 import org.hpms.gui.utils.EasyMouseListener;
-import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.utils.ListEntry;
 import org.hpms.gui.views.BaseGui;
 
@@ -16,22 +15,21 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
+
 public class ToolsController implements Controller {
 
+    public static final int ROOM = 0;
+    public static final int SG = 1;
+    public static final int EVENT = 2;
+    public static final int FUNCTION = 3;
     private final EditEventDelegate editEventDelegate = new EditEventDelegate();
-
-
     private String selectedRoom;
     private String selectedEvent;
     private String selectedSg;
     private String selectedFunction;
     private boolean addingRoom;
     private boolean deletingRoom;
-
-    public static final int ROOM = 0;
-    public static final int SG = 1;
-    public static final int EVENT = 2;
-    public static final int FUNCTION = 3;
 
     @Override
     public void init() {
@@ -168,7 +166,8 @@ public class ToolsController implements Controller {
                 }
                 W3DManager.getInstance().reload = true;
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+                System.exit(-1);
             }
         });
 
@@ -217,7 +216,8 @@ public class ToolsController implements Controller {
             manageEventsSelection();
             manageSectorGroupsSelection();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+            System.exit(-1);
         }
 
         if (selectedRoom == null) {
@@ -392,28 +392,28 @@ public class ToolsController implements Controller {
         return selectedRoom;
     }
 
-    public synchronized String getSelectedEvent() {
-        return selectedEvent;
-    }
-
-    public synchronized String getSelectedSg() {
-        return selectedSg;
-    }
-
-    public synchronized String getSelectedFunction() {
-        return selectedFunction;
-    }
-
     public synchronized void setSelectedRoom(String selectedRoom) {
         this.selectedRoom = selectedRoom;
+    }
+
+    public synchronized String getSelectedEvent() {
+        return selectedEvent;
     }
 
     public synchronized void setSelectedEvent(String selectedEvent) {
         this.selectedEvent = selectedEvent;
     }
 
+    public synchronized String getSelectedSg() {
+        return selectedSg;
+    }
+
     public synchronized void setSelectedSg(String selectedSg) {
         this.selectedSg = selectedSg;
+    }
+
+    public synchronized String getSelectedFunction() {
+        return selectedFunction;
     }
 
     public synchronized void setSelectedFunction(String selectedFunction) {

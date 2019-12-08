@@ -2,14 +2,14 @@ package org.hpms.gui.control.delegate;
 
 import org.hpms.gui.AppInfo;
 import org.hpms.gui.control.Controllers;
-import org.hpms.gui.control.ToolsController;
 import org.hpms.gui.logic.ProjectManager;
-import org.hpms.gui.utils.ErrorManager;
 import org.hpms.gui.views.BaseGui;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+
+import static org.hpms.gui.utils.ErrorManager.createReadOnlyJTextField;
 
 public class LoadProjectDelegate {
     public LoadProjectDelegate() {
@@ -41,7 +41,8 @@ public class LoadProjectDelegate {
             ProjectManager.getInstance().getProjectModel().setProjectFloorsPath(projFloors.getAbsolutePath());
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ErrorManager.createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, createReadOnlyJTextField(ex), "Error", JOptionPane.PLAIN_MESSAGE);
+            System.exit(-1);
         }
         Controllers.updateAll();
         if (ProjectManager.getInstance().getProjectModel().getRooms().size() > 0) {

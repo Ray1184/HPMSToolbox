@@ -4,13 +4,26 @@
 
 package forms;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author N
  */
 public class CreateNewEventWizardStepNameType extends JPanel {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel subContainer;
+    private JLabel newEvtLabel;
+    private JTextField newEvtTxt;
+    private JPanel subContainer2;
+    private JCheckBox eventTypeChkbx;
+    private JPanel subContainer3;
+    private JLabel eventLcLbl;
+    private JComboBox eventLclCombo;
+    private JPanel subContainer4;
+    private JButton cancBtn;
+    private JButton nextBtn;
     public CreateNewEventWizardStepNameType() {
         initComponents();
     }
@@ -31,11 +44,17 @@ public class CreateNewEventWizardStepNameType extends JPanel {
         nextBtn = new JButton();
 
         //======== this ========
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder ( 0
-        , 0 ,0 , 0) ,  "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM
-        , new java. awt .Font ( "Dialo\u0067", java .awt . Font. BOLD ,12 ) ,java . awt. Color .red ) ,
-         getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
-        ) { if( "borde\u0072" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0
+                , 0, 0, 0), "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM
+                , new java.awt.Font("Dialo\u0067", java.awt.Font.BOLD, 12), java.awt.Color.red),
+                getBorder()));
+        addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            @Override
+            public void propertyChange(java.beans.PropertyChangeEvent e
+            ) {
+                if ("borde\u0072".equals(e.getPropertyName())) throw new RuntimeException();
+            }
+        });
         setLayout(new GridLayout(4, 0));
 
         //======== subContainer ========
@@ -79,7 +98,7 @@ public class CreateNewEventWizardStepNameType extends JPanel {
         //======== subContainer4 ========
         {
             subContainer4.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-            ((FlowLayout)subContainer4.getLayout()).setAlignOnBaseline(true);
+            ((FlowLayout) subContainer4.getLayout()).setAlignOnBaseline(true);
 
             //---- cancBtn ----
             cancBtn.setText("Cancel");
@@ -92,22 +111,7 @@ public class CreateNewEventWizardStepNameType extends JPanel {
         add(subContainer4);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel subContainer;
-    private JLabel newEvtLabel;
-    private JTextField newEvtTxt;
-    private JPanel subContainer2;
-    private JCheckBox eventTypeChkbx;
-    private JPanel subContainer3;
-    private JLabel eventLcLbl;
-    private JComboBox eventLclCombo;
-    private JPanel subContainer4;
-    private JButton cancBtn;
-    private JButton nextBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-
 
     /**
      * Getter for property 'newEvtTxt'.

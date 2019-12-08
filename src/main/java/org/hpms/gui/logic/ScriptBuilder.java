@@ -27,6 +27,24 @@ public class ScriptBuilder {
         this.projectModel = projectModel;
     }
 
+    private static String createHeaderComment(String name) {
+        StringBuilder sb = new StringBuilder();
+        Calendar gc = Calendar.getInstance();
+        sb.append("-- Script: ")
+                .append(name)
+                .append(".lua\n-- Date: ")
+                .append(DATE_FORMAT.format(gc.getTime()))
+                .append("\n-- Info: ")
+                .append(AppInfo.EMAIL)
+                .append("\n-- Version: ")
+                .append(AppInfo.VERSION)
+                .append("\n-- This script was automatically generated with HPMS ToolBox.");
+
+
+        return sb.toString();
+
+    }
+
     public void createScripts(String dataPath) throws FileNotFoundException {
         // Create config script.
         TemplateGenerator generator = new TemplateGenerator();
@@ -124,7 +142,6 @@ public class ScriptBuilder {
         }
     }
 
-
     private void fillConfigScript(LuaScript config, String rootPath) {
         if (projectModel.getSettings().isCacheModels()) {
 
@@ -157,24 +174,6 @@ public class ScriptBuilder {
         }
 
         ((LuaScript) config.getChunks().get("config")).getChunks().put("first_script", new LuaExpression(projectModel.getFirstRoom()));
-
-    }
-
-    private static String createHeaderComment(String name) {
-        StringBuilder sb = new StringBuilder();
-        Calendar gc = Calendar.getInstance();
-        sb.append("-- Script: ")
-                .append(name)
-                .append(".lua\n-- Date: ")
-                .append(DATE_FORMAT.format(gc.getTime()))
-                .append("\n-- Info: ")
-                .append(AppInfo.EMAIL)
-                .append("\n-- Version: ")
-                .append(AppInfo.VERSION)
-                .append("\n-- This script was automatically generated with HPMS ToolBox.");
-
-
-        return sb.toString();
 
     }
 }

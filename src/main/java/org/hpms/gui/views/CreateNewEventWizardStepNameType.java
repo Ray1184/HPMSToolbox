@@ -12,6 +12,19 @@ import java.awt.*;
  * @author N
  */
 public class CreateNewEventWizardStepNameType extends JPanel {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel subContainer;
+    private JLabel newEvtLabel;
+    private JTextField newEvtTxt;
+    private JPanel subContainer2;
+    private JCheckBox eventTypeChkbx;
+    private JPanel subContainer3;
+    private JLabel eventLcLbl;
+    private JComboBox eventLclCombo;
+    private JPanel subContainer4;
+    private JButton cancBtn;
+    private JButton nextBtn;
     public CreateNewEventWizardStepNameType() {
         initComponents();
     }
@@ -76,7 +89,7 @@ public class CreateNewEventWizardStepNameType extends JPanel {
         //======== subContainer4 ========
         {
             subContainer4.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-            ((FlowLayout)subContainer4.getLayout()).setAlignOnBaseline(true);
+            ((FlowLayout) subContainer4.getLayout()).setAlignOnBaseline(true);
 
             //---- cancBtn ----
             cancBtn.setText("Cancel");
@@ -89,22 +102,7 @@ public class CreateNewEventWizardStepNameType extends JPanel {
         add(subContainer4);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel subContainer;
-    private JLabel newEvtLabel;
-    private JTextField newEvtTxt;
-    private JPanel subContainer2;
-    private JCheckBox eventTypeChkbx;
-    private JPanel subContainer3;
-    private JLabel eventLcLbl;
-    private JComboBox eventLclCombo;
-    private JPanel subContainer4;
-    private JButton cancBtn;
-    private JButton nextBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-
 
     /**
      * Getter for property 'newEvtTxt'.

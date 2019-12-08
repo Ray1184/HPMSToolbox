@@ -9,9 +9,12 @@ public class LuaFunctionDeclare extends LuaFunctionCall {
 
     private List<LuaStatement> body;
 
+    private String info;
+
     private boolean external;
 
-    public LuaFunctionDeclare() {}
+    public LuaFunctionDeclare() {
+    }
 
     public LuaFunctionDeclare(LuaInstance returnInstance, String name, List<LuaInstance> parameters, List<LuaStatement> body, boolean external) {
         super(returnInstance, name, parameters);
@@ -58,6 +61,12 @@ public class LuaFunctionDeclare extends LuaFunctionCall {
         StringBuilder sb = new StringBuilder();
 
         if (external) {
+            if (info != null && !info.isEmpty()) {
+                for (String tok : info.split("\n"))
+                    sb.append("--- ")
+                            .append(tok)
+                            .append("\n");
+            }
             sb.append("function ")
                     .append(name)
                     .append("(");
@@ -77,15 +86,13 @@ public class LuaFunctionDeclare extends LuaFunctionCall {
         }
         sb.append(")\n");
         if (body.isEmpty()) {
-            LuaExpression empty = new LuaExpression("-- TODO");
-            empty.setParentIndent(parentIndent);
-            sb.append(empty.getCode())
-            .append("\n");
+            LuaExpression empty = new LuaExpression("-- TODO\n");
+            empty.setParentIndent(parentIndent + INDENTATION);
+            sb.append(empty.getCode());
         }
         for (LuaStatement stat : body) {
-            stat.setParentIndent(parentIndent);
-            sb.append(stat.getCode())
-            .append("\n");
+            stat.setParentIndent(parentIndent + INDENTATION);
+            sb.append(stat.getCode());
         }
 
         if (!external) {
@@ -96,4 +103,11 @@ public class LuaFunctionDeclare extends LuaFunctionCall {
         return sb.toString();
     }
 
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
 }

@@ -1,9 +1,6 @@
 package org.hpms.gui.control.w3d;
 
-import com.threed.jpct.Camera;
-import com.threed.jpct.FrameBuffer;
-import com.threed.jpct.Object3D;
-import com.threed.jpct.World;
+import com.threed.jpct.*;
 import org.hpms.gui.control.Controllers;
 import org.hpms.gui.control.ToolsController;
 import org.hpms.gui.data.ProjectModel;
@@ -13,6 +10,7 @@ import org.hpms.gui.utils.FloorUtils;
 import org.hpms.gui.utils.GraphicsUtils;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -22,39 +20,31 @@ import java.util.Map;
 
 public class W3DManager {
 
+    private static final W3DManager INSTANCE = new W3DManager();
+    private final Map<Integer, Object3D> polygons;
+    private final Map<String, List<Object3D>> pickedPolygonsByRoom;
+    public volatile boolean refresh;
+    public volatile boolean reload;
+    public volatile boolean reloadNew;
+    public volatile boolean refreshSectorGroups;
+    public volatile String currentRoom;
     private World selectedWorld;
     private World nonSelectedWorld;
     private boolean initialized;
-    private final Map<Integer, Object3D> polygons;
     private W3DPicker picker;
     private boolean clicking;
-    private static final W3DManager INSTANCE = new W3DManager();
-    private final Map<String, List<Object3D>> pickedPolygonsByRoom;
     private String previousRoom;
-
-    public volatile boolean refresh;
-
-    public volatile boolean reload;
-
-    public volatile boolean reloadNew;
-
-    public volatile boolean refreshSectorGroups;
-
-    public volatile String currentRoom;
-
-
-    public static W3DManager getInstance() {
-        return INSTANCE;
-    }
-
     private Map<String, ViewSettings> cameraMap;
     private TransformationHolder t;
-
     private W3DManager() {
         pickedPolygonsByRoom = new HashMap<>();
         polygons = new HashMap<>();
         cameraMap = new HashMap<>();
 
+    }
+
+    public static W3DManager getInstance() {
+        return INSTANCE;
     }
 
     public void create(World selectedWorld, World nonSelectedWorld, FrameBuffer frameBuffer) {
@@ -289,6 +279,23 @@ public class W3DManager {
 
     }
 
+    public void keyReleased(int e) {
+        if (initialized && currentRoom != null) {
+            System.out.println("EVENT");
+            if (e == KeyEvent.VK_R) {
+                Camera sel = new Camera();
+                Camera nonSel = new Camera();
+                TransformationHolder.restoreCam(sel, 50.0f);
+                TransformationHolder.restoreCam(nonSel, 50.0f);
+                cameraMap.put(currentRoom, new ViewSettings(sel, nonSel, 50.0f));
+            }
+        }
+    }
+
+    public synchronized boolean readOnlySectors() {
+        return ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg() == null;
+    }
+
     public static class ViewSettings {
         public Camera selCamera;
 
@@ -311,6 +318,9 @@ public class W3DManager {
         public float offX;
         public float offY;
 
+        private SimpleVector pos;
+        private SimpleVector dir;
+
         public TransformationHolder(World selWorld, World nonSelWorld) {
 
             selectedWorld = selWorld;
@@ -320,6 +330,8 @@ public class W3DManager {
             offY = 0.0f;
             restoreCam(selectedWorld.getCamera(), distance);
             restoreCam(nonSelectedWorld.getCamera(), distance);
+            pos = new SimpleVector();
+            dir = new SimpleVector();
 
         }
 
@@ -327,10 +339,17 @@ public class W3DManager {
             c.moveCamera(Camera.CAMERA_MOVEUP, distance);
             c.rotateCameraX((float) Math.PI / 2f);
         }
-    }
 
-    public synchronized boolean readOnlySectors() {
-        return ((ToolsController) Controllers.TOOLS_CONTROLLER.getController()).getSelectedSg() == null;
+        @Override
+        public String toString() {
+            return "VIEW INFO\n---------------\nP(X): " + String.format("%.3f", selectedWorld.getCamera().getPosition(pos).x) +
+                    "\nP(Y): " + String.format("%.3f", selectedWorld.getCamera().getPosition(pos).y) +
+                    "\nP(Z): " + String.format("%.3f", selectedWorld.getCamera().getPosition(pos).z) +
+                    "\n---------------\nD(X): " + String.format("%.3f", selectedWorld.getCamera().getDirection(dir).x) +
+                    "\nD(Y): " + String.format("%.3f", selectedWorld.getCamera().getDirection(dir).y) +
+                    "\nD(Z): " + String.format("%.3f", selectedWorld.getCamera().getDirection(dir).z) +
+                    "\n---------------\nPRESS R TO RESET";
+        }
     }
 
 

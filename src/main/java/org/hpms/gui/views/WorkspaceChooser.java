@@ -12,6 +12,15 @@ import java.awt.*;
  * @author N
  */
 public class WorkspaceChooser extends JFrame {
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - N
+    private JPanel container;
+    private JLabel chooseWorkspaceLbl;
+    private JPanel subContainer;
+    private JTextField workspaceTxt;
+    private JButton workspaceLoadBtn;
+    private JPanel subContainer2;
+    private JButton confirmWorkspaceBtn;
     public WorkspaceChooser() {
         initComponents();
     }
@@ -76,16 +85,6 @@ public class WorkspaceChooser extends JFrame {
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - N
-    private JPanel container;
-    private JLabel chooseWorkspaceLbl;
-    private JPanel subContainer;
-    private JTextField workspaceTxt;
-    private JButton workspaceLoadBtn;
-    private JPanel subContainer2;
-    private JButton confirmWorkspaceBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
     /**
@@ -114,8 +113,6 @@ public class WorkspaceChooser extends JFrame {
     public JButton getConfirmWorkspaceBtn() {
         return confirmWorkspaceBtn;
     }
-
-
 
 
 }
