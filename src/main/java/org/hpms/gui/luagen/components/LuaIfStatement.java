@@ -24,6 +24,10 @@ public class LuaIfStatement implements LuaStatement {
         this.elseCondition = elseCondition;
     }
 
+    public LuaIfStatement(LuaCondition condition) {
+        this(condition, null, null, null);
+    }
+
     public LuaIfStatement(LuaCondition condition, List<LuaStatement> actions, List<LuaStatement> elseActions) {
         this(condition, actions, null, elseActions);
     }

@@ -13,6 +13,7 @@ public class LuaExpression implements LuaStatement {
 
     public LuaExpression(String expression) {
         this.expression = expression;
+        parentIndex = "";
     }
 
     @Override

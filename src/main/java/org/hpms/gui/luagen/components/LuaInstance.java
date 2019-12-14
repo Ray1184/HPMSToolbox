@@ -21,13 +21,18 @@ public class LuaInstance implements LuaStatement {
     }
 
     public LuaInstance(String name, Type type) {
-        this(name, type, null);
+        this(name, type, null, null);
     }
 
     public LuaInstance(String name, Type type, List<LuaInstance> properties) {
+        this(name, type, properties, null);
+    }
+
+    public LuaInstance(String name, Type type, List<LuaInstance> properties, Object value) {
         this.name = name;
         this.type = type;
         this.properties = properties;
+        this.value = value;
     }
 
     /**
