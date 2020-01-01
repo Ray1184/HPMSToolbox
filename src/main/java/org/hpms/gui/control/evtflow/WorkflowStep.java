@@ -22,4 +22,6 @@ public interface WorkflowStep {
     void setParent(WorkflowStep parent);
 
     Color getLabelColor();
+
+    String getId();
 }

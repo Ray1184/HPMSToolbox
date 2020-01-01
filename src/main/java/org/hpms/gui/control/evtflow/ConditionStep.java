@@ -7,14 +7,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class ConditionStep implements WorkflowStep {
 
     private static final Color COLOR = new Color(255, 255, 100);
-    private final List<WorkflowStep> children = new ArrayList<>();
-    private final List<WorkflowStep> elseChildren = new ArrayList<>();
+
+    private final String id;
     protected LuaIfStatement statement;
     private WorkflowStep parent;
+
+    public ConditionStep() {
+        id = "CS_" + UUID.randomUUID().toString();
+    }
 
     @Override
     public LuaStatement getStatement() {
@@ -41,15 +47,6 @@ public class ConditionStep implements WorkflowStep {
     }
 
 
-    public List<WorkflowStep> getChildren() {
-        return children;
-    }
-
-
-    public List<WorkflowStep> getElseChildren() {
-        return elseChildren;
-    }
-
     @Override
     public WorkflowStep getParent() {
         return parent;
@@ -68,5 +65,23 @@ public class ConditionStep implements WorkflowStep {
     @Override
     public Color getLabelColor() {
         return COLOR;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ConditionStep that = (ConditionStep) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

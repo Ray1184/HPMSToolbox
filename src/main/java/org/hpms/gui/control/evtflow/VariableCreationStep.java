@@ -5,14 +5,21 @@ import org.hpms.gui.luagen.components.LuaInstance;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
+import java.util.UUID;
 
 public class VariableCreationStep implements WorkflowStep {
 
     private static final Color COLOR = new Color(150, 170, 255);
+    protected String id;
 
     protected LuaInstance statement;
 
     private WorkflowStep parent;
+
+    public VariableCreationStep() {
+        id = "VC_" + UUID.randomUUID().toString();
+    }
 
     @Override
     public LuaStatement getStatement() {
@@ -56,5 +63,23 @@ public class VariableCreationStep implements WorkflowStep {
     @Override
     public Color getLabelColor() {
         return COLOR;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VariableCreationStep that = (VariableCreationStep) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

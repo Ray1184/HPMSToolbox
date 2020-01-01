@@ -5,6 +5,8 @@ import org.hpms.gui.luagen.LuaStatement;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class ActionStep implements WorkflowStep {
 
@@ -13,6 +15,12 @@ public class ActionStep implements WorkflowStep {
     protected LuaStatement statement;
 
     private WorkflowStep parent;
+
+    private String id;
+
+    public ActionStep() {
+        id = "AS_" + UUID.randomUUID().toString();
+    }
 
     @Override
     public LuaStatement getStatement() {
@@ -67,5 +75,23 @@ public class ActionStep implements WorkflowStep {
     @Override
     public Color getLabelColor() {
         return COLOR;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ActionStep that = (ActionStep) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
